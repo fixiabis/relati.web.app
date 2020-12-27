@@ -1,10 +1,10 @@
-import { ChooseModeUsage } from './index';
+import { ChooseModeLayoutComponent, ChooseModeUsage } from './index';
 import ChoosePlayerForGame from './ChoosePlayerForGame';
 import ChooseModeForOnePlayer from './ChooseModeForOnePlayer';
 import ChooseBoardSize from './ChooseBoardSize';
 
 const ChooseModeLayouts: Partial<
-  Record<ChooseModeUsage, React.FC<{ usage: string }>>
+  Record<ChooseModeUsage, ChooseModeLayoutComponent>
 > = {
   game: ChoosePlayerForGame,
   '1p-game': ChooseModeForOnePlayer,

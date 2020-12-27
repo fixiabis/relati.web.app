@@ -26,7 +26,7 @@ const routes: Partial<Record<ChooseModeUsage, string>> = {
   'x9-tutorial': '/tutorial?on=x9',
 };
 
-const useRedirect = (usage: string) => {
+const useRedirectOnChoosed = (usage: string) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -37,4 +37,4 @@ const useRedirect = (usage: string) => {
   }, [usage]);
 };
 
-export default useRedirect;
+export default useRedirectOnChoosed;

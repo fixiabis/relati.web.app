@@ -2,34 +2,29 @@ import React from 'react';
 
 import {
   LightBackIconUrl,
-  PlayerOIconUrl,
-  PlayerXIconUrl,
-  KnowledgeIconUrl,
+  LightPlayIconUrl,
+  LightHelpIconUrl,
 } from '../../icons';
 
 import { Button, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
-const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
+const ChoosePage = ({ onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-centered">
     <Button.Group>
       <LinkButton
-        title="玩家先手"
-        backgroundImage={`url(${PlayerOIconUrl})`}
+        title="開始玩"
+        backgroundColor="crimson"
+        backgroundImage={`url(${LightPlayIconUrl})`}
         className={ChooseModePageStyles.slideLeftFadeIn}
-        href="/choose-mode?for=1p-with-x-game"
+        href="/choose-mode?for=game"
       />
       <LinkButton
-        title="玩家後手"
-        backgroundImage={`url(${PlayerXIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
-        href="/choose-mode?for=1p-with-o-game"
-      />
-      <LinkButton
-        title="殘局關卡"
-        backgroundImage={`url(${KnowledgeIconUrl})`}
+        title="如何玩"
+        backgroundColor="royalblue"
+        backgroundImage={`url(${LightHelpIconUrl})`}
         className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
-        href="/choose-mode?for=1p-puzzle-game"
+        href="/choose-mode?for=tutorial"
       />
     </Button.Group>
     <div className="bottom-fixed flex-centered" style={{ height: 70 }}>
@@ -45,4 +40,4 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
   </div>
 );
 
-export default ChooseModeForOnePlayer;
+export default ChoosePage;
