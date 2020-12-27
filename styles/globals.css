@@ -35,11 +35,10 @@ a {
   flex-direction: column;
 }
 
-.bottom-fixed {
-  width: 100%;
-  position: absolute;
+.bottom-right-fixed {
+  position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
 }
 
 .overlay {

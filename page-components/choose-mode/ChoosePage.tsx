@@ -27,15 +27,13 @@ const ChoosePage = ({ onCancel: emitCancel }) => (
         href="/choose-mode?for=tutorial"
       />
     </Button.Group>
-    <div className="bottom-fixed flex-center" style={{ height: 70 }}>
-      <Button.Group>
-        <Button
-          title="返回"
-          backgroundColor="#888"
-          backgroundImage={`url(${LightBackIconUrl})`}
-          onClick={emitCancel}
-        />
-      </Button.Group>
+    <div className="bottom-right-fixed" style={{ padding: 10 }}>
+      <Button
+        title="返回"
+        backgroundColor="#888"
+        backgroundImage={`url(${LightBackIconUrl})`}
+        onClick={emitCancel}
+      />
     </div>
   </div>
 );
