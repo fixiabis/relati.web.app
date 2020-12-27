@@ -1,17 +1,22 @@
 import React from 'react';
 
 import {
+  BoardIconUrl,
   LightBackIconUrl,
   LightX5IconUrl,
   LightX7IconUrl,
   LightX9IconUrl,
 } from '../../icons';
 
-import { Button, LinkButton } from '../../components';
+import { Button, Icon, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-center">
+    <div className="flex-center" style={{ height: 90, padding: 10 }}>
+      <Icon url={BoardIconUrl} />
+      選擇棋盤大小
+    </div>
     <Button.Group>
       <LinkButton
         title="5x5大小"

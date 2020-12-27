@@ -5,13 +5,18 @@ import {
   PlayerOIconUrl,
   PlayerXIconUrl,
   KnowledgeIconUrl,
+  OnePlayerIconUrl,
 } from '../../icons';
 
-import { Button, LinkButton } from '../../components';
+import { Button, Icon, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-center">
+    <div className="flex-center" style={{ height: 90, padding: 10 }}>
+      <Icon url={OnePlayerIconUrl} />
+      選擇用子或解謎
+    </div>
     <Button.Group>
       <LinkButton
         title="玩家先手"

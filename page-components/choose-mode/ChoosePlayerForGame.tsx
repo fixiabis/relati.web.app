@@ -5,13 +5,18 @@ import {
   LightOnePlayerIconUrl,
   LightTwoPlayerIconUrl,
   LightOnlineIconUrl,
+  PlayIconUrl,
 } from '../../icons';
 
-import { Button, LinkButton } from '../../components';
+import { Button, Icon, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-center">
+    <div className="flex-center" style={{ height: 90, padding: 10 }}>
+      <Icon url={PlayIconUrl} />
+      選擇玩家數量
+    </div>
     <Button.Group>
       <LinkButton
         title="單人玩家"

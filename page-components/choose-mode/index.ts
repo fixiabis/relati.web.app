@@ -2,7 +2,6 @@ export { default as ChooseModePageStyles } from './ChooseModePage.module.css';
 export { default as ChooseBoardSize } from './ChooseBoardSize';
 export { default as ChoosePlayerForGame } from './ChoosePlayerForGame';
 export { default as ChooseModeForOnePlayer } from './ChooseModeForOnePlayer';
-export { default as ChoosePage } from './ChoosePage';
 export { default as ChooseModeLayouts } from './ChooseModeLayouts';
 export { default as useRedirectOnChoosed } from './useRedirectOnChoosed';
 

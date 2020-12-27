@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import {
   ChooseModeLayouts,
   ChooseModeUsage,
-  ChoosePage,
   useRedirectOnChoosed,
 } from '../page-components/choose-mode';
 
@@ -19,7 +18,7 @@ const ChooseModePage: NextPage<ChooseModePageProps> = ({ usage }) => {
   const ChooseModeLayout = ChooseModeLayouts[usage];
 
   if (!(usage in ChooseModeLayouts)) {
-    return <ChoosePage onCancel={() => router.back()} />;
+    return <></>;
   }
 
   return <ChooseModeLayout usage={usage} onCancel={() => router.back()} />;
