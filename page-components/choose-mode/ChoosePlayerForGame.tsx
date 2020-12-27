@@ -13,7 +13,10 @@ import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-center">
-    <div className="flex-center" style={{ height: 90, padding: 10 }}>
+    <div
+      className={ChooseModePageStyles.fadeIn + ' flex-center'}
+      style={{ height: 90, padding: 10 }}
+    >
       <Icon url={PlayIconUrl} />
       選擇玩家數量
     </div>

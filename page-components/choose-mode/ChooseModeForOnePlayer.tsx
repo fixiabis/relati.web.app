@@ -13,7 +13,10 @@ import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-center">
-    <div className="flex-center" style={{ height: 90, padding: 10 }}>
+    <div
+      className={ChooseModePageStyles.fadeIn + ' flex-center'}
+      style={{ height: 90, padding: 10 }}
+    >
       <Icon url={OnePlayerIconUrl} />
       選擇用子或解謎
     </div>

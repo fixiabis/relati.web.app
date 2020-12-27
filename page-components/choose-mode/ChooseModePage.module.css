@@ -1,3 +1,7 @@
+.fadeIn {
+  animation: fade-in 0.25s linear backwards;
+}
+
 .slideLeftFadeIn {
   animation: slide-left-fade-in 0.25s linear backwards 0.25s;
 }
@@ -14,5 +18,11 @@
   from {
     opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }

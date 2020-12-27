@@ -13,7 +13,10 @@ import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
   <div className="conatiner-filled flex-center">
-    <div className="flex-center" style={{ height: 90, padding: 10 }}>
+    <div
+      className={ChooseModePageStyles.fadeIn + ' flex-center'}
+      style={{ height: 90, padding: 10 }}
+    >
       <Icon url={BoardIconUrl} />
       選擇棋盤大小
     </div>
