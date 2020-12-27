@@ -17,7 +17,8 @@ const ButtonDenseGroup: React.FC<ButtonDenseGroupProps> = ({
   const buttonsCount = Children.count(props.children);
 
   const width =
-    buttonsCount * BUTTON_WIDTH + BUTTON_MARGINS * (buttonsCount - 1);
+    buttonsCount * BUTTON_WIDTH +
+    BUTTON_MARGINS * Math.max(1, buttonsCount - 1);
 
   return (
     <div
