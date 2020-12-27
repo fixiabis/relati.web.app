@@ -12,3 +12,5 @@ export { default as PlayerXIconUrl } from './player-x.svg';
 export { default as KnowledgeIconUrl } from './knowledge.svg';
 export { default as PlayIconUrl } from './play.svg';
 export { default as HelpIconUrl } from './help.svg';
+export { default as OnePlayerIconUrl } from './one-player.svg';
+export { default as BoardIconUrl } from './board.svg';

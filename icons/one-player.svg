@@ -1,0 +1,9 @@
+<svg id="debug" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="25" cy="17.5" r="10" fill="royalblue"></circle>
+  <path d="M 12.5 42.5 a 15 12.5 0 0 1 12.5 -15 a 15 12.5 0 0 1 12.5 15" fill="royalblue"></path>
+  <style>
+    svg:target {
+      background-color: #f2f2f2;
+    }
+  </style>
+</svg>
