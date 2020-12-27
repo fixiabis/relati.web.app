@@ -1,0 +1,11 @@
+<svg id="debug" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="14" cy="17.5" r="9" fill="#f2f2f2"></circle>
+  <path d="M  5 42.5 a 9 12.5 0 0 1 9 -16 a 9 12.5 0 0 1 9 16" fill="#f2f2f2"></path>
+  <circle cx="36" cy="17.5" r="9" fill="#f2f2f2"></circle>
+  <path d="M 27 42.5 a 9 12.5 0 0 1 9 -16 a 9 12.5 0 0 1 9 16" fill="#f2f2f2"></path>
+  <style>
+    svg:target {
+      background-color: crimson;
+    }
+  </style>
+</svg>
