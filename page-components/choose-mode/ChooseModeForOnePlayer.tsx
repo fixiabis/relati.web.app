@@ -11,7 +11,7 @@ import { Button, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
-  <div className="conatiner-filled flex-centered">
+  <div className="conatiner-filled flex-center">
     <Button.Group>
       <LinkButton
         title="玩家先手"
@@ -32,7 +32,7 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
         href="/choose-mode?for=1p-puzzle-game"
       />
     </Button.Group>
-    <div className="bottom-fixed flex-centered" style={{ height: 70 }}>
+    <div className="bottom-fixed flex-center" style={{ height: 70 }}>
       <Button.Group>
         <Button
           title="返回"

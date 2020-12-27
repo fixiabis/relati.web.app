@@ -10,7 +10,7 @@ import { Button, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePage = ({ onCancel: emitCancel }) => (
-  <div className="conatiner-filled flex-centered">
+  <div className="conatiner-filled flex-center">
     <Button.Group>
       <LinkButton
         title="開始玩"
@@ -27,7 +27,7 @@ const ChoosePage = ({ onCancel: emitCancel }) => (
         href="/choose-mode?for=tutorial"
       />
     </Button.Group>
-    <div className="bottom-fixed flex-centered" style={{ height: 70 }}>
+    <div className="bottom-fixed flex-center" style={{ height: 70 }}>
       <Button.Group>
         <Button
           title="返回"

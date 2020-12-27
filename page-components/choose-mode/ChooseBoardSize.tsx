@@ -11,7 +11,7 @@ import { Button, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
-  <div className="conatiner-filled flex-centered">
+  <div className="conatiner-filled flex-center">
     <Button.Group>
       <LinkButton
         title="5x5大小"
@@ -35,7 +35,7 @@ const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
         href={`/choose-mode?for=x9-${usage}`}
       />
     </Button.Group>
-    <div className="bottom-fixed flex-centered" style={{ height: 70 }}>
+    <div className="bottom-fixed flex-center" style={{ height: 70 }}>
       <Button.Group>
         <Button
           title="返回"
