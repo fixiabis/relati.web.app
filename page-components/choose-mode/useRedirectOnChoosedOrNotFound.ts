@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { ChooseModeUsage } from './index';
+import ChooseModeLayouts from './ChooseModeLayouts';
 
 const routes: Partial<Record<ChooseModeUsage, string>> = {
   'x5-1p-with-o-game': '/game?on=x5&as=1p&with=o',
@@ -26,15 +27,17 @@ const routes: Partial<Record<ChooseModeUsage, string>> = {
   'x9-tutorial': '/tutorial?on=x9',
 };
 
-const useRedirectOnChoosed = (usage: string) => {
+const useRedirectOnChoosedOrNotFound = (usage: string) => {
   const router = useRouter();
 
   useEffect(() => {
     if (usage in routes) {
       const route = routes[usage];
       router.replace(route);
+    } else if (!(usage in ChooseModeLayouts)) {
+      router.replace('/');
     }
   }, [usage]);
 };
 
-export default useRedirectOnChoosed;
+export default useRedirectOnChoosedOrNotFound;

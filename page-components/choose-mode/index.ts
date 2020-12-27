@@ -3,7 +3,7 @@ export { default as ChooseBoardSize } from './ChooseBoardSize';
 export { default as ChoosePlayerForGame } from './ChoosePlayerForGame';
 export { default as ChooseModeForOnePlayer } from './ChooseModeForOnePlayer';
 export { default as ChooseModeLayouts } from './ChooseModeLayouts';
-export { default as useRedirectOnChoosed } from './useRedirectOnChoosed';
+export { default as useRedirectOnChoosedOrNotFound } from './useRedirectOnChoosedOrNotFound';
 
 export type ChooseModeUsage =
   | 'game'

@@ -5,17 +5,17 @@ import { useRouter } from 'next/router';
 import {
   ChooseModeLayouts,
   ChooseModeUsage,
-  useRedirectOnChoosed,
+  useRedirectOnChoosedOrNotFound,
 } from '../page-components/choose-mode';
 
-type ChooseModePageProps = { usage: ChooseModeUsage };
+type ChooseModePageProps = { usage: string };
 
 const ChooseModePage: NextPage<ChooseModePageProps> = ({ usage }) => {
   const router = useRouter();
 
-  useRedirectOnChoosed(usage);
+  useRedirectOnChoosedOrNotFound(usage);
 
-  const ChooseModeLayout = ChooseModeLayouts[usage];
+  const ChooseModeLayout = ChooseModeLayouts[usage as ChooseModeUsage];
 
   if (!(usage in ChooseModeLayouts)) {
     return <></>;
@@ -31,7 +31,7 @@ ChooseModePage.getInitialProps = ({ query }) => {
     [usage] = usage.slice(-1);
   }
 
-  return { usage: usage as ChooseModeUsage };
+  return { usage: usage || '' };
 };
 
 export default ChooseModePage;
