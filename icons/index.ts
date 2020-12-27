@@ -1,0 +1,14 @@
+export { default as LightPlayIconUrl } from './light/play.svg';
+export { default as LightHelpIconUrl } from './light/help.svg';
+export { default as LightBackIconUrl } from './light/back.svg';
+export { default as LightX5IconUrl } from './light/x5.svg';
+export { default as LightX7IconUrl } from './light/x7.svg';
+export { default as LightX9IconUrl } from './light/x9.svg';
+export { default as LightOnePlayerIconUrl } from './light/one-player.svg';
+export { default as LightTwoPlayerIconUrl } from './light/two-player.svg';
+export { default as LightOnlineIconUrl } from './light/online.svg';
+export { default as PlayerOIconUrl } from './player-o.svg';
+export { default as PlayerXIconUrl } from './player-x.svg';
+export { default as KnowledgeIconUrl } from './knowledge.svg';
+export { default as PlayIconUrl } from './play.svg';
+export { default as HelpIconUrl } from './help.svg';
