@@ -1,0 +1,42 @@
+.drawLineAndFill > path {
+  stroke-dasharray: 200;
+  animation: draw-line-and-fill 1s;
+}
+
+.drawLineOfTrack > path {
+  fill: transparent;
+  stroke: #888;
+  stroke-dasharray: 50;
+  animation: draw-track 1s linear infinite;
+}
+
+.drawLineAndFill > path,
+.drawLineOfTrack > path {
+  fill: #888;
+  stroke: transparent;
+  stroke-width: 2px;
+}
+
+@keyframes draw-line-and-fill {
+  0% {
+    fill: transparent;
+    stroke: #888;
+    stroke-dashoffset: 200;
+  }
+
+  80% {
+    fill: transparent;
+    stroke: #888;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-track {
+  0% {
+    stroke-dashoffset: 200;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
