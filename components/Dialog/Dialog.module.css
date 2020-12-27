@@ -1,0 +1,9 @@
+.Dialog {
+  user-select: none;
+  max-width: 300px;
+  max-height: 200px;
+  overflow: hidden;
+  position: fixed;
+  top: calc(50% - 100px);
+  left: calc(50% - 150px);
+}
