@@ -1,0 +1,18 @@
+.slideLeftFadeIn {
+  animation: slide-left-fade-in 0.25s linear backwards 0.25s;
+}
+
+.slideLeftFadeInWhenFirstShown {
+  animation: slide-left-fade-in 0.25s linear backwards 0.5s;
+}
+
+.slideLeftFadeInWhenSecondShown {
+  animation: slide-left-fade-in 0.25s linear backwards 0.75s;
+}
+
+@keyframes slide-left-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
