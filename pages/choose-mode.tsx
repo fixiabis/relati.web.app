@@ -6,7 +6,7 @@ import {
   ChooseModeLayouts,
   ChooseModeUsage,
   useRedirectOnChoosedOrNotFound,
-} from '../page-components/choose-mode';
+} from '../components/page/choose-mode';
 
 type ChooseModePageProps = { usage: string };
 

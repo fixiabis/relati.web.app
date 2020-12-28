@@ -1,7 +1,7 @@
 import React from 'react';
 import { LightPlayIconUrl, LightHelpIconUrl } from '../icons';
-import { Button, Icon, Link } from '../components';
-import { HomePageStyles, Logo } from '../page-components/index';
+import { Button, Icon, Link } from '../components/core';
+import { HomePageStyles, Logo } from '../components/page/index';
 
 const HomePage = () => {
   return (

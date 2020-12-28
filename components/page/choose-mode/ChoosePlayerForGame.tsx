@@ -6,9 +6,9 @@ import {
   LightTwoPlayerIconUrl,
   LightOnlineIconUrl,
   PlayIconUrl,
-} from '../../icons';
+} from '../../../icons';
 
-import { Button, Container, Description, Icon, Link } from '../../components';
+import { Button, Container, Description, Icon, Link } from '../../core';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
