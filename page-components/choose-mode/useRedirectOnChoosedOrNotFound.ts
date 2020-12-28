@@ -4,20 +4,20 @@ import { ChooseModeUsage } from './index';
 import ChooseModeLayouts from './ChooseModeLayouts';
 
 const routeByUsage: Partial<Record<ChooseModeUsage, string>> = {
-  'x5-1p-with-o-game': '/game?on=x5&as=1p&with=o',
-  'x5-1p-with-x-game': '/game?on=x5&as=1p&with=x',
+  'x5-1p-with-o-game': '/game?on=x5&as=1p-with-o',
+  'x5-1p-with-x-game': '/game?on=x5&as=1p-with-x',
   'x5-1p-puzzle-game': '/choose-stage?for=puzzle&on=x5',
   'x5-2p-game': '/game?on=x5&as=2p',
   'x5-2p-online-game': '/game?on=x5&as=2p-online',
 
-  'x7-1p-with-o-game': '/game?on=x7&as=1p&with=o',
-  'x7-1p-with-x-game': '/game?on=x7&as=1p&with=x',
+  'x7-1p-with-o-game': '/game?on=x7&as=1p-with-o',
+  'x7-1p-with-x-game': '/game?on=x7&as=1p-with-x',
   'x7-1p-puzzle-game': '/choose-stage?for=puzzle&on=x7',
   'x7-2p-game': '/game?on=x7&as=2p',
   'x7-2p-online-game': '/game?on=x7&as=2p-online',
 
-  'x9-1p-with-o-game': '/game?on=x9&as=1p&with=o',
-  'x9-1p-with-x-game': '/game?on=x9&as=1p&with=x',
+  'x9-1p-with-o-game': '/game?on=x9&as=1p-with-o',
+  'x9-1p-with-x-game': '/game?on=x9&as=1p-with-x',
   'x9-1p-puzzle-game': '/choose-stage?for=puzzle&on=x9',
   'x9-2p-game': '/game?on=x9&as=2p',
   'x9-2p-online-game': '/game?on=x9&as=2p-online',
