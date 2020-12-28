@@ -10,10 +10,17 @@ import {
 
 type GamePageProps = {
   mode: string;
-  boardSize: number;
+  boardWidth: number;
+  boardHeight: number;
+  portsCount: number;
 };
 
-const GamePage: NextPage<GamePageProps> = ({ mode, boardSize }) => {
+const GamePage: NextPage<GamePageProps> = ({
+  mode,
+  boardWidth,
+  boardHeight,
+  portsCount,
+}) => {
   const router = useRouter();
 
   useRedirectOnNotFound(mode);
@@ -24,12 +31,21 @@ const GamePage: NextPage<GamePageProps> = ({ mode, boardSize }) => {
 
   const GameLayout = GameLayouts[mode as GameMode];
 
-  return <GameLayout boardSize={boardSize} onLeave={() => router.back()} />;
+  return (
+    <GameLayout
+      boardWidth={boardWidth}
+      boardHeight={boardHeight}
+      portsCount={portsCount}
+      onLeave={() => router.back()}
+    />
+  );
 };
 
 GamePage.getInitialProps = async ({ query }) => {
   let mode: string | string[] = query.as || '';
-  let boardSize: string | string[] | number = query.on || '';
+  let boardSize: number[] | string | string[] = query.on || '';
+  let boardWidth: number | string = '';
+  let boardHeight: number | string = '';
 
   if (Array.isArray(mode)) {
     [mode] = mode.slice(-1);
@@ -39,9 +55,24 @@ GamePage.getInitialProps = async ({ query }) => {
     [boardSize] = boardSize.slice(-1);
   }
 
-  boardSize = parseInt(boardSize.replace('x', ''));
+  [boardWidth, boardHeight] = boardSize.split('x');
 
-  return { mode, boardSize };
+  if (boardWidth === '') {
+    boardWidth = boardHeight;
+  }
+
+  if (boardHeight === '') {
+    boardHeight = boardWidth;
+  }
+
+  boardWidth = parseInt(boardWidth);
+  boardHeight = parseInt(boardHeight);
+
+  const portsCount = [8, 16, 24][
+    Math.min((((((boardWidth + boardHeight) / 2) | 0) - 5) / 2) | 0, 2)
+  ];
+
+  return { mode, boardWidth, boardHeight, portsCount };
 };
 
 export default GamePage;
