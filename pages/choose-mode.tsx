@@ -15,11 +15,11 @@ const ChooseModePage: NextPage<ChooseModePageProps> = ({ usage }) => {
 
   useRedirectOnChoosedOrNotFound(usage);
 
-  const ChooseModeLayout = ChooseModeLayouts[usage as ChooseModeUsage];
-
   if (!(usage in ChooseModeLayouts)) {
     return <></>;
   }
+
+  const ChooseModeLayout = ChooseModeLayouts[usage as ChooseModeUsage];
 
   return <ChooseModeLayout usage={usage} onCancel={() => router.back()} />;
 };
