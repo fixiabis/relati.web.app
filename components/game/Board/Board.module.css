@@ -1,0 +1,21 @@
+.boardContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.boardContainer,
+.board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  position: relative;
+  transition: transform 0.5s;
+}
+
+.board * {
+  pointer-events: none;
+}
