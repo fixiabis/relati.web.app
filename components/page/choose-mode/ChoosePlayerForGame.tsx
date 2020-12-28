@@ -13,7 +13,7 @@ import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
   <Container>
-    <Description className={ChooseModePageStyles.fadeIn}>
+    <Description className={ChooseModePageStyles.FadeIn}>
       <Icon url={PlayIconUrl} />
       選擇玩家數量
     </Description>
@@ -22,7 +22,7 @@ const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
         <Button
           title="單人玩家"
           color="royalblue"
-          className={ChooseModePageStyles.slideLeftFadeIn}
+          className={ChooseModePageStyles.SlideLeftFadeIn}
         >
           <Icon url={LightOnePlayerIconUrl} />
         </Button>
@@ -31,7 +31,7 @@ const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
         <Button
           title="雙人玩家"
           color="crimson"
-          className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
+          className={ChooseModePageStyles.SlideLeftFadeInWhenFirstShown}
         >
           <Icon url={LightTwoPlayerIconUrl} />
         </Button>
@@ -40,7 +40,7 @@ const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
         <Button
           title="線上對戰"
           color="#888"
-          className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
+          className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
           <Icon url={LightOnlineIconUrl} />
         </Button>
@@ -50,7 +50,7 @@ const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
       <Button
         title="返回"
         color="#888"
-        className={ChooseModePageStyles.fadeIn}
+        className={ChooseModePageStyles.FadeIn}
         onClick={emitCancel}
       >
         <Icon url={LightBackIconUrl} />

@@ -13,7 +13,7 @@ import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
   <Container>
-    <Description className={ChooseModePageStyles.fadeIn}>
+    <Description className={ChooseModePageStyles.FadeIn}>
       <Icon url={BoardIconUrl} />
       選擇棋盤大小
     </Description>
@@ -22,7 +22,7 @@ const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
         <Button
           title="5x5大小"
           color="royalblue"
-          className={ChooseModePageStyles.slideLeftFadeIn}
+          className={ChooseModePageStyles.SlideLeftFadeIn}
         >
           <Icon url={LightX5IconUrl} />
         </Button>
@@ -31,7 +31,7 @@ const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
         <Button
           title="7x7大小"
           color="seagreen"
-          className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
+          className={ChooseModePageStyles.SlideLeftFadeInWhenFirstShown}
         >
           <Icon url={LightX7IconUrl} />
         </Button>
@@ -40,7 +40,7 @@ const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
         <Button
           title="9x9大小"
           color="crimson"
-          className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
+          className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
           <Icon url={LightX9IconUrl} />
         </Button>
@@ -50,7 +50,7 @@ const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
       <Button
         title="返回"
         color="#888"
-        className={ChooseModePageStyles.fadeIn}
+        className={ChooseModePageStyles.FadeIn}
         onClick={emitCancel}
       >
         <Icon url={LightBackIconUrl} />

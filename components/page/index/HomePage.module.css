@@ -1,10 +1,10 @@
-.slideTopWhenLogoDrawn {
+.SlideTopWhenLogoDrawn {
   width: 250px;
   height: 90px;
   animation: slide-top 0.5s linear backwards 1s;
 }
 
-.slideDownFadeInWhenLogoDrawn {
+.SlideDownFadeInWhenLogoDrawn {
   width: 200px;
   height: 70px;
   animation: slide-down-fade-in 0.5s linear backwards 1s;

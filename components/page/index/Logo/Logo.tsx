@@ -2,7 +2,7 @@ import React from 'react';
 import LogoStyles from './Logo.module.css';
 
 export type LogoProps = {
-  effect?: 'drawLineAndFill' | 'drawLineOfTrack';
+  effect?: 'DrawLineAndFill' | 'DrawLineOfTrack';
 };
 
 const Logo: React.FC<LogoProps> = ({ effect }) => (

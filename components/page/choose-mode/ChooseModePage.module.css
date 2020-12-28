@@ -1,16 +1,16 @@
-.fadeIn {
+.FadeIn {
   animation: fade-in 0.25s linear backwards;
 }
 
-.slideLeftFadeIn {
+.SlideLeftFadeIn {
   animation: slide-left-fade-in 0.25s linear backwards 0.25s;
 }
 
-.slideLeftFadeInWhenFirstShown {
+.SlideLeftFadeInWhenFirstShown {
   animation: slide-left-fade-in 0.25s linear backwards 0.5s;
 }
 
-.slideLeftFadeInWhenSecondShown {
+.SlideLeftFadeInWhenSecondShown {
   animation: slide-left-fade-in 0.25s linear backwards 0.75s;
 }
 

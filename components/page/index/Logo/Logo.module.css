@@ -1,17 +1,17 @@
-.drawLineAndFill > path {
+.DrawLineAndFill > path {
   stroke-dasharray: 200;
-  animation: draw-line-and-fill 1s;
+  animation: draw-line-and-fill 1s backwards 0.25s;
 }
 
-.drawLineOfTrack > path {
+.DrawLineOfTrack > path {
   fill: transparent;
   stroke: #888;
   stroke-dasharray: 50;
   animation: draw-track 1s linear infinite;
 }
 
-.drawLineAndFill > path,
-.drawLineOfTrack > path {
+.DrawLineAndFill > path,
+.DrawLineOfTrack > path {
   fill: #888;
   stroke: transparent;
   stroke-width: 2px;

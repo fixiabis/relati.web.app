@@ -13,7 +13,7 @@ import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
   <Container>
-    <Description className={ChooseModePageStyles.fadeIn}>
+    <Description className={ChooseModePageStyles.FadeIn}>
       <Icon url={OnePlayerIconUrl} />
       選擇用子或解謎
     </Description>
@@ -21,7 +21,7 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
       <Link href="/choose-mode?for=1p-with-x-game">
         <Button
           title="玩家先手"
-          className={ChooseModePageStyles.slideLeftFadeIn}
+          className={ChooseModePageStyles.SlideLeftFadeIn}
         >
           <Icon url={PlayerOIconUrl} />
         </Button>
@@ -29,7 +29,7 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
       <Link href="/choose-mode?for=1p-with-o-game">
         <Button
           title="玩家後手"
-          className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
+          className={ChooseModePageStyles.SlideLeftFadeInWhenFirstShown}
         >
           <Icon url={PlayerXIconUrl} />
         </Button>
@@ -37,7 +37,7 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
       <Link href="/choose-mode?for=1p-puzzle-game">
         <Button
           title="殘局關卡"
-          className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
+          className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
           <Icon url={KnowledgeIconUrl} />
         </Button>
@@ -47,7 +47,7 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
       <Button
         title="返回"
         color="#888"
-        className={ChooseModePageStyles.fadeIn}
+        className={ChooseModePageStyles.FadeIn}
         onClick={emitCancel}
       >
         <Icon url={LightBackIconUrl} />

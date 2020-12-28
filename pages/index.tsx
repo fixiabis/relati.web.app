@@ -1,15 +1,15 @@
 import React from 'react';
 import { LightPlayIconUrl, LightHelpIconUrl } from '../icons';
-import { Button, Icon, Link } from '../components/core';
+import { Button, Container, Icon, Link } from '../components/core';
 import { HomePageStyles, Logo } from '../components/page/index';
 
 const HomePage = () => {
   return (
-    <div className="container-filled flex-center">
-      <div className={HomePageStyles.slideTopWhenLogoDrawn}>
-        <Logo effect="drawLineAndFill" />
-      </div>
-      <Button.Group className={HomePageStyles.slideDownFadeInWhenLogoDrawn}>
+    <Container>
+      <Container className={HomePageStyles.SlideTopWhenLogoDrawn}>
+        <Logo effect="DrawLineAndFill" />
+      </Container>
+      <Button.Group className={HomePageStyles.SlideDownFadeInWhenLogoDrawn}>
         <Link href="/choose-mode?for=game">
           <Button title="開始玩" color="crimson">
             <Icon url={LightPlayIconUrl} />
@@ -21,7 +21,7 @@ const HomePage = () => {
           </Button>
         </Link>
       </Button.Group>
-    </div>
+    </Container>
   );
 };
 
