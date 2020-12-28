@@ -5,7 +5,7 @@ import { HomePageStyles, Logo } from '../page-components/index';
 
 const HomePage = () => {
   return (
-    <div className="conatiner-filled flex-center">
+    <div className="container-filled flex-center">
       <div className={HomePageStyles.slideTopWhenLogoDrawn}>
         <Logo effect="drawLineAndFill" />
       </div>

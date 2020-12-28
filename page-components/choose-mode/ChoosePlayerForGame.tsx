@@ -12,7 +12,7 @@ import { Button, Icon, LinkButton } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
-  <div className="conatiner-filled flex-center">
+  <div className="container-filled flex-center">
     <div
       className={ChooseModePageStyles.fadeIn + ' flex-center'}
       style={{ height: 90, padding: 10 }}
