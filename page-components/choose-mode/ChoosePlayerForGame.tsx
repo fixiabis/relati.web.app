@@ -8,50 +8,55 @@ import {
   PlayIconUrl,
 } from '../../icons';
 
-import { Button, Icon, LinkButton } from '../../components';
+import { Button, Container, Description, Icon, Link } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
-  <div className="container-filled flex-center">
-    <div
-      className={ChooseModePageStyles.fadeIn + ' flex-center'}
-      style={{ height: 90, padding: 10 }}
-    >
+  <Container>
+    <Description className="flex-center">
       <Icon url={PlayIconUrl} />
       選擇玩家數量
-    </div>
+    </Description>
     <Button.Group>
-      <LinkButton
-        title="單人玩家"
-        backgroundColor="royalblue"
-        backgroundImage={`url(${LightOnePlayerIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeIn}
-        href="/choose-mode?for=1p-game"
-      />
-      <LinkButton
-        title="雙人玩家"
-        backgroundColor="crimson"
-        backgroundImage={`url(${LightTwoPlayerIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
-        href="/choose-mode?for=2p-game"
-      />
-      <LinkButton
-        title="線上對戰"
-        backgroundColor="#888"
-        backgroundImage={`url(${LightOnlineIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
-        href="/choose-mode?for=2p-online-game"
-      />
+      <Link href="/choose-mode?for=1p-game">
+        <Button
+          title="單人玩家"
+          color="royalblue"
+          className={ChooseModePageStyles.slideLeftFadeIn}
+        >
+          <Icon url={LightOnePlayerIconUrl} />
+        </Button>
+      </Link>
+      <Link href="/choose-mode?for=2p-game">
+        <Button
+          title="雙人玩家"
+          color="crimson"
+          className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
+        >
+          <Icon url={LightTwoPlayerIconUrl} />
+        </Button>
+      </Link>
+      <Link href="/choose-mode?for=2p-online-game">
+        <Button
+          title="線上對戰"
+          color="#888"
+          className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
+        >
+          <Icon url={LightOnlineIconUrl} />
+        </Button>
+      </Link>
     </Button.Group>
-    <div className="bottom-right-fixed" style={{ padding: 10 }}>
+    <Button.DenceGroup className="bottom-right-fixed">
       <Button
         title="返回"
-        backgroundColor="#888"
-        backgroundImage={`url(${LightBackIconUrl})`}
+        color="#888"
+        className={ChooseModePageStyles.fadeIn}
         onClick={emitCancel}
-      />
-    </div>
-  </div>
+      >
+        <Icon url={LightBackIconUrl} />
+      </Button>
+    </Button.DenceGroup>
+  </Container>
 );
 
 export default ChoosePlayerForGame;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { LightPlayIconUrl, LightHelpIconUrl } from '../icons';
-import { Button, LinkButton } from '../components';
+import { Button, Icon, Link } from '../components';
 import { HomePageStyles, Logo } from '../page-components/index';
 
 const HomePage = () => {
@@ -10,18 +10,16 @@ const HomePage = () => {
         <Logo effect="drawLineAndFill" />
       </div>
       <Button.Group className={HomePageStyles.slideDownFadeInWhenLogoDrawn}>
-        <LinkButton
-          title="開始玩"
-          backgroundColor="crimson"
-          backgroundImage={`url(${LightPlayIconUrl})`}
-          href="/choose-mode?for=game"
-        />
-        <LinkButton
-          title="如何玩"
-          backgroundColor="royalblue"
-          backgroundImage={`url(${LightHelpIconUrl})`}
-          href="/choose-mode?for=tutorial"
-        />
+        <Link href="/choose-mode?for=game">
+          <Button title="開始玩" color="crimson">
+            <Icon url={LightPlayIconUrl} />
+          </Button>
+        </Link>
+        <Link href="/choose-mode?for=tutorial">
+          <Button title="如何玩" color="royalblue">
+            <Icon url={LightHelpIconUrl} />
+          </Button>
+        </Link>
       </Button.Group>
     </div>
   );

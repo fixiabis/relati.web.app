@@ -8,50 +8,55 @@ import {
   LightX9IconUrl,
 } from '../../icons';
 
-import { Button, Icon, LinkButton } from '../../components';
+import { Button, Container, Description, Icon, Link } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
-  <div className="container-filled flex-center">
-    <div
-      className={ChooseModePageStyles.fadeIn + ' flex-center'}
-      style={{ height: 90, padding: 10 }}
-    >
+  <Container>
+    <Description className={ChooseModePageStyles.fadeIn}>
       <Icon url={BoardIconUrl} />
       選擇棋盤大小
-    </div>
+    </Description>
     <Button.Group>
-      <LinkButton
-        title="5x5大小"
-        backgroundColor="royalblue"
-        backgroundImage={`url(${LightX5IconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeIn}
-        href={`/choose-mode?for=x5-${usage}`}
-      />
-      <LinkButton
-        title="7x7大小"
-        backgroundColor="seagreen"
-        backgroundImage={`url(${LightX7IconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
-        href={`/choose-mode?for=x7-${usage}`}
-      />
-      <LinkButton
-        title="9x9大小"
-        backgroundColor="crimson"
-        backgroundImage={`url(${LightX9IconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
-        href={`/choose-mode?for=x9-${usage}`}
-      />
+      <Link href={`/choose-mode?for=x5-${usage}`}>
+        <Button
+          title="5x5大小"
+          color="royalblue"
+          className={ChooseModePageStyles.slideLeftFadeIn}
+        >
+          <Icon url={LightX5IconUrl} />
+        </Button>
+      </Link>
+      <Link href={`/choose-mode?for=x7-${usage}`}>
+        <Button
+          title="7x7大小"
+          color="seagreen"
+          className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
+        >
+          <Icon url={LightX7IconUrl} />
+        </Button>
+      </Link>
+      <Link href={`/choose-mode?for=x9-${usage}`}>
+        <Button
+          title="9x9大小"
+          color="crimson"
+          className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
+        >
+          <Icon url={LightX9IconUrl} />
+        </Button>
+      </Link>
     </Button.Group>
-    <div className="bottom-right-fixed" style={{ padding: 10 }}>
+    <Button.DenceGroup className="bottom-right-fixed">
       <Button
         title="返回"
-        backgroundColor="#888"
-        backgroundImage={`url(${LightBackIconUrl})`}
+        color="#888"
+        className={ChooseModePageStyles.fadeIn}
         onClick={emitCancel}
-      />
-    </div>
-  </div>
+      >
+        <Icon url={LightBackIconUrl} />
+      </Button>
+    </Button.DenceGroup>
+  </Container>
 );
 
 export default ChooseBoardSize;

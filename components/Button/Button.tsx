@@ -6,16 +6,15 @@ import ButtonGroup from './ButtonGroup';
 export type ButtonProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> &
-  Pick<CSSProperties, 'backgroundColor' | 'backgroundImage'>;
+> & { color?: CSSProperties['backgroundColor'] };
 
 const Button: React.FC<ButtonProps> & {
   Group: typeof ButtonGroup;
   DenceGroup: typeof ButtonDenseGroup;
-} = ({ className = '', backgroundColor, backgroundImage, style, ...props }) => (
+} = ({ className = '', color, style, ...props }) => (
   <div
     className={ButtonStyles.Button + (className && ` ${className}`)}
-    style={{ backgroundColor, backgroundImage, ...style }}
+    style={{ backgroundColor: color, ...style }}
     {...props}
   />
 );

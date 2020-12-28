@@ -8,47 +8,52 @@ import {
   OnePlayerIconUrl,
 } from '../../icons';
 
-import { Button, Icon, LinkButton } from '../../components';
+import { Button, Container, Description, Icon, Link } from '../../components';
 import ChooseModePageStyles from './ChooseModePage.module.css';
 
 const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
-  <div className="container-filled flex-center">
-    <div
-      className={ChooseModePageStyles.fadeIn + ' flex-center'}
-      style={{ height: 90, padding: 10 }}
-    >
+  <Container>
+    <Description className="flex-center">
       <Icon url={OnePlayerIconUrl} />
       選擇用子或解謎
-    </div>
+    </Description>
     <Button.Group>
-      <LinkButton
-        title="玩家先手"
-        backgroundImage={`url(${PlayerOIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeIn}
-        href="/choose-mode?for=1p-with-x-game"
-      />
-      <LinkButton
-        title="玩家後手"
-        backgroundImage={`url(${PlayerXIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
-        href="/choose-mode?for=1p-with-o-game"
-      />
-      <LinkButton
-        title="殘局關卡"
-        backgroundImage={`url(${KnowledgeIconUrl})`}
-        className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
-        href="/choose-mode?for=1p-puzzle-game"
-      />
+      <Link href="/choose-mode?for=1p-with-x-game">
+        <Button
+          title="玩家先手"
+          className={ChooseModePageStyles.slideLeftFadeIn}
+        >
+          <Icon url={PlayerOIconUrl} />
+        </Button>
+      </Link>
+      <Link href="/choose-mode?for=1p-with-o-game">
+        <Button
+          title="玩家後手"
+          className={ChooseModePageStyles.slideLeftFadeInWhenFirstShown}
+        >
+          <Icon url={PlayerXIconUrl} />
+        </Button>
+      </Link>
+      <Link href="/choose-mode?for=1p-puzzle-game">
+        <Button
+          title="殘局關卡"
+          className={ChooseModePageStyles.slideLeftFadeInWhenSecondShown}
+        >
+          <Icon url={KnowledgeIconUrl} />
+        </Button>
+      </Link>
     </Button.Group>
-    <div className="bottom-right-fixed" style={{ padding: 10 }}>
+    <Button.DenceGroup className="bottom-right-fixed">
       <Button
         title="返回"
-        backgroundColor="#888"
-        backgroundImage={`url(${LightBackIconUrl})`}
+        color="#888"
+        className={ChooseModePageStyles.fadeIn}
         onClick={emitCancel}
-      />
-    </div>
-  </div>
+      >
+        <Icon url={LightBackIconUrl} />
+      </Button>
+    </Button.DenceGroup>
+  </Container>
 );
 
 export default ChooseModeForOnePlayer;
