@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import ButtonStyles from './Button.module.css';
 import ButtonDenseGroup from './ButtonDenseGroup';
 import ButtonGroup from './ButtonGroup';
@@ -6,7 +6,7 @@ import ButtonGroup from './ButtonGroup';
 export type ButtonProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & { color?: CSSProperties['backgroundColor'] };
+> & { color?: React.CSSProperties['backgroundColor'] };
 
 const Button: React.FC<ButtonProps> & {
   Group: typeof ButtonGroup;

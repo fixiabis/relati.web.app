@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, MutableRefObject, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 
 import BoardStyles from './board.module.css';
 
@@ -26,8 +26,8 @@ const Board: React.FC<BoardProps> = ({
 }) => {
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const ref = useRef() as MutableRefObject<HTMLDivElement>;
-  const containerRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const ref = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const gridLines = useMemo(() => {
     const horizionGridLinePaths = Array.from({ length: width }, (_, y) => y)
