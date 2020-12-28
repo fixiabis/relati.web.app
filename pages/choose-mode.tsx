@@ -25,13 +25,13 @@ const ChooseModePage: NextPage<ChooseModePageProps> = ({ usage }) => {
 };
 
 ChooseModePage.getInitialProps = ({ query }) => {
-  let usage: string | string[] = query.for;
+  let usage: string | string[] = query.for || '';
 
   if (Array.isArray(usage)) {
     [usage] = usage.slice(-1);
   }
 
-  return { usage: usage || '' };
+  return { usage };
 };
 
 export default ChooseModePage;
