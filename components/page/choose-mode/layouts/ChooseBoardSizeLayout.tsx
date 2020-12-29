@@ -1,48 +1,48 @@
 import React from 'react';
 
 import {
+  BoardIconUrl,
   LightBackIconUrl,
-  LightOnePlayerIconUrl,
-  LightTwoPlayerIconUrl,
-  LightOnlineIconUrl,
-  PlayIconUrl,
+  LightX5IconUrl,
+  LightX7IconUrl,
+  LightX9IconUrl,
 } from '../../../../icons';
 
 import { Button, Container, Description, Icon, Link } from '../../../core';
 import ChooseModePageStyles from '../ChooseModePage.module.css';
 
-const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
+const ChooseBoardSizeLayout = ({ usage, onCancel: emitCancel }) => (
   <Container>
     <Description className={ChooseModePageStyles.FadeIn}>
-      <Icon url={PlayIconUrl} />
-      選擇玩家數量
+      <Icon url={BoardIconUrl} />
+      選擇棋盤大小
     </Description>
     <Button.Group>
-      <Link href="/choose-mode?for=1p-game">
+      <Link href={`/choose-mode?for=x5-${usage}`}>
         <Button
-          title="單人玩家"
+          title="5x5大小"
           color="royalblue"
           className={ChooseModePageStyles.SlideLeftFadeIn}
         >
-          <Icon url={LightOnePlayerIconUrl} />
+          <Icon url={LightX5IconUrl} />
         </Button>
       </Link>
-      <Link href="/choose-mode?for=2p-game">
+      <Link href={`/choose-mode?for=x7-${usage}`}>
         <Button
-          title="雙人玩家"
-          color="crimson"
+          title="7x7大小"
+          color="seagreen"
           className={ChooseModePageStyles.SlideLeftFadeInWhenFirstShown}
         >
-          <Icon url={LightTwoPlayerIconUrl} />
+          <Icon url={LightX7IconUrl} />
         </Button>
       </Link>
-      <Link href="/choose-mode?for=2p-online-game">
+      <Link href={`/choose-mode?for=x9-${usage}`}>
         <Button
-          title="線上對戰"
-          color="#888"
+          title="9x9大小"
+          color="crimson"
           className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
-          <Icon url={LightOnlineIconUrl} />
+          <Icon url={LightX9IconUrl} />
         </Button>
       </Link>
     </Button.Group>
@@ -59,4 +59,4 @@ const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
   </Container>
 );
 
-export default ChoosePlayerForGame;
+export default ChooseBoardSizeLayout;

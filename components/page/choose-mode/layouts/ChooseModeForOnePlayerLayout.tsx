@@ -1,48 +1,45 @@
 import React from 'react';
 
 import {
-  BoardIconUrl,
   LightBackIconUrl,
-  LightX5IconUrl,
-  LightX7IconUrl,
-  LightX9IconUrl,
+  PlayerOIconUrl,
+  PlayerXIconUrl,
+  KnowledgeIconUrl,
+  OnePlayerIconUrl,
 } from '../../../../icons';
 
 import { Button, Container, Description, Icon, Link } from '../../../core';
 import ChooseModePageStyles from '../ChooseModePage.module.css';
 
-const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
+const ChooseModeForOnePlayerLayout = ({ onCancel: emitCancel }) => (
   <Container>
     <Description className={ChooseModePageStyles.FadeIn}>
-      <Icon url={BoardIconUrl} />
-      選擇棋盤大小
+      <Icon url={OnePlayerIconUrl} />
+      選擇用子或解謎
     </Description>
     <Button.Group>
-      <Link href={`/choose-mode?for=x5-${usage}`}>
+      <Link href="/choose-mode?for=1p-with-x-game">
         <Button
-          title="5x5大小"
-          color="royalblue"
+          title="玩家先手"
           className={ChooseModePageStyles.SlideLeftFadeIn}
         >
-          <Icon url={LightX5IconUrl} />
+          <Icon url={PlayerOIconUrl} />
         </Button>
       </Link>
-      <Link href={`/choose-mode?for=x7-${usage}`}>
+      <Link href="/choose-mode?for=1p-with-o-game">
         <Button
-          title="7x7大小"
-          color="seagreen"
+          title="玩家後手"
           className={ChooseModePageStyles.SlideLeftFadeInWhenFirstShown}
         >
-          <Icon url={LightX7IconUrl} />
+          <Icon url={PlayerXIconUrl} />
         </Button>
       </Link>
-      <Link href={`/choose-mode?for=x9-${usage}`}>
+      <Link href="/choose-mode?for=1p-puzzle-game">
         <Button
-          title="9x9大小"
-          color="crimson"
+          title="殘局關卡"
           className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
-          <Icon url={LightX9IconUrl} />
+          <Icon url={KnowledgeIconUrl} />
         </Button>
       </Link>
     </Button.Group>
@@ -59,4 +56,4 @@ const ChooseBoardSize = ({ usage, onCancel: emitCancel }) => (
   </Container>
 );
 
-export default ChooseBoardSize;
+export default ChooseModeForOnePlayerLayout;

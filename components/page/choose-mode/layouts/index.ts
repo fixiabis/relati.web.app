@@ -1,3 +1,3 @@
-export { default as ChoosePlayerForGame } from './ChoosePlayerForGame';
-export { default as ChooseModeForOnePlayer } from './ChooseModeForOnePlayer';
-export { default as ChooseBoardSize } from './ChooseBoardSize';
+export { default as ChoosePlayerForGameLayout } from './ChoosePlayerForGameLayout';
+export { default as ChooseModeForOnePlayerLayout } from './ChooseModeForOnePlayerLayout';
+export { default as ChooseBoardSizeLayout } from './ChooseBoardSizeLayout';
