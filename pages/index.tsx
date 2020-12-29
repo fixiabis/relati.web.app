@@ -1,5 +1,5 @@
 import React from 'react';
-import { LightPlayIconUrl, LightHelpIconUrl } from '../icons';
+import { LightPlayIconUrl/* , LightHelpIconUrl */ } from '../icons';
 import { Button, Container, Icon, Link } from '../components/core';
 import { HomePageStyles, Logo } from '../components/page/index';
 
@@ -15,11 +15,11 @@ const HomePage = () => {
             <Icon url={LightPlayIconUrl} />
           </Button>
         </Link>
-        <Link href="/choose-mode?for=tutorial">
+        {/* <Link href="/choose-mode?for=tutorial">
           <Button title="如何玩" color="royalblue">
             <Icon url={LightHelpIconUrl} />
           </Button>
-        </Link>
+        </Link> */}
       </Button.Group>
     </Container>
   );
