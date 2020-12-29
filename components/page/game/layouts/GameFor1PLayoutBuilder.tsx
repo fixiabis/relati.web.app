@@ -55,6 +55,7 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
     }, [definition]);
 
     const [game, setGame] = useState(() => Game(GameRule(definition)));
+    const [prevGame, setPrevGame] = useState(game);
 
     const [pieceIndexesOfPlacement, setPieceIndexesOfPlacement] = useState<
       number[]
@@ -87,6 +88,7 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
           const gameWithPiecePlaced = game.place(pieceIndex, playerOfTurn);
           setGame(gameWithPiecePlaced);
           setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
+          setPrevGame(game);
         }, 500);
       }
     }, [game]);
@@ -109,6 +111,7 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
       if (gameWithPiecePlaced !== game) {
         setGame(gameWithPiecePlaced);
         setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
+        setPrevGame(game);
       }
 
       openGameOverDialog();

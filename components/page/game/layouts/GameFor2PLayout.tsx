@@ -13,6 +13,7 @@ import {
 
 import { GameLayoutComponent } from '../index';
 import { GameLeaveDialog, GameOverDialog, GameRetryDialog } from '../dialogs';
+import createKeyframes from '../../../game/createKeyframes';
 
 const playersCount = PLAYERS_COUNT_FOR_2P;
 
@@ -34,6 +35,7 @@ const GameFor2PLayout: GameLayoutComponent = ({
   );
 
   const [game, setGame] = useState(() => Game(GameRule(definition)));
+  const [prevGame, setPrevGame] = useState(game);
 
   const [pieceIndexesOfPlacement, setPieceIndexesOfPlacement] = useState<
     number[]
@@ -76,6 +78,7 @@ const GameFor2PLayout: GameLayoutComponent = ({
     if (gameWithPiecePlaced !== game) {
       setGame(gameWithPiecePlaced);
       setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
+      setPrevGame(game);
     }
 
     openGameOverDialog();
