@@ -1,8 +1,8 @@
 import React from 'react';
-import { PieceFor2PGame } from './definitions';
+import { PieceFor2PGame as PieceFor2PGameType } from './definitions';
 import PieceBase, { PieceProps as PieceBaseProps } from './Piece';
 
-const piecePropsByPiece: Record<PieceFor2PGame, Partial<PieceBaseProps>> = [
+const piecePropsByPiece: Record<PieceFor2PGameType, Partial<PieceBaseProps>> = [
   { shape: '' },
   { shape: 'O', style: 'double', color: 'crimson' },
   { shape: 'X', style: 'double', color: 'royalblue' },
@@ -15,7 +15,7 @@ const piecePropsByPiece: Record<PieceFor2PGame, Partial<PieceBaseProps>> = [
 type PieceProps = {
   x: number;
   y: number;
-  piece: PieceFor2PGame;
+  piece: PieceFor2PGameType;
   dropped: boolean;
 };
 
