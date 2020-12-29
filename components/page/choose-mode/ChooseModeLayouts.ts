@@ -1,7 +1,10 @@
 import { ChooseModeLayoutComponent, ChooseModeUsage } from './index';
-import ChoosePlayerForGame from './ChoosePlayerForGame';
-import ChooseModeForOnePlayer from './ChooseModeForOnePlayer';
-import ChooseBoardSize from './ChooseBoardSize';
+
+import {
+  ChooseBoardSize,
+  ChooseModeForOnePlayer,
+  ChoosePlayerForGame,
+} from './layouts';
 
 const ChooseModeLayouts: Partial<
   Record<ChooseModeUsage, ChooseModeLayoutComponent>

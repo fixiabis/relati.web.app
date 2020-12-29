@@ -2,44 +2,47 @@ import React from 'react';
 
 import {
   LightBackIconUrl,
-  PlayerOIconUrl,
-  PlayerXIconUrl,
-  KnowledgeIconUrl,
-  OnePlayerIconUrl,
-} from '../../../icons';
+  LightOnePlayerIconUrl,
+  LightTwoPlayerIconUrl,
+  LightOnlineIconUrl,
+  PlayIconUrl,
+} from '../../../../icons';
 
-import { Button, Container, Description, Icon, Link } from '../../core';
-import ChooseModePageStyles from './ChooseModePage.module.css';
+import { Button, Container, Description, Icon, Link } from '../../../core';
+import ChooseModePageStyles from '../ChooseModePage.module.css';
 
-const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
+const ChoosePlayerForGame = ({ onCancel: emitCancel }) => (
   <Container>
     <Description className={ChooseModePageStyles.FadeIn}>
-      <Icon url={OnePlayerIconUrl} />
-      選擇用子或解謎
+      <Icon url={PlayIconUrl} />
+      選擇玩家數量
     </Description>
     <Button.Group>
-      <Link href="/choose-mode?for=1p-with-x-game">
+      <Link href="/choose-mode?for=1p-game">
         <Button
-          title="玩家先手"
+          title="單人玩家"
+          color="royalblue"
           className={ChooseModePageStyles.SlideLeftFadeIn}
         >
-          <Icon url={PlayerOIconUrl} />
+          <Icon url={LightOnePlayerIconUrl} />
         </Button>
       </Link>
-      <Link href="/choose-mode?for=1p-with-o-game">
+      <Link href="/choose-mode?for=2p-game">
         <Button
-          title="玩家後手"
+          title="雙人玩家"
+          color="crimson"
           className={ChooseModePageStyles.SlideLeftFadeInWhenFirstShown}
         >
-          <Icon url={PlayerXIconUrl} />
+          <Icon url={LightTwoPlayerIconUrl} />
         </Button>
       </Link>
-      <Link href="/choose-mode?for=1p-puzzle-game">
+      <Link href="/choose-mode?for=2p-online-game">
         <Button
-          title="殘局關卡"
+          title="線上對戰"
+          color="#888"
           className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
-          <Icon url={KnowledgeIconUrl} />
+          <Icon url={LightOnlineIconUrl} />
         </Button>
       </Link>
     </Button.Group>
@@ -56,4 +59,4 @@ const ChooseModeForOnePlayer = ({ onCancel: emitCancel }) => (
   </Container>
 );
 
-export default ChooseModeForOnePlayer;
+export default ChoosePlayerForGame;
