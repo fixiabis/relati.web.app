@@ -70,6 +70,9 @@ type GameDefinition<Player extends number, Piece extends number> = {
     ReadonlyRecord<Piece, boolean>
   >;
 
+  /** 各棋子索引對應的座標 */
+  readonly pieceCoordinateByPieceIndex: ReadonlyRecord<PieceIndex, Coordinate>;
+
   /** 所有玩家 */
   readonly players: readonly Player[];
 
@@ -268,6 +271,8 @@ const GameDefinition = <Player extends number, Piece extends number>(
 
   const isConsumableByPieceByPlayer = players.map(toPieceToIsConsumableMap);
 
+  const pieceCoordinateByPieceIndex = pieceIndexes.map(toPieceCoordinate);
+
   return {
     playersCount,
     boardWidth,
@@ -284,6 +289,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
     consumerPieceByPlayer,
     isProvidableByPieceByPlayer,
     isConsumableByPieceByPlayer,
+    pieceCoordinateByPieceIndex,
     players,
     pieceTypes,
     pieceIndexes,
