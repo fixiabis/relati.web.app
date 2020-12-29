@@ -7,5 +7,3 @@ export type { BoardProps } from './Board';
 export type { PieceProps } from './Piece';
 export type { PieceFor2PGameProps } from './PieceFor2PGame';
 export type { BoardFor2PGameProps } from './BoardFor2PGame';
-
-export * from './definitions';
