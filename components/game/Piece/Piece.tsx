@@ -35,10 +35,6 @@ const Piece: React.FC<PieceProps> = ({
 
   const path = `M ${x * 5} ${y * 5} ${ShapePath[shape]}`;
 
-  if (shape === '.') {
-    return <path d={path} fill={color} />;
-  }
-
   {
     className =
       (className && ` ${className}`) +
@@ -59,12 +55,30 @@ const Piece: React.FC<PieceProps> = ({
         : '');
 
     style = { transformOrigin: `${x * 5}px ${y * 5}px`, ...style };
+
+    color =
+      pieceStyle === 'gray' ? '#888' : pieceStyle === 'light' ? '#ddd' : color;
+  }
+
+  if (shape === '.') {
+    return <path d={path} fill={color} className={className} style={style} />;
+  }
+
+  if (shape === '#') {
+    return (
+      <path
+        d={path}
+        fill="none"
+        stroke={color}
+        strokeWidth="0.4"
+        className={className}
+        style={style}
+        {...props}
+      />
+    );
   }
 
   if (pieceStyle !== 'double') {
-    color =
-      pieceStyle === 'gray' ? '#888' : pieceStyle === 'light' ? '#ddd' : color;
-
     if (isEmphasized) {
       return (
         <>
