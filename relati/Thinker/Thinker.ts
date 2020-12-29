@@ -1,5 +1,5 @@
 import { START_INDEX, Game, PieceIndex } from '../core';
-import type { Thinker, Thinking } from './definitions';
+import type { Thinker as ThinkerType, Thinking } from './definitions';
 
 /** 隨機性 */
 const RANDOMLY = true;
@@ -11,7 +11,7 @@ const getRandomIndex = (count: number) => (count * Math.random()) | 0;
 const Thinker = <Player extends number, Piece extends number>(
   thinking: Thinking<Player, Piece>,
   randomly: boolean = RANDOMLY
-): Thinker<Player, Piece> => {
+): ThinkerType<Player, Piece> => {
   const getPieceIndexForPlacement = (game: Game<Player, Piece>) => {
     const { definition, turn } = game;
     const { playersCount, piecesCount } = definition;
