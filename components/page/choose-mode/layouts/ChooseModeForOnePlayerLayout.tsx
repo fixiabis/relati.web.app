@@ -15,7 +15,7 @@ const ChooseModeForOnePlayerLayout = ({ onCancel: emitCancel }) => (
   <Container>
     <Description className={ChooseModePageStyles.FadeIn}>
       <Icon url={OnePlayerIconUrl} />
-      選擇用子或解謎
+      選擇用子{/* 或解謎 */}
     </Description>
     <Button.Group>
       <Link href="/choose-mode?for=1p-with-x-game">
@@ -34,14 +34,14 @@ const ChooseModeForOnePlayerLayout = ({ onCancel: emitCancel }) => (
           <Icon url={PlayerXIconUrl} />
         </Button>
       </Link>
-      <Link href="/choose-mode?for=1p-puzzle-game">
+      {/* <Link href="/choose-mode?for=1p-puzzle-game">
         <Button
           title="殘局關卡"
           className={ChooseModePageStyles.SlideLeftFadeInWhenSecondShown}
         >
           <Icon url={KnowledgeIconUrl} />
         </Button>
-      </Link>
+      </Link> */}
     </Button.Group>
     <Button.DenceGroup className="bottom-right-fixed">
       <Button

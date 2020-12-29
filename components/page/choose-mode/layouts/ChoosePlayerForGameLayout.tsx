@@ -36,7 +36,7 @@ const ChoosePlayerForGameLayout = ({ onCancel: emitCancel }) => (
           <Icon url={LightTwoPlayerIconUrl} />
         </Button>
       </Link>
-      <Link href="/choose-mode?for=2p-online-game">
+      {/* <Link href="/choose-mode?for=2p-online-game">
         <Button
           title="線上對戰"
           color="#888"
@@ -44,7 +44,7 @@ const ChoosePlayerForGameLayout = ({ onCancel: emitCancel }) => (
         >
           <Icon url={LightOnlineIconUrl} />
         </Button>
-      </Link>
+      </Link> */}
     </Button.Group>
     <Button.DenceGroup className="bottom-right-fixed">
       <Button
