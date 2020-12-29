@@ -5,6 +5,8 @@ export { default as useRedirectOnNotFound } from './useRedirectOnNotFound';
 export type GameMode = '1p-with-o' | '1p-with-x' | '2p' | '2p-online';
 
 export type GameLayoutComponent = React.FC<{
-  boardSize: number;
+  boardWidth: number;
+  boardHeight: number;
+  portsCount: number;
   onLeave: () => void;
 }>;
