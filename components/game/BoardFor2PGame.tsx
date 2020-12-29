@@ -12,7 +12,10 @@ type BoardProps = Omit<BoardBaseProps, 'width' | 'height'> & {
 
 export type BoardFor2PGameProps = BoardProps;
 
-const shapeByPlayer = ['O', 'X'];
+const shapeByPlayer: Record<PlayerFor2PGame, keyof typeof ShapeColor> = [
+  'O',
+  'X',
+];
 
 const Board: React.FC<BoardProps> = ({
   game,
