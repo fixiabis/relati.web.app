@@ -25,6 +25,9 @@ export enum PieceStatus {
 
   /** 消耗者 */
   Consumer,
+
+  /** 死者 */
+  Deceased,
 }
 
 /** 路徑 */
@@ -58,7 +61,7 @@ export const EMPTY_PIECE = 0;
 export const FIRST_PLAYER = START_INDEX;
 
 /** 棋子狀態數 */
-export const PIECE_STATUS_COUNT = 3;
+export const PIECE_STATUS_COUNT = 4;
 
 /** 空格棋子數 */
 export const EMPTY_PIECE_COUNT = 1;
