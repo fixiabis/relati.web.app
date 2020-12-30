@@ -13,7 +13,6 @@ import {
 
 import { GameLayoutComponent } from '../index';
 import { GameLeaveDialog, GameOverDialog, GameRetryDialog } from '../dialogs';
-import createKeyframes from '../../../game/createKeyframes';
 
 const playersCount = PLAYERS_COUNT_FOR_2P;
 
