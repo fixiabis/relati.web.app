@@ -159,7 +159,7 @@ const GameRule = <Player extends number, Piece extends number>(
   ): Player | NoPlayer | NoWinner => {
     const { turn, pieces } = game;
 
-    let lastPlayerPlaceablePieceIndexesCount = 0;
+    const playerOfTurn = game.turn % definition.playersCount;
 
     let lastPlayerWhoHasPieceIndexPlaceable:
       | Player
@@ -171,7 +171,7 @@ const GameRule = <Player extends number, Piece extends number>(
     }
 
     for (let player = FIRST_PLAYER as Player; player < playersCount; player++) {
-      const placeablePieceIndexesCount = pieces.filter(
+      const hasPieceIndexPlaceable = pieces.some(
         (_, pieceIndex) =>
           pieces[pieceIndex] === EMPTY_PIECE &&
           isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
@@ -181,19 +181,16 @@ const GameRule = <Player extends number, Piece extends number>(
           )
       );
 
-      if (placeablePieceIndexesCount.length > 0) {
+      if (hasPieceIndexPlaceable) {
         if (lastPlayerWhoHasPieceIndexPlaceable !== NO_PLAYER) {
           return NO_WINNER;
         }
 
         lastPlayerWhoHasPieceIndexPlaceable = player;
-
-        lastPlayerPlaceablePieceIndexesCount =
-          placeablePieceIndexesCount.length;
       }
     }
 
-    if (lastPlayerPlaceablePieceIndexesCount === 1) {
+    if (lastPlayerWhoHasPieceIndexPlaceable === playerOfTurn) {
       return NO_WINNER;
     }
 
