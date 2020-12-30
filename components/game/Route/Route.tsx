@@ -6,7 +6,8 @@ const RIGHT_TRIANGLE_HYPOTENUSE_LENGTH = 1.41421;
 export type RouteProps = React.SVGProps<SVGPathElement> & {
   coordinates: [number, number][];
   color?: string;
-  drawing?: boolean;
+  drawn?: boolean;
+  erased?: boolean;
 };
 
 const Route: React.FC<RouteProps> = ({
@@ -14,7 +15,8 @@ const Route: React.FC<RouteProps> = ({
   color,
   style = {},
   className = '',
-  drawing: isDrawing = false,
+  drawn: isDrawn = false,
+  erased: isErased = false,
   ...props
 }) => {
   const [length, path] = coordinates.reduce(
@@ -58,7 +60,7 @@ const Route: React.FC<RouteProps> = ({
     [0, '']
   );
 
-  if (isDrawing) {
+  if (isDrawn) {
     className = RouteStyles.DrawingRoute + (className && ` ${className}`);
 
     style = {
@@ -66,6 +68,10 @@ const Route: React.FC<RouteProps> = ({
       strokeDasharray: length * 5 + 'px',
       strokeDashoffset: length * 5 + 'px',
     };
+  }
+
+  if (isErased) {
+    className = RouteStyles.ErasedRoute + (className && ` ${className}`);
   }
 
   return (
