@@ -13,7 +13,6 @@
 
 .board {
   position: relative;
-  transition: transform 0.5s;
 }
 
 .board * {
