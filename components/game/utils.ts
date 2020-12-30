@@ -336,7 +336,7 @@ export const getKeyframesOfEffect = <
               removedPieceIndexRoute.every(
                 (pieceIndex, index) => pieceIndex === pieceIndexRoute[index]
               )
-          ) !== -1
+          ) === -1
       );
 
       pieceIndexRoutesByPlayer[player] = pieceIndexRoutesByPlayer[
