@@ -8,6 +8,7 @@ export type RouteProps = React.SVGProps<SVGPathElement> & {
   color?: string;
   drawn?: boolean;
   erased?: boolean;
+  reversed?: boolean;
 };
 
 const Route: React.FC<RouteProps> = ({
@@ -17,9 +18,10 @@ const Route: React.FC<RouteProps> = ({
   className = '',
   drawn: isDrawn = false,
   erased: isErased = false,
+  reversed: isReversed = false,
   ...props
 }) => {
-  const [length, path] = coordinates.reduce(
+  const [length, path] = coordinates[isReversed ? 'reduceRight' : 'reduce'](
     ([length, path], [x, y], index) => {
       if (index !== 0) {
         const [prevX, prevY] = coordinates[index - 1];
