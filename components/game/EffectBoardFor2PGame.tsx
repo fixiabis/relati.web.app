@@ -5,7 +5,7 @@ import BoardBase, { BoardProps as BoardBaseProps } from './Board';
 import PieceBase, { ShapeColor } from './Piece';
 import Piece from './PieceFor2PGame';
 import { getKeyframesOfEffect } from './utils';
-import Route from './Route';
+import { Route } from '.';
 
 type EffectBoardProps = Omit<BoardBaseProps, 'width' | 'height'> & {
   game: Game<PlayerFor2PGame, PieceFor2PGame>;
@@ -34,12 +34,16 @@ const EffectBoard: React.FC<EffectBoardProps> = ({
   const [keyframe = null] = keyframes;
 
   useEffect(() => {
-    setKeyframes(getKeyframesOfEffect(prevGame, game));
+    const keyframes = getKeyframesOfEffect(prevGame, game);
+    setKeyframes(keyframes);
   }, [prevGame, game]);
 
   useEffect(() => {
     if (keyframes.length > 1) {
-      const timeoutId = setTimeout(() => setKeyframes(keyframes.slice(1)), 1000);
+      const timeoutId = setTimeout(
+        () => setKeyframes((keyframes) => keyframes.slice(1)),
+        500
+      );
       return () => clearTimeout(timeoutId);
     }
   }, [keyframes.length]);
@@ -79,9 +83,35 @@ const EffectBoard: React.FC<EffectBoardProps> = ({
       </BoardBase>
     );
   } else {
-    const pieceIndexes = keyframe.pieceIndexesByPlayer.flat();
-    const addedPieceIndexes = keyframe.addedPieceIndexesByPlayer.flat();
-    const removedPieceIndexes = keyframe.removedPieceIndexesByPlayer.flat();
+    const removedPieceIndexes = keyframe.removedPieceIndexesByPlayer.reduce(
+      (pieceIndexes: number[], pieceIndexesOfPlayer: number[]) =>
+        pieceIndexes.concat(pieceIndexesOfPlayer)
+    );
+
+    const pieceIndexes = keyframe.pieceIndexesByPlayer.reduce(
+      (pieceIndexes: number[], pieceIndexesOfPlayer: number[]) =>
+        pieceIndexes.concat(pieceIndexesOfPlayer)
+    );
+
+    const addedPieceIndexRoutes = keyframe.addedPieceIndexRoutesByPlayer.reduce(
+      (pieceIndexRoutes: number[][], pieceIndexRoutesOfPlayer: number[][]) =>
+        pieceIndexRoutes.concat(pieceIndexRoutesOfPlayer)
+    );
+
+    const pieceIndexRoutes = keyframe.pieceIndexRoutesByPlayer
+      .reduce(
+        (pieceIndexRoutes: number[][], pieceIndexRoutesOfPlayer: number[][]) =>
+          pieceIndexRoutes.concat(pieceIndexRoutesOfPlayer)
+      )
+      .filter(
+        (pieceIndexRoute: number[]) =>
+          !addedPieceIndexRoutes.includes(pieceIndexRoute)
+      );
+
+    const removedPieceIndexRoutes = keyframe.removedPieceIndexRoutesByPlayer.reduce(
+      (pieceIndexRoutes: number[][], pieceIndexRoutesOfPlayer: number[][]) =>
+        pieceIndexRoutes.concat(pieceIndexRoutesOfPlayer)
+    );
 
     const toPieceElement = (piece: PieceFor2PGame, pieceIndex: number) => {
       const key = pieceIndex;
@@ -109,13 +139,12 @@ const EffectBoard: React.FC<EffectBoardProps> = ({
       } else {
         if (removedPieceIndexes.includes(pieceIndex)) {
           piece = definition.consumedPieceByPiece[piece];
-        }
-
-        if (
-          pieceIndexes.includes(pieceIndex) ||
-          addedPieceIndexes.includes(pieceIndex)
-        ) {
+        } else if (pieceIndexes.includes(pieceIndex)) {
           piece = definition.providedPieceByPiece[piece];
+        } else if (
+          definition.toPieceStatus(prevGame.pieces[pieceIndex]) === 2
+        ) {
+          piece = prevGame.pieces[pieceIndex];
         }
 
         return <Piece key={key} x={x} y={y} piece={piece} dropped={dropped} />;
@@ -124,7 +153,77 @@ const EffectBoard: React.FC<EffectBoardProps> = ({
 
     return (
       <BoardBase width={boardWidth} height={boardHeight} {...props}>
-        {prevGame.pieces.map(toPieceElement)}
+        <g className="effect-lines">
+          {pieceIndexRoutes.map((pieceIndexes: number[]) => {
+            const coordinates = pieceIndexes.map(
+              (pieceIndex) => definition.pieceCoordinateByPieceIndex[pieceIndex]
+            );
+
+            const color =
+              ShapeColor[
+                shapeByPlayer[
+                  definition.playerByPiece[game.pieces[pieceIndexes[0]]]
+                ]
+              ];
+
+            return (
+              <Route
+                key={pieceIndexes.join('-')}
+                coordinates={coordinates}
+                color={color}
+                opacity={0.1}
+                reversed
+              />
+            );
+          })}
+          {addedPieceIndexRoutes.map((pieceIndexes: number[]) => {
+            const coordinates = pieceIndexes.map(
+              (pieceIndex) => definition.pieceCoordinateByPieceIndex[pieceIndex]
+            );
+
+            const color =
+              ShapeColor[
+                shapeByPlayer[
+                  definition.playerByPiece[game.pieces[pieceIndexes[0]]]
+                ]
+              ];
+
+            return (
+              <Route
+                key={pieceIndexes.join('-')}
+                coordinates={coordinates}
+                color={color}
+                opacity={0.4}
+                reversed
+                drawn
+              />
+            );
+          })}
+          {removedPieceIndexRoutes.map((pieceIndexes: number[]) => {
+            const coordinates = pieceIndexes.map(
+              (pieceIndex) => definition.pieceCoordinateByPieceIndex[pieceIndex]
+            );
+
+            const color =
+              ShapeColor[
+                shapeByPlayer[
+                  definition.playerByPiece[game.pieces[pieceIndexes[0]]]
+                ]
+              ];
+
+            return (
+              <Route
+                key={pieceIndexes.join('-')}
+                coordinates={coordinates}
+                color={color}
+                opacity={0.4}
+                reversed
+                erased
+              />
+            );
+          })}
+        </g>
+        <g className="pieces">{game.pieces.map(toPieceElement)}</g>
       </BoardBase>
     );
   }
