@@ -15,7 +15,7 @@ import InfluenceBasedThinking, {
 } from './InfluenceBasedThinking';
 
 /** 基於多方影響區域的思路 */
-const MultiInfluenceBasedThinking = <
+const MultiInfluencesBasedThinking = <
   Player extends number,
   Piece extends number
 >(
@@ -175,4 +175,4 @@ const MultiInfluenceBasedThinking = <
   return { getEachPiecesPointsOfPlayer, getPointsOfPlayer };
 };
 
-export default MultiInfluenceBasedThinking;
+export default MultiInfluencesBasedThinking;

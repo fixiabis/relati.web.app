@@ -11,7 +11,7 @@ import {
 
 import { NO_POINTS, ExplainableThinking } from '../definitions';
 
-export const NO_INFLUENCE_POINTS = 0;
+export const NO_INFLUENCE_POINTS = NO_POINTS;
 export const UNDER_INFLUENCE_POINTS = -1;
 
 namespace NearbyDirection {
@@ -92,7 +92,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
         const influencePointsOfNearbyPiece =
           pieceIndexToInfluencePointsMap[pieceIndex];
 
-        if (influencePointsOfNearbyPiece === NO_POINTS) {
+        if (influencePointsOfNearbyPiece === NO_INFLUENCE_POINTS) {
           pieceIndexToInfluencePointsMap[pieceIndex] = influencePoints - STEP;
           providerPieceIndexes.push(pieceIndex);
         }
@@ -130,7 +130,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
         const influencePointsOfNearbyPiece =
           pieceIndexToInfluencePointsMap[pieceIndex];
 
-        if (influencePointsOfNearbyPiece === NO_POINTS) {
+        if (influencePointsOfNearbyPiece === NO_INFLUENCE_POINTS) {
           pieceIndexToInfluencePointsMap[pieceIndex] = influencePoints - STEP;
           points += influencePoints - STEP;
           providerPieceIndexes.push(pieceIndex);
