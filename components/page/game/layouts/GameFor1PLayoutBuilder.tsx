@@ -4,7 +4,7 @@ import { DirectionRoutes } from '../../../../relati/values';
 
 import Thinker, {
   DeepThinking,
-  MultiInfluencesBasedThinking,
+  MaximumTerritoryBasedThinking,
 } from '../../../../relati/Thinker';
 
 import { Button, Container, Icon, useDialogState } from '../../../core';
@@ -43,11 +43,11 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
     );
 
     const thinker = useMemo(() => {
-      const multiInfluencesBasedThinking = MultiInfluencesBasedThinking(
+      const maximumTerritoryBasedThinking = MaximumTerritoryBasedThinking(
         definition
       );
 
-      const deepThinking = DeepThinking(multiInfluencesBasedThinking, 1);
+      const deepThinking = DeepThinking(maximumTerritoryBasedThinking, 2);
 
       const thinker = Thinker(deepThinking);
 
@@ -97,7 +97,9 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
     const canControlDirectly = winner !== NO_WINNER || game.turn === 0;
 
     const resetGame = () => {
-      setGame(Game(game.rule));
+      const resetedGame = Game(game.rule);
+      setGame(resetedGame);
+      setPrevGame(resetedGame);
       closeGameRetryDialog();
     };
 
