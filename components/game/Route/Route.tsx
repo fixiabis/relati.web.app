@@ -1,15 +1,32 @@
 import React from 'react';
 import RouteStyles from './Route.module.css';
 
-const RIGHT_TRIANGLE_HYPOTENUSE_LENGTH = 1.41421;
+type Coordinate = readonly [number, number];
 
 export type RouteProps = React.SVGProps<SVGPathElement> & {
-  coordinates: (readonly [number, number])[];
+  coordinates: Coordinate[];
   color?: string;
   drawn?: boolean;
   erased?: boolean;
   reversed?: boolean;
 };
+
+const toPrevCoordinateWithCoordinate = (
+  coordinate: Coordinate,
+  index: number,
+  coordinates: Coordinate[]
+) => [coordinates[Math.max(0, index - 1)], coordinate];
+
+const toDistanceBetweenCoordinates = ([[xA, yA], [xB, yB]]: [
+  Coordinate,
+  Coordinate
+]) => (Math.abs(xA - xB) ** 2 + Math.abs(yA - yB) ** 2) ** 0.5;
+
+const sumPathLength = (pathLength: number, partialPathLength: number) =>
+  pathLength + partialPathLength;
+
+const toPartialPathDefinition = ([x, y]: Coordinate, index: number) =>
+  `${index ? 'L' : 'M'} ${x * 5 + 2.5} ${y * 5 + 2.5}`;
 
 const Route: React.FC<RouteProps> = ({
   coordinates,
@@ -21,95 +38,20 @@ const Route: React.FC<RouteProps> = ({
   reversed: isReversed = false,
   ...props
 }) => {
-  const [length, path] = isReversed
-    ? coordinates.reduceRight(
-        ([length, path], [x, y], index) => {
-          if (index !== coordinates.length - 1) {
-            const [prevX, prevY] = coordinates[index + 1];
-            const deltaX = Math.abs(prevX - x);
-            const deltaY = Math.abs(prevY - y);
+  const pathLength = coordinates
+    .map(toPrevCoordinateWithCoordinate)
+    .map(toDistanceBetweenCoordinates)
+    .reduce(sumPathLength);
 
-            if (deltaX > 1) {
-              throw RangeError(
-                '座標移動超過1單位, ' +
-                  `從(${prevX}, ${prevY}) 到 (${x}, ${y}), ` +
-                  `X軸移動了${deltaX}單位`
-              );
-            } else if (deltaY > 1) {
-              throw RangeError(
-                '座標移動超過1單位, ' +
-                  `從(${prevX}, ${prevY}) 到 (${x}, ${y}), ` +
-                  `Y軸移動了${deltaY}單位`
-              );
-            }
-
-            const isSlashLine = deltaX > 0 && deltaY > 0;
-
-            if (isSlashLine) {
-              length = parseFloat(
-                (length + RIGHT_TRIANGLE_HYPOTENUSE_LENGTH).toFixed(5)
-              );
-            } else {
-              length++;
-            }
-
-            path += `L ${x * 5 + 2.5} ${y * 5 + 2.5}`;
-          } else {
-            path += `M ${x * 5 + 2.5} ${y * 5 + 2.5}`;
-          }
-
-          return [length, path];
-        },
-        [0, '']
-      )
-    : coordinates.reduce(
-        ([length, path], [x, y], index) => {
-          if (index !== 0) {
-            const [prevX, prevY] = coordinates[index - 1];
-            const deltaX = Math.abs(prevX - x);
-            const deltaY = Math.abs(prevY - y);
-
-            if (deltaX > 1) {
-              throw RangeError(
-                '座標移動超過1單位, ' +
-                  `從(${prevX}, ${prevY}) 到 (${x}, ${y}), ` +
-                  `X軸移動了${deltaX}單位`
-              );
-            } else if (deltaY > 1) {
-              throw RangeError(
-                '座標移動超過1單位, ' +
-                  `從(${prevX}, ${prevY}) 到 (${x}, ${y}), ` +
-                  `Y軸移動了${deltaY}單位`
-              );
-            }
-
-            const isSlashLine = deltaX > 0 && deltaY > 0;
-
-            if (isSlashLine) {
-              length = parseFloat(
-                (length + RIGHT_TRIANGLE_HYPOTENUSE_LENGTH).toFixed(5)
-              );
-            } else {
-              length++;
-            }
-
-            path += `L ${x * 5 + 2.5} ${y * 5 + 2.5}`;
-          } else {
-            path += `M ${x * 5 + 2.5} ${y * 5 + 2.5}`;
-          }
-
-          return [length, path];
-        },
-        [0, '']
-      );
+  const pathDefinition = coordinates.map(toPartialPathDefinition).join(' ');
 
   if (isDrawn) {
     className = RouteStyles.DrawnRoute + (className && ` ${className}`);
 
     style = {
       ...style,
-      strokeDasharray: length * 5 + 'px',
-      strokeDashoffset: length * 5 + 'px',
+      strokeDasharray: pathLength * 5 + 'px',
+      strokeDashoffset: (isReversed ? -pathLength : pathLength) * 5 + 'px',
     };
   }
 
@@ -119,7 +61,7 @@ const Route: React.FC<RouteProps> = ({
 
   return (
     <path
-      d={path}
+      d={pathDefinition}
       className={className}
       fill="none"
       style={style}
