@@ -57,7 +57,27 @@ const Game = <Player extends number, Piece extends number>(
     const playerOfTurn = turn % playersCount;
     const isAllProducerPlaced = turn >= playersCount;
 
-    if (!isAllProducerPlaced) {
+    if (isAllProducerPlaced) {
+      const isPieceIndexPlaceable =
+        player === playerOfTurn &&
+        pieces[pieceIndex] === EMPTY_PIECE &&
+        isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
+          pieces,
+          pieceIndex,
+          player
+        );
+
+      if (isPieceIndexPlaceable) {
+        const providerPiece = providerPieceByPlayer[player];
+        const piecesAfterPlaced = [...pieces];
+
+        piecesAfterPlaced[pieceIndex] = providerPiece;
+        mutatePiecesToConsumed(piecesAfterPlaced);
+        mutatePiecesToProvided(piecesAfterPlaced, [...producerPieceIndexes]);
+
+        return Game(rule, turn + STEP, piecesAfterPlaced, producerPieceIndexes);
+      }
+    } else {
       const isPieceIndexPlaceable =
         player === playerOfTurn && pieces[pieceIndex] === EMPTY_PIECE;
 
@@ -78,26 +98,6 @@ const Game = <Player extends number, Piece extends number>(
           piecesAfterPlaced,
           producerPieceIndexesAfterPlaced
         );
-      }
-    } else {
-      const isPieceIndexPlaceable =
-        player === playerOfTurn &&
-        pieces[pieceIndex] === EMPTY_PIECE &&
-        isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
-          pieces,
-          pieceIndex,
-          player
-        );
-
-      if (isPieceIndexPlaceable) {
-        const providerPiece = providerPieceByPlayer[player];
-        const piecesAfterPlaced = [...pieces];
-
-        piecesAfterPlaced[pieceIndex] = providerPiece;
-        mutatePiecesToConsumed(piecesAfterPlaced);
-        mutatePiecesToProvided(piecesAfterPlaced, [...producerPieceIndexes]);
-
-        return Game(rule, turn + STEP, piecesAfterPlaced, producerPieceIndexes);
       }
     }
 
