@@ -18,11 +18,5 @@ export type ExplainableThinking<Player extends number, Piece extends number> = {
   ) => ReadonlyRecord<PieceIndex, number>;
 } & Thinking<Player, Piece>;
 
-/** 思考者 */
-export type Thinker<Player extends number, Piece extends number> = {
-  /** 取得下一步要放的棋子索引 */
-  readonly getPieceIndexForPlacement: (game: Game<Player, Piece>) => number;
-};
-
 /** 無分數 */
 export const NO_POINTS = 0;

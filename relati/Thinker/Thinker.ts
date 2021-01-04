@@ -1,5 +1,5 @@
 import { START_INDEX, Game, PieceIndex } from '../core';
-import type { Thinker as ThinkerType, Thinking } from './definitions';
+import type { Thinking } from './definitions';
 
 /** 隨機性 */
 const RANDOMLY = true;
@@ -8,10 +8,16 @@ const RANDOMLY = true;
 const getRandomIndex = (count: number) => (count * Math.random()) | 0;
 
 /** 思考者 */
+export type Thinker<Player extends number, Piece extends number> = {
+  /** 取得下一步要放的棋子索引 */
+  readonly getPieceIndexForPlacement: (game: Game<Player, Piece>) => number;
+};
+
+/** 思考者 */
 const Thinker = <Player extends number, Piece extends number>(
   thinking: Thinking<Player, Piece>,
-  randomly: boolean = RANDOMLY
-): ThinkerType<Player, Piece> => {
+  isRandomly: boolean = RANDOMLY
+): Thinker<Player, Piece> => {
   const getPieceIndexForPlacement = (game: Game<Player, Piece>) => {
     const { definition, turn } = game;
     const { playersCount, piecesCount } = definition;
@@ -39,7 +45,7 @@ const Thinker = <Player extends number, Piece extends number>(
 
     const pieceIndexOfHighestPoints =
       pieceIndexesOfHighestPoints[
-        randomly
+        isRandomly
           ? getRandomIndex(pieceIndexesOfHighestPoints.length)
           : START_INDEX
       ];
