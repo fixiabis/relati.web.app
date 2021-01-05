@@ -4,21 +4,31 @@ import {
   isPieceIndexRouteAvailable,
   PieceIndex,
   Route,
-} from '../../relati';
+} from '../../../relati';
+
+type ReadonlyRecord<K extends number | string | symbol, T> = Readonly<
+  Record<K, T>
+>;
 
 export type Keyframe<Piece> = {
   type: string;
-  pieces: readonly Piece[];
-  pieceIndexRoutesByPieceIndex: Readonly<
-    Record<PieceIndex, readonly Route<PieceIndex>[]>
-  >;
-  addedPieceIndexRoutesByPieceIndex: Readonly<
-    Record<PieceIndex, readonly Route<PieceIndex>[]>
-  >;
-  removedPieceIndexRoutesByPieceIndex: Readonly<
-    Record<PieceIndex, readonly Route<PieceIndex>[]>
-  >;
   duration: number;
+  pieces: readonly Piece[];
+
+  pieceIndexRoutesByPieceIndex: ReadonlyRecord<
+    PieceIndex,
+    readonly Route<PieceIndex>[]
+  >;
+
+  addedPieceIndexRoutesByPieceIndex: ReadonlyRecord<
+    PieceIndex,
+    readonly Route<PieceIndex>[]
+  >;
+
+  removedPieceIndexRoutesByPieceIndex: ReadonlyRecord<
+    PieceIndex,
+    readonly Route<PieceIndex>[]
+  >;
 };
 
 const getPieceIndexToPieceIndexRoutesMapByMutatePiecesToProvided = <
