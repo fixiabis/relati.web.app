@@ -3,18 +3,14 @@ import { Game, GameDefinition, GameRule, NO_WINNER } from '../../../../relati';
 import { DirectionRoutes } from '../../../../relati/values';
 import { Button, Container, Icon, useDialogState } from '../../../core';
 import { LightLeaveIconUrl, LightRetryIconUrl } from '../../../../icons';
-import { EffectBoardFor2PGame, EffectBoardFor2PGameProps } from '../../../game';
-
-import {
-  PieceFor2PGame as Piece,
-  PlayerFor2PGame as Player,
-  PLAYERS_COUNT_FOR_2P,
-} from '../../../game/definitions';
+import { BoardForGame, BoardForGameProps } from '../../../game';
 
 import { GameLayoutComponent } from '../index';
 import { GameLeaveDialog, GameOverDialog, GameRetryDialog } from '../dialogs';
 
-const playersCount = PLAYERS_COUNT_FOR_2P;
+type Player = number;
+type Piece = number;
+const playersCount = 2;
 
 const GameFor2PLayout: GameLayoutComponent = ({
   boardWidth,
@@ -72,10 +68,7 @@ const GameFor2PLayout: GameLayoutComponent = ({
   const handleRetry = canControlDirectly ? resetGame : openGameRetryDialog;
   const handleLeave = canControlDirectly ? emitLeave : openGameLeaveDialog;
 
-  const handleGridClick: EffectBoardFor2PGameProps['onGridClick'] = ({
-    x,
-    y,
-  }) => {
+  const handleGridClick: BoardForGameProps['onGridClick'] = ({ x, y }) => {
     const pieceIndex = definition.toPieceIndex([x, y]);
     const gameWithPiecePlaced = game.place(pieceIndex, playerOfTurn);
 
@@ -90,7 +83,7 @@ const GameFor2PLayout: GameLayoutComponent = ({
 
   return (
     <Container>
-      <EffectBoardFor2PGame
+      <BoardForGame
         game={game}
         prevGame={prevGame}
         pieceIndexesOfPlacement={pieceIndexesOfPlacement}
