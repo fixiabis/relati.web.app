@@ -39,7 +39,7 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
           playersCount,
           boardWidth,
           boardHeight,
-          DirectionRoutes['P8' /*  + portsCount */]
+          DirectionRoutes['P' + portsCount]
         ),
       [boardWidth, boardHeight, portsCount]
     );
