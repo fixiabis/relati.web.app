@@ -1,5 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import { Game, GameDefinition, GameRule, NO_WINNER } from '../../../../relati';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  EMPTY_PIECE,
+  Game,
+  GameDefinition,
+  GameRule,
+  NO_WINNER,
+} from '../../../../relati';
 import { DirectionRoutes } from '../../../../relati/values';
 import { Button, Container, Icon, useDialogState } from '../../../core';
 import { LightLeaveIconUrl, LightRetryIconUrl } from '../../../../icons';
@@ -53,6 +59,47 @@ const GameFor2PLayout: GameLayoutComponent = ({
     openGameRetryDialog,
     closeGameRetryDialog,
   ] = useDialogState(false);
+
+  useEffect(() => {
+    const { turn, pieces, producerPieceIndexes } = game;
+    const { pieceIndexes } = game.definition;
+
+    const {
+      isPieceIndexOfPlayerHasProvidablePieceIndexRoute,
+      getWinner,
+    } = game.rule;
+
+    const winner = getWinner(game);
+
+    if (turn < playersCount || winner !== NO_WINNER) {
+      return;
+    }
+
+    const playerOfTurn = turn % playersCount;
+
+    const hasPieceIndexOfPlayerPlaceable = pieceIndexes.some(
+      (pieceIndex) =>
+        pieces[pieceIndex] === EMPTY_PIECE &&
+        isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
+          pieces,
+          pieceIndex,
+          playerOfTurn
+        )
+    );
+
+    if (!hasPieceIndexOfPlayerPlaceable) {
+      const turnPassedGame = Game(
+        game.rule,
+        turn + 1,
+        pieces,
+        producerPieceIndexes
+      );
+
+      setGame(turnPassedGame);
+      setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, -1]);
+      setPrevGame(game);
+    }
+  }, [game]);
 
   const winner = game.rule.getWinner(game);
   const playerOfTurn = (game.turn % playersCount) as Player;

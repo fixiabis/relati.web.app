@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Game, GameDefinition, GameRule, NO_WINNER } from '../../../../relati';
+import {
+  EMPTY_PIECE,
+  Game,
+  GameDefinition,
+  GameRule,
+  NO_WINNER,
+} from '../../../../relati';
 import { DirectionRoutes } from '../../../../relati/values';
 
 import Thinker, {
   DeepThinking,
-  MaximumTerritoryBasedThinking,
+  MultiInfluencesBasedThinking,
 } from '../../../../relati/Thinker';
 
 import { Button, Container, Icon, useDialogState } from '../../../core';
@@ -33,17 +39,21 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
           playersCount,
           boardWidth,
           boardHeight,
-          DirectionRoutes['P' + portsCount]
+          DirectionRoutes['P8' /*  + portsCount */]
         ),
       [boardWidth, boardHeight, portsCount]
     );
 
     const thinker = useMemo(() => {
-      const maximumTerritoryBasedThinking = MaximumTerritoryBasedThinking(
+      const multiInfluencesBasedThinking = MultiInfluencesBasedThinking(
         definition
       );
 
-      const deepThinking = DeepThinking(maximumTerritoryBasedThinking, 2);
+      // const maximumTerritoryBasedThinking = MaximumTerritoryBasedThinking(
+      //   definition
+      // );
+
+      const deepThinking = DeepThinking(multiInfluencesBasedThinking, 1);
 
       const thinker = Thinker(deepThinking);
 
@@ -86,6 +96,47 @@ const GameFor1PLayoutBuilder: (player: Player) => GameLayoutComponent = (
           setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
           setPrevGame(game);
         }, 500);
+      }
+    }, [game]);
+
+    useEffect(() => {
+      const { turn, pieces, producerPieceIndexes } = game;
+      const { pieceIndexes } = game.definition;
+
+      const {
+        isPieceIndexOfPlayerHasProvidablePieceIndexRoute,
+        getWinner,
+      } = game.rule;
+
+      const winner = getWinner(game);
+
+      if (turn < playersCount || winner !== NO_WINNER) {
+        return;
+      }
+
+      const playerOfTurn = turn % playersCount;
+
+      const hasPieceIndexOfPlayerPlaceable = pieceIndexes.some(
+        (pieceIndex) =>
+          pieces[pieceIndex] === EMPTY_PIECE &&
+          isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
+            pieces,
+            pieceIndex,
+            playerOfTurn
+          )
+      );
+
+      if (!hasPieceIndexOfPlayerPlaceable) {
+        const turnPassedGame = Game(
+          game.rule,
+          turn + 1,
+          pieces,
+          producerPieceIndexes
+        );
+
+        setGame(turnPassedGame);
+        setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, -1]);
+        setPrevGame(game);
       }
     }, [game]);
 
