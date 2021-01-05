@@ -1,6 +1,5 @@
 import {
   START_INDEX,
-  FIRST_PLAYER,
   NoPlayer,
   PieceIndex,
   Route,
