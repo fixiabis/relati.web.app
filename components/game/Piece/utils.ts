@@ -15,8 +15,8 @@ export const ShapeColor = {
   '': '#ddd',
   O: 'crimson',
   X: 'royalblue',
-  D: 'seagreen',
-  U: 'darkorange',
+  D: 'darkorange',
+  U: 'seagreen',
   K: 'purple',
   N: '#888',
 };
