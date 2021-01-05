@@ -105,7 +105,7 @@ const EffectBoard: React.FC<EffectBoardProps> = ({
       const [x, y] = definition.toPieceCoordinate(pieceIndex);
       const dropped = pieceIndex === lastPieceIndexOfPlacement;
 
-      if (piece === EMPTY_PIECE && keyframes.length === 1) {
+      if (piece === EMPTY_PIECE) {
         const isPiecePlaceable = rule.isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
           game.pieces,
           pieceIndex,
