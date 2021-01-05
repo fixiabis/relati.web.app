@@ -158,8 +158,7 @@ const GameRule = <Player extends number, Piece extends number>(
     game: Game<Player, Piece>
   ): Player | NoPlayer | NoWinner => {
     const { turn, pieces } = game;
-
-    const playerOfTurn = game.turn % definition.playersCount;
+    const playerOfTurn = (turn % playersCount) as Player;
 
     let lastPlayerWhoHasPieceIndexPlaceable:
       | Player
@@ -170,14 +169,18 @@ const GameRule = <Player extends number, Piece extends number>(
       return NO_WINNER;
     }
 
-    for (let player = FIRST_PLAYER as Player; player < playersCount; player++) {
+    const nextTurnOfPlayer = turn + playersCount;
+
+    for (let passedTurn = turn; passedTurn < nextTurnOfPlayer; passedTurn++) {
+      const playerOfPassedTurn = (passedTurn % playersCount) as Player;
+
       const hasPieceIndexPlaceable = pieces.some(
         (_, pieceIndex) =>
           pieces[pieceIndex] === EMPTY_PIECE &&
           isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
             pieces,
             pieceIndex,
-            player
+            playerOfPassedTurn
           )
       );
 
@@ -186,7 +189,7 @@ const GameRule = <Player extends number, Piece extends number>(
           return NO_WINNER;
         }
 
-        lastPlayerWhoHasPieceIndexPlaceable = player;
+        lastPlayerWhoHasPieceIndexPlaceable = playerOfPassedTurn;
       }
     }
 
