@@ -1,15 +1,10 @@
-import React from 'react';
+import styled from '@emotion/styled';
+import * as styles from './styles';
 
-export type ContainerProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
->;
-
-const Container: React.FC<ContainerProps> = ({ className = '', ...props }) => (
-  <div
-    className={'flex-center container-filled' + (className && ` ${className}`)}
-    {...props}
-  />
-);
+const Container = styled.div({
+  width: '100%',
+  height: '100%',
+  ...styles.flexCenter,
+});
 
 export default Container;

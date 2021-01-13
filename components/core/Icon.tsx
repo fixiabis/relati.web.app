@@ -1,15 +1,9 @@
-import React from 'react';
+import { styled } from './utils';
 
-export type IconProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
-> & { url: string };
+export type IconProps = { url: string };
 
-const Icon: React.FC<IconProps> = ({ url, style, ...props }) => (
-  <div
-    style={{ width: 50, height: 50, backgroundImage: `url(${url})`, ...style }}
-    {...props}
-  />
-);
+const Icon = styled.div<IconProps>({ width: 50, height: 50 }, ({ url }) => ({
+  backgroundImage: `url(${url})`,
+}));
 
 export default Icon;

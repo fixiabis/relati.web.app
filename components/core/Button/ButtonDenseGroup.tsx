@@ -1,32 +1,25 @@
-import React, { Children } from 'react';
-import ButtonStyles from './Button.module.css';
+import styled from '@emotion/styled';
+import { Children } from 'react';
 
 const BUTTON_WIDTH = 60;
 const BUTTON_MARGINS = 10;
 
-export type ButtonDenseGroupProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
->;
+const ButtonDenseGroup = styled.div(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '10px',
+  },
+  ({ children }) => {
+    const buttonsCount = Children.count(children);
 
-const ButtonDenseGroup: React.FC<ButtonDenseGroupProps> = ({
-  className = '',
-  style = {},
-  ...props
-}) => {
-  const buttonsCount = Children.count(props.children);
-
-  const width =
-    buttonsCount * BUTTON_WIDTH +
-    BUTTON_MARGINS * Math.max(1, buttonsCount - 1);
-
-  return (
-    <div
-      className={ButtonStyles.ButtonDenseGroup + (className && ` ${className}`)}
-      style={{ width, ...style }}
-      {...props}
-    />
-  );
-};
+    return {
+      width:
+        buttonsCount * BUTTON_WIDTH +
+        BUTTON_MARGINS * Math.max(1, buttonsCount - 1),
+    };
+  }
+);
 
 export default ButtonDenseGroup;

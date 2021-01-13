@@ -1,20 +1,10 @@
-import React from 'react';
+import styled from '@emotion/styled';
+import * as styles from './styles';
 
-export type DescriptionProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
->;
-
-const Description: React.FC<DescriptionProps> = ({
-  className = '',
-  style = {},
-  ...props
-}) => (
-  <div
-    className={'flex-center' + (className && ` ${className}`)}
-    style={{ height: 90, padding: 10, ...style }}
-    {...props}
-  />
-);
+const Description = styled.div({
+  height: 90,
+  padding: 10,
+  ...styles.flexCenter,
+});
 
 export default Description;

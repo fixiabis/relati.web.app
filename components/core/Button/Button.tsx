@@ -1,25 +1,45 @@
-import React from 'react';
-import ButtonStyles from './Button.module.css';
+import { CSSObject } from '@emotion/styled';
+import { styled } from '../utils';
 import ButtonDenseGroup from './ButtonDenseGroup';
 import ButtonGroup from './ButtonGroup';
 
-export type ButtonProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
-> & { color?: React.CSSProperties['backgroundColor'] };
+export type ButtonProps = Pick<
+  CSSObject,
+  'backgroundColor' | 'color' | 'fontSize' | 'fontWeight'
+>;
 
-const Button: React.FC<ButtonProps> & {
-  Group: typeof ButtonGroup;
-  DenceGroup: typeof ButtonDenseGroup;
-} = ({ className = '', color, style, ...props }) => (
-  <div
-    className={ButtonStyles.Button + (className && ` ${className}`)}
-    style={{ backgroundColor: color, ...style }}
-    {...props}
-  />
+const ButtonNamespace = {
+  Group: ButtonGroup,
+  DenceGroup: ButtonDenseGroup,
+};
+
+const Button = styled.div<ButtonProps>(
+  {
+    userSelect: 'none',
+    color: '#f2f2f2',
+    width: '50px',
+    height: '50px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  {
+    ':hover': {
+      boxShadow: '#888 1px 1px 5px',
+    },
+    ':active': {
+      transition: 'all 0.5s',
+      transform: 'scale(0.8)',
+    }
+  },
+  ({ backgroundColor, color, fontSize, fontWeight }) => ({
+    backgroundColor,
+    color,
+    fontSize,
+    fontWeight,
+  })
 );
 
-Button.Group = ButtonGroup;
-Button.DenceGroup = ButtonDenseGroup;
-
-export default Button;
+export default Object.assign(Button, ButtonNamespace);
