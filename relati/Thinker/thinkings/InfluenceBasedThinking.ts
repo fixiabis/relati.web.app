@@ -44,20 +44,20 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     piecesCount,
     pieceIndexes,
     toPieceIndex,
-    toPieceCoordinate,
-    toMovedPieceCoordinate,
-    isPieceCoordinateValid,
+    toCoordinate,
+    toMovedCoordinate,
+    isCoordinateValid,
     isProvidableByPieceByPlayer,
   } = definition;
 
   const toNearbyPieceIndexes = (coordinate: Coordinate) =>
     nearbyDirections
-      .map(toMovedPieceCoordinate(coordinate))
-      .filter(isPieceCoordinateValid)
+      .map(toMovedCoordinate(coordinate))
+      .filter(isCoordinateValid)
       .map(toPieceIndex);
 
   const nearbyPieceIndexesByPieceIndex = pieceIndexes
-    .map(toPieceCoordinate)
+    .map(toCoordinate)
     .map(toNearbyPieceIndexes);
 
   const OVER_INFLUENCE_POINTS = piecesCount;

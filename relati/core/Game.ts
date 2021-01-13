@@ -42,7 +42,7 @@ const Game = <Player extends number, Piece extends number>(
 ): Game<Player, Piece> => {
   const {
     definition,
-    isPieceIndexOfPlayerHasProvidablePieceIndexRoute,
+    isPieceIndexHasProvidableRoute,
     mutatePiecesToConsumed,
     mutatePiecesToProvided,
   } = rule;
@@ -61,11 +61,7 @@ const Game = <Player extends number, Piece extends number>(
       const isPieceIndexPlaceable =
         player === playerOfTurn &&
         pieces[pieceIndex] === EMPTY_PIECE &&
-        isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
-          pieces,
-          pieceIndex,
-          player
-        );
+        isPieceIndexHasProvidableRoute(pieces, pieceIndex, player);
 
       if (isPieceIndexPlaceable) {
         const providerPiece = providerPieceByPlayer[player];

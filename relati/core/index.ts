@@ -5,7 +5,7 @@ export { default as Game } from './Game';
 
 export {
   default as GameRule,
-  isPieceIndexRouteAvailable,
+  isRouteAvailable,
   NO_PLAYER,
   NO_WINNER,
 } from './GameRule';

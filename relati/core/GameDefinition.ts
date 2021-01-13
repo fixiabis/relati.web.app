@@ -38,7 +38,7 @@ type GameDefinition<Player extends number, Piece extends number> = {
   readonly playerByPiece: ReadonlyRecord<Piece, Player | NoPlayer>;
 
   /** 各自棋子索引可用的棋子索引路徑(不含越界) */
-  readonly pieceIndexRoutesByPieceIndex: ReadonlyRecord<
+  readonly routesByPieceIndex: ReadonlyRecord<
     PieceIndex,
     readonly Route<PieceIndex>[]
   >;
@@ -87,31 +87,31 @@ type GameDefinition<Player extends number, Piece extends number> = {
    * @param pieceStatus 狀態
    * @param player 玩家
    */
-  readonly getPiece: (pieceStatus: PieceStatus, player: Player) => Piece;
+  readonly toPiece: (pieceStatus: PieceStatus, player: Player) => Piece;
 
   /**
    * 取得玩家
    * @param piece 棋子種類
    */
-  readonly toPiecePlayer: (piece: Piece) => Player | NoPlayer;
+  readonly getPlayer: (piece: Piece) => Player | NoPlayer;
 
   /**
    * 取得狀態
    * @param piece 棋子種類
    */
-  readonly toPieceStatus: (piece: Piece) => PieceStatus;
+  readonly getStatus: (piece: Piece) => PieceStatus;
 
   /**
    * 取得棋子座標
    * @param pieceIndex 棋子索引
    */
-  readonly toPieceCoordinate: (pieceIndex: PieceIndex) => Coordinate;
+  readonly toCoordinate: (pieceIndex: PieceIndex) => Coordinate;
 
   /**
    * 取得移動後的棋子座標
    * @param pieceIndex 棋子索引
    */
-  readonly toMovedPieceCoordinate: (
+  readonly toMovedCoordinate: (
     coordinate: Coordinate
   ) => (direction: Direction) => Coordinate;
 
@@ -126,7 +126,7 @@ type GameDefinition<Player extends number, Piece extends number> = {
    * 是否為合法索引
    * @param pieceIndex 棋子索引
    */
-  readonly isPieceCoordinateValid: (coordinate: Coordinate) => boolean;
+  readonly isCoordinateValid: (coordinate: Coordinate) => boolean;
 };
 
 const GameDefinition = <Player extends number, Piece extends number>(
@@ -141,13 +141,13 @@ const GameDefinition = <Player extends number, Piece extends number>(
   const pieceTypes = range<Piece>(pieceTypesCount);
   const pieceIndexes = range(piecesCount);
 
-  const getPiece = (pieceStatus: PieceStatus, player: Player) =>
+  const toPiece = (pieceStatus: PieceStatus, player: Player) =>
     (pieceStatus * playersCount + player + EMPTY_PIECE_COUNT) as Piece;
 
-  const toPiecePlayer = (piece: Piece) =>
+  const getPlayer = (piece: Piece) =>
     ((piece - EMPTY_PIECE_COUNT) % playersCount) as Player | NoPlayer;
 
-  const toPieceStatus = (piece: Piece) =>
+  const getStatus = (piece: Piece) =>
     piece
       ? ((((piece - EMPTY_PIECE_COUNT) / playersCount) | 0) as PieceStatus)
       : PieceStatus.Unknown;
@@ -156,10 +156,10 @@ const GameDefinition = <Player extends number, Piece extends number>(
 
   const toPieceY = (pieceIndex: PieceIndex) => (pieceIndex / boardWidth) | 0;
 
-  const toPieceCoordinate = (pieceIndex: PieceIndex) =>
+  const toCoordinate = (pieceIndex: PieceIndex) =>
     [toPieceX(pieceIndex), toPieceY(pieceIndex)] as Coordinate;
 
-  const toMovedPieceCoordinate = ([pieceX, pieceY]: Coordinate) => ([
+  const toMovedCoordinate = ([pieceX, pieceY]: Coordinate) => ([
     moveX,
     moveY,
   ]: Direction) => [pieceX + moveX, pieceY + moveY] as Coordinate;
@@ -167,46 +167,40 @@ const GameDefinition = <Player extends number, Piece extends number>(
   const toPieceIndex = ([pieceX, pieceY]: Coordinate) =>
     pieceY * boardWidth + pieceX;
 
-  const isPieceCoordinateValid = ([pieceX, pieceY]: Coordinate) =>
+  const isCoordinateValid = ([pieceX, pieceY]: Coordinate) =>
     pieceX >= START_X &&
     pieceX < boardWidth &&
     pieceY >= START_Y &&
     pieceY < boardHeight;
 
-  const playerByPiece = pieceTypes.map(toPiecePlayer);
+  const playerByPiece = pieceTypes.map(getPlayer);
 
-  const toPieceIndexRoute = (coordinate: Coordinate) => (
+  const toRoute = (coordinate: Coordinate) => (
     directionRoute: Route<Direction>
   ) => {
-    const pieceIndexRoute: Route<PieceIndex> = directionRoute
-      .map(toMovedPieceCoordinate(coordinate))
-      .filter(isPieceCoordinateValid)
+    const route: Route<PieceIndex> = directionRoute
+      .map(toMovedCoordinate(coordinate))
+      .filter(isCoordinateValid)
       .map(toPieceIndex);
 
-    const isPieceIndexRouteValid =
-      pieceIndexRoute.length === directionRoute.length;
+    const isRouteValid = route.length === directionRoute.length;
 
-    return isPieceIndexRouteValid ? pieceIndexRoute : [];
+    return isRouteValid ? route : [];
   };
 
-  const isPieceIndexRouteValid = (pieceIndexRoute: Route<PieceIndex>) =>
-    pieceIndexRoute.length > NO_LENGTH;
+  const isRouteValid = (route: Route<PieceIndex>) => route.length > NO_LENGTH;
 
-  const toPieceIndexRoutes = (coordinate: Coordinate) =>
-    directionRoutes
-      .map(toPieceIndexRoute(coordinate))
-      .filter(isPieceIndexRouteValid);
+  const toRoutes = (coordinate: Coordinate) =>
+    directionRoutes.map(toRoute(coordinate)).filter(isRouteValid);
 
-  const pieceIndexRoutesByPieceIndex = pieceIndexes
-    .map(toPieceCoordinate)
-    .map(toPieceIndexRoutes);
+  const routesByPieceIndex = pieceIndexes.map(toCoordinate).map(toRoutes);
 
   type PieceInfo = [Piece, PieceStatus, Player];
 
   const toPieceWithPieceStatusWithPlayer = (piece: Piece): PieceInfo => [
     piece,
-    toPieceStatus(piece),
-    toPiecePlayer(piece) as Player,
+    getStatus(piece),
+    getPlayer(piece) as Player,
   ];
 
   const toTargetPieceOnlySourcePiece = (
@@ -214,7 +208,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
     targetPieceStatus: PieceStatus
   ) => ([piece, pieceStatus, player]: PieceInfo) =>
     pieceStatus === sourcePieceStatus
-      ? getPiece(targetPieceStatus, player)
+      ? toPiece(targetPieceStatus, player)
       : piece;
 
   const toProvidedPiece = toTargetPieceOnlySourcePiece(
@@ -236,7 +230,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
     .map(toConsumedPiece);
 
   const toPieceByPlayer = (pieceStatus: PieceStatus) => (player: Player) =>
-    getPiece(pieceStatus, player);
+    toPiece(pieceStatus, player);
 
   const toProducerPiece = toPieceByPlayer(PieceStatus.Producer);
 
@@ -251,8 +245,8 @@ const GameDefinition = <Player extends number, Piece extends number>(
   const consumerPieceByPlayer = players.map(toConsumerPiece);
 
   const toIsProvidable = (player: Player) => {
-    const producerPiece = getPiece(PieceStatus.Producer, player);
-    const providerPiece = getPiece(PieceStatus.Provider, player);
+    const producerPiece = toPiece(PieceStatus.Producer, player);
+    const providerPiece = toPiece(PieceStatus.Provider, player);
     return (piece: Piece) => piece === producerPiece || piece === providerPiece;
   };
 
@@ -262,7 +256,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
   const isProvidableByPieceByPlayer = players.map(toPieceToIsProvidableMap);
 
   const toIsConsumable = (player: Player) => {
-    const consumerPiece = getPiece(PieceStatus.Consumer, player);
+    const consumerPiece = toPiece(PieceStatus.Consumer, player);
     return (piece: Piece) => piece === consumerPiece;
   };
 
@@ -271,7 +265,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
 
   const isConsumableByPieceByPlayer = players.map(toPieceToIsConsumableMap);
 
-  const pieceCoordinateByPieceIndex = pieceIndexes.map(toPieceCoordinate);
+  const pieceCoordinateByPieceIndex = pieceIndexes.map(toCoordinate);
 
   return {
     playersCount,
@@ -281,7 +275,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
     piecesCount,
     pieceTypesCount,
     playerByPiece,
-    pieceIndexRoutesByPieceIndex,
+    routesByPieceIndex,
     providedPieceByPiece,
     consumedPieceByPiece,
     producerPieceByPlayer,
@@ -293,13 +287,13 @@ const GameDefinition = <Player extends number, Piece extends number>(
     players,
     pieceTypes,
     pieceIndexes,
-    getPiece,
-    toPiecePlayer,
-    toPieceStatus,
-    toPieceCoordinate,
-    toMovedPieceCoordinate,
+    toPiece,
+    getPlayer,
+    getStatus,
+    toCoordinate,
+    toMovedCoordinate,
     toPieceIndex,
-    isPieceCoordinateValid,
+    isCoordinateValid,
   };
 };
 

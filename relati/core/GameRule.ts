@@ -41,7 +41,7 @@ type GameRule<Player extends number, Piece extends number> = {
    * @param pieceIndex 棋子索引
    * @param player 玩家
    */
-  readonly isPieceIndexOfPlayerHasProvidablePieceIndexRoute: (
+  readonly isPieceIndexHasProvidableRoute: (
     pieces: readonly Piece[],
     pieceIndex: PieceIndex,
     player: Player
@@ -59,18 +59,18 @@ type GameRule<Player extends number, Piece extends number> = {
 /**
  * 是否可用該棋子索引路徑
  * @param pieces 棋子
- * @param pieceIndexRoute 棋子索引路徑
+ * @param route 棋子索引路徑
  */
-export const isPieceIndexRouteAvailable = <Piece extends number>(
+export const isRouteAvailable = <Piece extends number>(
   pieces: readonly Piece[],
-  pieceIndexRoute: Route<PieceIndex>
+  route: Route<PieceIndex>
 ): boolean => {
   for (
-    let indexOfPieceIndexRoute = PIECE_INDEX_ROUTE_START_INDEX;
-    indexOfPieceIndexRoute < pieceIndexRoute.length;
-    indexOfPieceIndexRoute++
+    let indexOfRoute = PIECE_INDEX_ROUTE_START_INDEX;
+    indexOfRoute < route.length;
+    indexOfRoute++
   ) {
-    const pieceIndex = pieceIndexRoute[indexOfPieceIndexRoute];
+    const pieceIndex = route[indexOfRoute];
     const piece = pieces[pieceIndex];
 
     if (piece !== EMPTY_PIECE) {
@@ -90,7 +90,7 @@ const GameRule = <Player extends number, Piece extends number>(
     consumedPieceByPiece,
     playerByPiece,
     providerPieceByPlayer,
-    pieceIndexRoutesByPieceIndex,
+    routesByPieceIndex: routesByPieceIndex,
     isConsumableByPieceByPlayer,
     isProvidableByPieceByPlayer,
   } = definition;
@@ -110,18 +110,17 @@ const GameRule = <Player extends number, Piece extends number>(
       const piece = pieces[pieceIndex];
       const player = playerByPiece[piece] as Player;
       const providerPiece = providerPieceByPlayer[player];
-      const pieceIndexRoutes = pieceIndexRoutesByPieceIndex[pieceIndex];
+      const routes = routesByPieceIndex[pieceIndex];
       const isConsumableByPiece = isConsumableByPieceByPlayer[player];
 
-      for (const pieceIndexRoute of pieceIndexRoutes) {
-        const [pieceIndex] = pieceIndexRoute;
+      for (const route of routes) {
+        const [pieceIndex] = route;
         const piece = pieces[pieceIndex];
 
-        const isPieceIndexRouteConsumable =
-          isConsumableByPiece[piece] &&
-          isPieceIndexRouteAvailable<Piece>(pieces, pieceIndexRoute);
+        const isRouteConsumable =
+          isConsumableByPiece[piece] && isRouteAvailable<Piece>(pieces, route);
 
-        if (isPieceIndexRouteConsumable) {
+        if (isRouteConsumable) {
           pieces[pieceIndex] = providerPiece;
           providerPieceIndexes.push(pieceIndex);
         }
@@ -129,23 +128,22 @@ const GameRule = <Player extends number, Piece extends number>(
     }
   };
 
-  const isPieceIndexOfPlayerHasProvidablePieceIndexRoute = (
+  const isPieceIndexHasProvidableRoute = (
     pieces: readonly Piece[],
     pieceIndex: PieceIndex,
     player: Player
   ): boolean => {
     const isProvidableByPiece = isProvidableByPieceByPlayer[player];
-    const pieceIndexRoutes = pieceIndexRoutesByPieceIndex[pieceIndex];
+    const routes = routesByPieceIndex[pieceIndex];
 
-    for (const pieceIndexRoute of pieceIndexRoutes) {
-      const [pieceIndex] = pieceIndexRoute;
+    for (const route of routes) {
+      const [pieceIndex] = route;
       const piece = pieces[pieceIndex];
 
-      const isPieceIndexRouteProvidable =
-        isProvidableByPiece[piece] &&
-        isPieceIndexRouteAvailable<Piece>(pieces, pieceIndexRoute);
+      const isRouteProvidable =
+        isProvidableByPiece[piece] && isRouteAvailable<Piece>(pieces, route);
 
-      if (isPieceIndexRouteProvidable) {
+      if (isRouteProvidable) {
         return true;
       }
     }
@@ -176,11 +174,7 @@ const GameRule = <Player extends number, Piece extends number>(
       const hasPieceIndexPlaceable = pieces.some(
         (_, pieceIndex) =>
           pieces[pieceIndex] === EMPTY_PIECE &&
-          isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
-            pieces,
-            pieceIndex,
-            playerOfPassedTurn
-          )
+          isPieceIndexHasProvidableRoute(pieces, pieceIndex, playerOfPassedTurn)
       );
 
       if (hasPieceIndexPlaceable) {
@@ -203,7 +197,7 @@ const GameRule = <Player extends number, Piece extends number>(
     definition,
     mutatePiecesToConsumed,
     mutatePiecesToProvided,
-    isPieceIndexOfPlayerHasProvidablePieceIndexRoute,
+    isPieceIndexHasProvidableRoute,
     getWinner,
   };
 };
