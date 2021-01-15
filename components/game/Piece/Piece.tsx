@@ -1,8 +1,18 @@
 import React from 'react';
-import { ShapePath } from './utils';
-import PieceStyles from './Piece.module.css';
 
-export type PieceProps = Omit<React.SVGProps<SVGPathElement>, 'style'> & {
+import {
+  BouncingPiece,
+  DroppedBouncingPiece,
+  DroppedEmphasizedPiece,
+  DroppedFlickeringPiece,
+  DroppedPiece,
+  EmphasizedPiece,
+  FlickeringPiece,
+} from './elements';
+
+import { ShapePath } from './utils';
+
+export type PieceProps = {
   x: number;
   y: number;
   shape?: '' | '.' | '#' | 'O' | 'X' | 'D' | 'U' | 'N' | 'K';
@@ -12,7 +22,6 @@ export type PieceProps = Omit<React.SVGProps<SVGPathElement>, 'style'> & {
   bouncing?: boolean;
   flickering?: boolean;
   emphasized?: boolean;
-  pathStyle?: React.SVGProps<SVGPathElement>['style'];
 };
 
 const Piece: React.FC<PieceProps> = ({
@@ -25,9 +34,6 @@ const Piece: React.FC<PieceProps> = ({
   bouncing: isBouncing = false,
   flickering: isFlickering = false,
   emphasized: isEmphasized = false,
-  className = '',
-  pathStyle: style = {},
-  ...props
 }) => {
   if (shape === '') {
     return <></>;
@@ -35,45 +41,39 @@ const Piece: React.FC<PieceProps> = ({
 
   const path = `M ${x * 5} ${y * 5} ${ShapePath[shape]}`;
 
-  {
-    className =
-      (className && ` ${className}`) +
-      (isDropped
-        ? isEmphasized
-          ? PieceStyles.DroppedEmphasizedPiece
-          : isFlickering
-          ? PieceStyles.DroppedFlickeringPiece
-          : isBouncing
-          ? PieceStyles.DroppedBouncingPiece
-          : PieceStyles.DroppedPiece
-        : isEmphasized
-        ? PieceStyles.EmphasizedPiece
-        : isFlickering
-        ? PieceStyles.FlickeringPiece
-        : isBouncing
-        ? PieceStyles.BouncingPiece
-        : '');
+  const PieceBase = isDropped
+    ? isEmphasized
+      ? DroppedEmphasizedPiece
+      : isFlickering
+      ? DroppedFlickeringPiece
+      : isBouncing
+      ? DroppedBouncingPiece
+      : DroppedPiece
+    : isEmphasized
+    ? EmphasizedPiece
+    : isFlickering
+    ? FlickeringPiece
+    : isBouncing
+    ? BouncingPiece
+    : 'path';
 
-    style = { transformOrigin: `${x * 5}px ${y * 5}px`, ...style };
+  const style = { transformOrigin: `${x * 5}px ${y * 5}px` };
 
-    color =
-      pieceStyle === 'gray' ? '#888' : pieceStyle === 'light' ? '#ddd' : color;
-  }
+  color =
+    pieceStyle === 'gray' ? '#888' : pieceStyle === 'light' ? '#ddd' : color;
 
   if (shape === '.') {
-    return <path d={path} fill={color} className={className} style={style} />;
+    return <PieceBase d={path} fill={color} style={style} />;
   }
 
   if (shape === '#') {
     return (
-      <path
+      <PieceBase
         d={path}
         fill="none"
         stroke={color}
         strokeWidth="0.4"
-        className={className}
         style={style}
-        {...props}
       />
     );
   }
@@ -82,61 +82,50 @@ const Piece: React.FC<PieceProps> = ({
     if (isEmphasized) {
       return (
         <>
-          <path
+          <PieceBase
             d={path}
             fill="none"
             stroke={color}
             strokeWidth="1"
             opacity="0.4"
-            className={className}
             style={style}
-            {...props}
           />
-          <path
+          <PieceBase
             d={path}
             fill="none"
             stroke={color}
             strokeWidth="0.6"
-            className={className}
             style={style}
-            {...props}
           />
         </>
       );
     } else {
       return (
-        <path
+        <PieceBase
           d={path}
           fill="none"
           stroke={color}
           strokeWidth="0.6"
-          className={className}
           style={style}
-          {...props}
         />
       );
     }
   } else {
     return (
       <>
-        <path
+        <PieceBase
           d={path}
           fill="none"
           stroke={color}
           strokeWidth="1"
-          className={className}
           style={style}
-          {...props}
         />
-
-        <path
+        <PieceBase
           d={path}
           fill="none"
           stroke="#f2f2f2"
           strokeWidth="0.5"
-          className={className}
           style={style}
-          {...props}
         />
       </>
     );

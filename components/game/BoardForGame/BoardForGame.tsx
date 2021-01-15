@@ -78,13 +78,13 @@ const Board: React.FC<BoardProps> = ({
     boardHeight,
     playerByPiece,
     pieceCoordinateByPieceIndex,
-    toPieceStatus,
+    getStatus: toPieceStatus,
   } = definition;
 
   const toPieceCoordinate = (pieceIndex: PieceIndex) =>
     pieceCoordinateByPieceIndex[pieceIndex];
 
-  const { isPieceIndexOfPlayerHasProvidablePieceIndexRoute } = rule;
+  const { isPieceIndexHasProvidableRoute } = rule;
   const playerOfTurn = (game.turn % playersCount) as Player;
   const [lastPieceIndexOfPlacement] = pieceIndexesOfPlacement.slice(-1);
 
@@ -99,7 +99,7 @@ const Board: React.FC<BoardProps> = ({
       const shape = shapeByPlayer[playerOfTurn];
       const color = ShapeColor[shape];
 
-      const isPiecePlaceable = isPieceIndexOfPlayerHasProvidablePieceIndexRoute(
+      const isPiecePlaceable = isPieceIndexHasProvidableRoute(
         game.pieces,
         pieceIndex,
         playerOfTurn
@@ -137,32 +137,29 @@ const Board: React.FC<BoardProps> = ({
       </BoardBase>
     );
   } else {
-    const toUnchangedPieceIndexRoutes = (
-      pieceIndexRoutes: PieceIndex[][],
+    const toUnchangedRoutes = (
+      routes: PieceIndex[][],
       pieceIndex: PieceIndex
     ) =>
-      pieceIndexRoutes
-        .map((pieceIndexRoute) => [...pieceIndexRoute, pieceIndex])
-        .map((pieceIndexRoute) => (
+      routes
+        .map((route) => [...route, pieceIndex])
+        .map((route) => (
           <Route
-            key={pieceIndexRoute.join('-')}
-            coordinates={pieceIndexRoute.map(toPieceCoordinate)}
+            key={route.join('-')}
+            coordinates={route.map(toPieceCoordinate)}
             color={colorByPiece(game.pieces[pieceIndex])}
-            opacity={0.1}
+            opacity={0.2}
             reversed
           />
         ));
 
-    const toAddedPieceIndexRoutes = (
-      pieceIndexRoutes: PieceIndex[][],
-      pieceIndex: PieceIndex
-    ) =>
-      pieceIndexRoutes
-        .map((pieceIndexRoute) => [...pieceIndexRoute, pieceIndex])
-        .map((pieceIndexRoute) => (
+    const toAddedRoutes = (routes: PieceIndex[][], pieceIndex: PieceIndex) =>
+      routes
+        .map((route) => [...route, pieceIndex])
+        .map((route) => (
           <Route
-            key={pieceIndexRoute.join('-')}
-            coordinates={pieceIndexRoute.map(toPieceCoordinate)}
+            key={route.join('-')}
+            coordinates={route.map(toPieceCoordinate)}
             color={colorByPiece(game.pieces[pieceIndex])}
             opacity={0.4}
             reversed
@@ -170,16 +167,13 @@ const Board: React.FC<BoardProps> = ({
           />
         ));
 
-    const toRemovedPieceIndexRoutes = (
-      pieceIndexRoutes: PieceIndex[][],
-      pieceIndex: PieceIndex
-    ) =>
-      pieceIndexRoutes
-        .map((pieceIndexRoute) => [...pieceIndexRoute, pieceIndex])
-        .map((pieceIndexRoute) => (
+    const toRemovedRoutes = (routes: PieceIndex[][], pieceIndex: PieceIndex) =>
+      routes
+        .map((route) => [...route, pieceIndex])
+        .map((route) => (
           <Route
-            key={pieceIndexRoute.join('-')}
-            coordinates={pieceIndexRoute.map(toPieceCoordinate)}
+            key={route.join('-')}
+            coordinates={route.map(toPieceCoordinate)}
             color={colorByPiece(game.pieces[pieceIndex])}
             opacity={0.4}
             reversed
@@ -190,14 +184,14 @@ const Board: React.FC<BoardProps> = ({
     return (
       <BoardBase width={boardWidth} height={boardHeight} {...props}>
         <g className="effect-lines">
-          {(keyframe.pieceIndexRoutesByPieceIndex as PieceIndex[][][]).map(
-            toUnchangedPieceIndexRoutes
+          {(keyframe.routesByPieceIndex as PieceIndex[][][]).map(
+            toUnchangedRoutes
           )}
-          {(keyframe.addedPieceIndexRoutesByPieceIndex as PieceIndex[][][]).map(
-            toAddedPieceIndexRoutes
+          {(keyframe.addedRoutesByPieceIndex as PieceIndex[][][]).map(
+            toAddedRoutes
           )}
-          {(keyframe.removedPieceIndexRoutesByPieceIndex as PieceIndex[][][]).map(
-            toRemovedPieceIndexRoutes
+          {(keyframe.removedRoutesByPieceIndex as PieceIndex[][][]).map(
+            toRemovedRoutes
           )}
         </g>
         <g className="pieces">{keyframe.pieces.map(toPieceElement)}</g>

@@ -1,28 +1,35 @@
+import { CSSObject } from '@emotion/styled';
 import React, { useRef, useEffect, useMemo } from 'react';
-
-import BoardStyles from './board.module.css';
+import { styled } from '../../core';
+import BoardContainer from './BoardContainer';
 
 export type CoordinateObject = { x: number; y: number };
 
-export type BoardProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
-> & {
+export type BoardProps = {
   width: number;
   height: number;
-  containerClassName?: string;
   onGridClick?: ({ x, y }: CoordinateObject) => void;
 };
+
+const style: CSSObject = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+};
+
+const BoardBase = styled.div<BoardProps>(style, ({ width, height }) => ({
+  width: width * 5,
+  height: height * 5,
+}));
+
+const unclickable: React.CSSProperties = { pointerEvents: 'none' };
 
 const Board: React.FC<BoardProps> = ({
   width,
   height,
-  children,
-  className = '',
-  containerClassName = '',
   onGridClick: emitGridClick,
-  style,
-  ...props
+  children,
 }) => {
   const viewWidth = width * 5;
   const viewHeight = height * 5;
@@ -64,26 +71,20 @@ const Board: React.FC<BoardProps> = ({
     const { offsetX, offsetY } = nativeEvent;
     const x = (offsetX / 5) | 0;
     const y = (offsetY / 5) | 0;
-    emitGridClick?.({ x, y });
+    emitGridClick && emitGridClick({ x, y });
   };
 
   return (
-    <div ref={containerRef} className={BoardStyles.boardContainer}>
-      <div
-        ref={ref}
-        className={BoardStyles.board + (className && ` ${className}`)}
-        style={{ width: viewWidth, height: viewHeight, ...style }}
-        onClick={handleClick}
-        {...props}
-      >
-        <svg width={viewWidth} height={viewHeight}>
+    <BoardContainer ref={containerRef}>
+      <BoardBase ref={ref} width={width} height={height} onClick={handleClick}>
+        <svg width={viewWidth} height={viewHeight} style={unclickable}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">
             {gridLines}
           </g>
         </svg>
-      </div>
-    </div>
+      </BoardBase>
+    </BoardContainer>
   );
 };
 

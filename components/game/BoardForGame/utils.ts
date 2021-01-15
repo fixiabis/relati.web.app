@@ -1,7 +1,7 @@
 import {
   Game,
   GameRule,
-  isPieceIndexRouteAvailable,
+  isRouteAvailable,
   PieceIndex,
   Route,
 } from '../../../relati';
@@ -15,23 +15,23 @@ export type Keyframe<Piece> = {
   duration: number;
   pieces: readonly Piece[];
 
-  pieceIndexRoutesByPieceIndex: ReadonlyRecord<
+  routesByPieceIndex: ReadonlyRecord<
     PieceIndex,
     readonly Route<PieceIndex>[]
   >;
 
-  addedPieceIndexRoutesByPieceIndex: ReadonlyRecord<
+  addedRoutesByPieceIndex: ReadonlyRecord<
     PieceIndex,
     readonly Route<PieceIndex>[]
   >;
 
-  removedPieceIndexRoutesByPieceIndex: ReadonlyRecord<
+  removedRoutesByPieceIndex: ReadonlyRecord<
     PieceIndex,
     readonly Route<PieceIndex>[]
   >;
 };
 
-const getPieceIndexToPieceIndexRoutesMapByMutatePiecesToProvided = <
+const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
   Player extends number,
   Piece extends number
 >(
@@ -43,11 +43,11 @@ const getPieceIndexToPieceIndexRoutesMapByMutatePiecesToProvided = <
     pieceIndexes,
     playerByPiece,
     providerPieceByPlayer,
-    pieceIndexRoutesByPieceIndex,
+    routesByPieceIndex: routesByPieceIndex,
     isConsumableByPieceByPlayer,
   } = rule.definition;
 
-  const pieceIndexToPieceIndexRoutes: Record<
+  const pieceIndexToRoutes: Record<
     PieceIndex,
     readonly Route<PieceIndex>[]
   > = pieceIndexes.map(() => []);
@@ -56,29 +56,29 @@ const getPieceIndexToPieceIndexRoutesMapByMutatePiecesToProvided = <
     const piece = pieces[pieceIndex];
     const player = playerByPiece[piece] as Player;
     const providerPiece = providerPieceByPlayer[player];
-    const pieceIndexRoutes = pieceIndexRoutesByPieceIndex[pieceIndex];
+    const routes = routesByPieceIndex[pieceIndex];
     const isConsumableByPiece = isConsumableByPieceByPlayer[player];
-    const providedPieceIndexRoutes: Route<PieceIndex>[] = [];
+    const providedRoutes: Route<PieceIndex>[] = [];
 
-    for (const pieceIndexRoute of pieceIndexRoutes) {
-      const [pieceIndex] = pieceIndexRoute;
+    for (const route of routes) {
+      const [pieceIndex] = route;
       const piece = pieces[pieceIndex];
 
-      const isPieceIndexRouteConsumable =
+      const isRouteConsumable =
         isConsumableByPiece[piece] &&
-        isPieceIndexRouteAvailable<Piece>(pieces, pieceIndexRoute);
+        isRouteAvailable<Piece>(pieces, route);
 
-      if (isPieceIndexRouteConsumable) {
+      if (isRouteConsumable) {
         pieces[pieceIndex] = providerPiece;
         providerPieceIndexes.push(pieceIndex);
-        providedPieceIndexRoutes.push(pieceIndexRoute);
+        providedRoutes.push(route);
       }
     }
 
-    pieceIndexToPieceIndexRoutes[pieceIndex] = providedPieceIndexRoutes;
+    pieceIndexToRoutes[pieceIndex] = providedRoutes;
   }
 
-  return pieceIndexToPieceIndexRoutes;
+  return pieceIndexToRoutes;
 };
 
 export const getKeyframesOfEffect = <
@@ -99,13 +99,13 @@ export const getKeyframesOfEffect = <
   prevGame.rule.mutatePiecesToConsumed(prevPieces);
   game.rule.mutatePiecesToConsumed(pieces);
 
-  const prevPieceIndexRoutesByPieceIndex = getPieceIndexToPieceIndexRoutesMapByMutatePiecesToProvided(
+  const prevRoutesByPieceIndex = getPieceIndexToRoutesMapByMutatePiecesToProvided(
     prevPieces,
     prevProviderPieceIndexes,
     prevGame.rule
   );
 
-  const pieceIndexRoutesByPieceIndex = getPieceIndexToPieceIndexRoutesMapByMutatePiecesToProvided(
+  const routesByPieceIndex = getPieceIndexToRoutesMapByMutatePiecesToProvided(
     pieces,
     providerPieceIndexes,
     game.rule
@@ -122,55 +122,55 @@ export const getKeyframesOfEffect = <
   const prevPieceIndexesOfSteps: PieceIndex[][] = [[]];
   const pieceIndexesOfSteps: PieceIndex[][] = [[]];
 
-  const unchangedPieceIndexRoutesByPieceIndex: Record<
+  const unchangedRoutesByPieceIndex: Record<
     PieceIndex,
     readonly Route<PieceIndex>[]
   > = [];
 
-  const addedPieceIndexRoutesByPieceIndex: Record<
+  const addedRoutesByPieceIndex: Record<
     PieceIndex,
     readonly Route<PieceIndex>[]
   > = [];
 
-  const removedPieceIndexRoutesByPieceIndex: Record<
+  const removedRoutesByPieceIndex: Record<
     PieceIndex,
     readonly Route<PieceIndex>[]
   > = [];
 
   for (const pieceIndex of pieceIndexes) {
-    const prevPieceIndexRoutes = prevPieceIndexRoutesByPieceIndex[pieceIndex];
-    const pieceIndexRoutes = pieceIndexRoutesByPieceIndex[pieceIndex];
+    const prevRoutes = prevRoutesByPieceIndex[pieceIndex];
+    const routes = routesByPieceIndex[pieceIndex];
 
-    const isPieceIndexRouteInPrevPieceIndexRoutes = (
-      pieceIndexRoute: Route<PieceIndex>
-    ) => prevPieceIndexRoutes.includes(pieceIndexRoute);
+    const isRouteInPrevRoutes = (
+      route: Route<PieceIndex>
+    ) => prevRoutes.includes(route);
 
-    const isPieceIndexRouteNotInPrevPieceIndexRoutes = (
-      pieceIndexRoute: Route<PieceIndex>
-    ) => !prevPieceIndexRoutes.includes(pieceIndexRoute);
+    const isRouteNotInPrevRoutes = (
+      route: Route<PieceIndex>
+    ) => !prevRoutes.includes(route);
 
-    const isPieceIndexRouteNotInPieceIndexRoutes = (
-      pieceIndexRoute: Route<PieceIndex>
-    ) => !pieceIndexRoutes.includes(pieceIndexRoute);
+    const isRouteNotInRoutes = (
+      route: Route<PieceIndex>
+    ) => !routes.includes(route);
 
-    const unchangedPieceIndexRoutes = pieceIndexRoutes.filter(
-      isPieceIndexRouteInPrevPieceIndexRoutes
+    const unchangedRoutes = routes.filter(
+      isRouteInPrevRoutes
     );
 
-    const addedPieceIndexRoutes = pieceIndexRoutes.filter(
-      isPieceIndexRouteNotInPrevPieceIndexRoutes
+    const addedRoutes = routes.filter(
+      isRouteNotInPrevRoutes
     );
 
-    const removedPieceIndexRoutes = prevPieceIndexRoutes.filter(
-      isPieceIndexRouteNotInPieceIndexRoutes
+    const removedRoutes = prevRoutes.filter(
+      isRouteNotInRoutes
     );
 
-    unchangedPieceIndexRoutesByPieceIndex[
+    unchangedRoutesByPieceIndex[
       pieceIndex
-    ] = unchangedPieceIndexRoutes;
+    ] = unchangedRoutes;
 
-    addedPieceIndexRoutesByPieceIndex[pieceIndex] = addedPieceIndexRoutes;
-    removedPieceIndexRoutesByPieceIndex[pieceIndex] = removedPieceIndexRoutes;
+    addedRoutesByPieceIndex[pieceIndex] = addedRoutes;
+    removedRoutesByPieceIndex[pieceIndex] = removedRoutes;
   }
 
   for (const pieceIndex of prevGame.producerPieceIndexes) {
@@ -185,10 +185,10 @@ export const getKeyframesOfEffect = <
 
   for (const pieceIndex of prevProviderPieceIndexes) {
     const step = prevStepByPieceIndex[pieceIndex] + 1;
-    const pieceIndexRoutes = prevPieceIndexRoutesByPieceIndex[pieceIndex];
+    const routes = prevRoutesByPieceIndex[pieceIndex];
     prevPieceIndexesOfSteps[step] = prevPieceIndexesOfSteps[step] || [];
 
-    for (const [pieceIndex] of pieceIndexRoutes) {
+    for (const [pieceIndex] of routes) {
       prevStepByPieceIndex[pieceIndex] = step;
       prevPieceIndexesOfSteps[step].push(pieceIndex);
     }
@@ -196,10 +196,10 @@ export const getKeyframesOfEffect = <
 
   for (const pieceIndex of providerPieceIndexes) {
     const step = stepByPieceIndex[pieceIndex] + 1;
-    const pieceIndexRoutes = pieceIndexRoutesByPieceIndex[pieceIndex];
+    const routes = routesByPieceIndex[pieceIndex];
     pieceIndexesOfSteps[step] = pieceIndexesOfSteps[step] || [];
 
-    for (const [pieceIndex] of pieceIndexRoutes) {
+    for (const [pieceIndex] of routes) {
       stepByPieceIndex[pieceIndex] = step;
       pieceIndexesOfSteps[step].push(pieceIndex);
     }
@@ -219,11 +219,11 @@ export const getKeyframesOfEffect = <
       pieces: prevGame.pieces.map((piece, pieceIndex) =>
         piece ? piece : game.pieces[pieceIndex]
       ),
-      pieceIndexRoutesByPieceIndex: prevPieceIndexRoutesByPieceIndex,
-      addedPieceIndexRoutesByPieceIndex: (prevPieceIndexRoutesByPieceIndex as PieceIndex[][][]).map(
+      routesByPieceIndex: prevRoutesByPieceIndex,
+      addedRoutesByPieceIndex: (prevRoutesByPieceIndex as PieceIndex[][][]).map(
         () => []
       ),
-      removedPieceIndexRoutesByPieceIndex: (prevPieceIndexRoutesByPieceIndex as PieceIndex[][][]).map(
+      removedRoutesByPieceIndex: (prevRoutesByPieceIndex as PieceIndex[][][]).map(
         () => []
       ),
       duration: 0,
@@ -284,48 +284,48 @@ export const getKeyframesOfEffect = <
     if (unchangedAndAddedPieceIndexes.length > 0) {
       const keyframe = keyframes[keyframes.length - 1];
 
-      const pieceIndexRoutesByPieceIndex = [
-        ...(keyframe.pieceIndexRoutesByPieceIndex as (readonly Route<PieceIndex>[])[]),
+      const routesByPieceIndex = [
+        ...(keyframe.routesByPieceIndex as (readonly Route<PieceIndex>[])[]),
       ];
 
-      const addedPieceIndexRoutesByPieceIndexOfKeyframe = [
-        ...(keyframe.addedPieceIndexRoutesByPieceIndex as (readonly Route<PieceIndex>[])[]),
+      const addedRoutesByPieceIndexOfKeyframe = [
+        ...(keyframe.addedRoutesByPieceIndex as (readonly Route<PieceIndex>[])[]),
       ];
 
-      let hasPieceIndexRouteAdded = false;
+      let hasRouteAdded = false;
 
       for (const pieceIndex of unchangedAndAddedPieceIndexes) {
-        const addedPieceIndexRoutes =
-          addedPieceIndexRoutesByPieceIndex[pieceIndex];
+        const addedRoutes =
+          addedRoutesByPieceIndex[pieceIndex];
 
-        if (addedPieceIndexRoutes.length > 0) {
-          hasPieceIndexRouteAdded = true;
+        if (addedRoutes.length > 0) {
+          hasRouteAdded = true;
 
-          addedPieceIndexRoutesByPieceIndexOfKeyframe[
+          addedRoutesByPieceIndexOfKeyframe[
             pieceIndex
-          ] = addedPieceIndexRoutes;
+          ] = addedRoutes;
         }
       }
 
-      if (hasPieceIndexRouteAdded) {
+      if (hasRouteAdded) {
         keyframes.push({
           ...keyframe,
           type: 'added-routes',
-          pieceIndexRoutesByPieceIndex,
-          addedPieceIndexRoutesByPieceIndex: addedPieceIndexRoutesByPieceIndexOfKeyframe,
+          routesByPieceIndex,
+          addedRoutesByPieceIndex: addedRoutesByPieceIndexOfKeyframe,
           duration: 500,
         });
 
         keyframes.push({
           ...keyframe,
           type: 'added-routes to routes',
-          pieceIndexRoutesByPieceIndex: pieceIndexRoutesByPieceIndex.map(
-            (pieceIndexRoutes, pieceIndex) =>
-              pieceIndexRoutes.concat(
-                addedPieceIndexRoutesByPieceIndexOfKeyframe[pieceIndex]
+          routesByPieceIndex: routesByPieceIndex.map(
+            (routes, pieceIndex) =>
+              routes.concat(
+                addedRoutesByPieceIndexOfKeyframe[pieceIndex]
               )
           ),
-          addedPieceIndexRoutesByPieceIndex: addedPieceIndexRoutesByPieceIndexOfKeyframe.map(
+          addedRoutesByPieceIndex: addedRoutesByPieceIndexOfKeyframe.map(
             () => []
           ),
           duration: 0,
@@ -352,42 +352,42 @@ export const getKeyframesOfEffect = <
     if (unchangedAndRemovedPieceIndexes.length > 0) {
       const keyframe = keyframes[keyframes.length - 1];
 
-      const pieceIndexRoutesByPieceIndex = [
-        ...(keyframe.pieceIndexRoutesByPieceIndex as (readonly Route<PieceIndex>[])[]),
+      const routesByPieceIndex = [
+        ...(keyframe.routesByPieceIndex as (readonly Route<PieceIndex>[])[]),
       ];
 
-      const removedPieceIndexRoutesByPieceIndexOfKeyframe = [
-        ...(keyframe.removedPieceIndexRoutesByPieceIndex as (readonly Route<PieceIndex>[])[]),
+      const removedRoutesByPieceIndexOfKeyframe = [
+        ...(keyframe.removedRoutesByPieceIndex as (readonly Route<PieceIndex>[])[]),
       ];
 
-      let hasPieceIndexRouteRemoved = false;
+      let hasRouteRemoved = false;
 
       for (const pieceIndex of unchangedAndRemovedPieceIndexes) {
-        const removedPieceIndexRoutes =
-          removedPieceIndexRoutesByPieceIndex[pieceIndex];
+        const removedRoutes =
+          removedRoutesByPieceIndex[pieceIndex];
 
-        if (removedPieceIndexRoutes.length > 0) {
-          hasPieceIndexRouteRemoved = true;
+        if (removedRoutes.length > 0) {
+          hasRouteRemoved = true;
 
-          removedPieceIndexRoutesByPieceIndexOfKeyframe[
+          removedRoutesByPieceIndexOfKeyframe[
             pieceIndex
-          ] = removedPieceIndexRoutes;
+          ] = removedRoutes;
 
-          pieceIndexRoutesByPieceIndex[
+          routesByPieceIndex[
             pieceIndex
-          ] = pieceIndexRoutesByPieceIndex[pieceIndex].filter(
-            (pieceIndexRoute) =>
-              !removedPieceIndexRoutes.includes(pieceIndexRoute)
+          ] = routesByPieceIndex[pieceIndex].filter(
+            (route) =>
+              !removedRoutes.includes(route)
           );
         }
       }
 
-      if (hasPieceIndexRouteRemoved) {
+      if (hasRouteRemoved) {
         keyframes.push({
           ...keyframe,
           type: 'removed-routes',
-          pieceIndexRoutesByPieceIndex,
-          removedPieceIndexRoutesByPieceIndex: removedPieceIndexRoutesByPieceIndexOfKeyframe,
+          routesByPieceIndex,
+          removedRoutesByPieceIndex: removedRoutesByPieceIndexOfKeyframe,
           duration: 500,
         });
       }

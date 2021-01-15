@@ -6,10 +6,10 @@ import {
   PlayerNIconUrl,
   PlayerOIconUrl,
   PlayerXIconUrl,
-} from '../../../../icons';
+} from '../../../icons';
 
-import { NoPlayer, NoWinner, NO_WINNER } from '../../../../relati';
-import { Button, Description, Dialog, DialogProps, Icon } from '../../../core';
+import { NoPlayer, NoWinner, NO_WINNER } from '../../../relati';
+import { Button, Description, Dialog, PopupProps, Icon } from '../../core';
 
 const iconUrlByWinner: Record<number, string> = {
   [-1]: PlayerNIconUrl,
@@ -23,7 +23,7 @@ const messageByWinner: Record<number, string> = {
   1: 'X方玩家獲勝！',
 };
 
-export type GameOverDialogProps = DialogProps & {
+export type GameOverDialogProps = PopupProps & {
   winner: number | NoPlayer | NoWinner;
   onRetry: () => void;
   onLeave: () => void;
@@ -46,10 +46,10 @@ const GameOverDialog: React.FC<GameOverDialogProps> = ({
         {message}
       </Description>
       <Button.Group>
-        <Button color="crimson" onClick={emitRetry}>
+        <Button backgroundColor="crimson" onClick={emitRetry}>
           <Icon url={LightRetryIconUrl} />
         </Button>
-        <Button color="royalblue" onClick={emitLeave}>
+        <Button backgroundColor="royalblue" onClick={emitLeave}>
           <Icon url={LightLeaveIconUrl} />
         </Button>
       </Button.Group>

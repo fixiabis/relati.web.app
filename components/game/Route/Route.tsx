@@ -1,21 +1,63 @@
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 import React from 'react';
-import RouteStyles from './Route.module.css';
+
+const drawLine = keyframes({
+  to: { strokeDashoffset: '0px' },
+});
+
+const eraseLine = keyframes({
+  '0%': {
+    opacity: 1,
+  },
+  '12%': {
+    opacity: 0,
+  },
+  '36%': {
+    opacity: 1,
+  },
+  '48%': {
+    opacity: 0,
+  },
+  '72%': {
+    stroke: '#ddd',
+    opacity: 1,
+  },
+  '100%': {
+    stroke: '#ddd',
+    opacity: 0,
+  },
+});
+
+const DrawnRoute = styled.path<{ pathLength: number; reversed: boolean }>(
+  { animation: `${drawLine} 500ms forwards linear` },
+  ({ pathLength, reversed: isReversed }) => ({
+    strokeDasharray: pathLength * 5 + 'px',
+    strokeDashoffset: (isReversed ? -pathLength : pathLength) * 5 + 'px',
+  })
+);
+
+const ErasedRoute = styled.path({
+  animation: `${eraseLine} 500ms forwards linear`,
+});
 
 type Coordinate = readonly [number, number];
 
-export type RouteProps = React.SVGProps<SVGPathElement> & {
+export type RouteProps = {
   coordinates: Coordinate[];
   color?: string;
   drawn?: boolean;
   erased?: boolean;
   reversed?: boolean;
+  opacity?: number | string;
 };
 
 const toPrevCoordinateWithCoordinate = (
   coordinate: Coordinate,
   index: number,
   coordinates: Coordinate[]
-) => [coordinates[Math.max(0, index - 1)], coordinate];
+) =>
+  [coordinates[Math.max(0, index - 1)], coordinate] as [Coordinate, Coordinate];
 
 const toDistanceBetweenCoordinates = ([[xA, yA], [xB, yB]]: [
   Coordinate,
@@ -31,40 +73,48 @@ const toPartialPathDefinition = ([x, y]: Coordinate, index: number) =>
 const Route: React.FC<RouteProps> = ({
   coordinates,
   color,
-  style = {},
-  className = '',
   drawn: isDrawn = false,
   erased: isErased = false,
   reversed: isReversed = false,
   ...props
 }) => {
-  const pathLength = coordinates
-    .map(toPrevCoordinateWithCoordinate)
-    .map(toDistanceBetweenCoordinates)
-    .reduce(sumPathLength);
-
   const pathDefinition = coordinates.map(toPartialPathDefinition).join(' ');
 
   if (isDrawn) {
-    className = RouteStyles.DrawnRoute + (className && ` ${className}`);
+    const pathLength = coordinates
+      .map(toPrevCoordinateWithCoordinate)
+      .map(toDistanceBetweenCoordinates)
+      .reduce(sumPathLength);
 
-    style = {
-      ...style,
-      strokeDasharray: pathLength * 5 + 'px',
-      strokeDashoffset: (isReversed ? -pathLength : pathLength) * 5 + 'px',
-    };
+    return (
+      <DrawnRoute
+        d={pathDefinition}
+        fill="none"
+        stroke={color}
+        strokeWidth="0.6"
+        pathLength={pathLength}
+        reversed={isReversed}
+        {...props}
+      />
+    );
   }
 
   if (isErased) {
-    className = RouteStyles.ErasedRoute + (className && ` ${className}`);
+    return (
+      <ErasedRoute
+        d={pathDefinition}
+        fill="none"
+        stroke={color}
+        strokeWidth="0.6"
+        {...props}
+      />
+    );
   }
 
   return (
     <path
       d={pathDefinition}
-      className={className}
       fill="none"
-      style={style}
       stroke={color}
       strokeWidth="0.6"
       {...props}
