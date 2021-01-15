@@ -1,28 +1,29 @@
+import { NextPage } from 'next';
+import Link from 'next/link';
 import React from 'react';
-import { LightPlayIconUrl/* , LightHelpIconUrl */ } from '../icons';
-import { Button, Container, Icon, Link } from '../components/core';
-import { HomePageStyles, Logo } from '../components/page/index';
+import { Container, Button, Icon, HomeLayout, LinkButton } from '../components';
+import { LightHelpIconUrl, LightPlayIconUrl } from '../icons';
 
-const HomePage = () => {
-  return (
-    <Container>
-      <Container className={HomePageStyles.SlideTopWhenLogoDrawn}>
-        <Logo effect="DrawLineAndFill" />
-      </Container>
-      <Button.Group className={HomePageStyles.SlideDownFadeInWhenLogoDrawn}>
-        <Link href="/choose-mode?for=game">
-          <Button title="開始玩" color="crimson">
-            <Icon url={LightPlayIconUrl} />
-          </Button>
-        </Link>
-        {/* <Link href="/choose-mode?for=tutorial">
-          <Button title="如何玩" color="royalblue">
-            <Icon url={LightHelpIconUrl} />
-          </Button>
-        </Link> */}
-      </Button.Group>
-    </Container>
-  );
-};
+const Home: NextPage = () => (
+  <Container>
+    <HomeLayout.SlideTopWhenLogoDrawn>
+      <HomeLayout.Logo splash />
+    </HomeLayout.SlideTopWhenLogoDrawn>
+    <HomeLayout.SlideDownFadeInWhenLogoDrawn as={Button.Group}>
+      <LinkButton
+        href="/choose/game/players"
+        title="開始玩"
+        backgroundColor="crimson"
+        children={<Icon url={LightPlayIconUrl} />}
+      />
+      {/* <LinkButton
+        href="/choose/tutorial/board"
+        title="如何玩"
+        backgroundColor="royalblue"
+        children={<Icon url={LightHelpIconUrl} />}
+      /> */}
+    </HomeLayout.SlideDownFadeInWhenLogoDrawn>
+  </Container>
+);
 
-export default HomePage;
+export default Home;
