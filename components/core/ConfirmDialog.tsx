@@ -3,6 +3,7 @@ import { LightAcceptIconUrl, LightRejectIconUrl } from '../../icons';
 import Button from './Button';
 import Dialog from './Dialog';
 import Description from './Description';
+import { PopupProps } from './Popup';
 import Icon from './Icon';
 
 export type ConfirmDialogProps = {
@@ -10,7 +11,7 @@ export type ConfirmDialogProps = {
   message: string;
   onAccept: () => void;
   onReject: () => void;
-};
+} & PopupProps;
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   iconUrl,

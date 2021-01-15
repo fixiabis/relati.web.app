@@ -24,6 +24,8 @@ const Button = styled.div<ButtonProps>(
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize: '30px',
+    fontWeight: 'bold',
   },
   {
     ':hover': {

@@ -1,4 +1,5 @@
 export { default as Button } from './Button';
+export { default as ConfirmDialog } from './ConfirmDialog';
 export { default as Container } from './Container';
 export { default as Description } from './Description';
 export { default as Dialog } from './Dialog';
@@ -10,5 +11,6 @@ export * from './styled';
 export * from './utils';
 
 export type { ButtonProps } from './Button';
+export type { ConfirmDialogProps } from './ConfirmDialog';
 export type { IconProps } from './Icon';
 export type { PopupProps } from './Popup';

@@ -4,6 +4,7 @@ import { styled } from '../utils';
 import PopupOverlay from './PopupOverlay';
 
 export type PopupProps = {
+  className?: string;
   visible?: boolean;
   onClose?: () => void;
 };
@@ -30,6 +31,7 @@ const PopupBase = styled.div({
 });
 
 const Popup: React.FC<PopupProps> = ({
+  className,
   children,
   visible: isVisible = false,
   onClose: emitClose,
@@ -47,7 +49,7 @@ const Popup: React.FC<PopupProps> = ({
 
   return (
     <PopupOverlay ref={containerRef} visible={isVisible} onClick={handleClose}>
-      <PopupBase children={children} />
+      <PopupBase className={className} children={children} />
     </PopupOverlay>
   );
 };
