@@ -9,6 +9,7 @@ import {
   FadeInLinkButton,
   FadeInDescription,
   Icon,
+  GameUtil,
 } from '../../../components';
 
 import {
@@ -17,12 +18,12 @@ import {
   GrayPlayIconUrl,
 } from '../../../icons';
 
-const ChooseGamePieces: NextPage<{ players: string; board: string }> = ({
+const ChooseGamePieces: NextPage<{ players: number; board: string }> = ({
   players,
   board,
 }) => {
   const [pieces, setPieces] = useState<string[]>(
-    ChooseGamePiecesLayout.defaultPiecesByPlayers[players]
+    ChooseGamePiecesLayout.defaultPiecesByPlayers[players] || []
   );
 
   const togglePiece = (piece: string) => () =>
@@ -62,21 +63,9 @@ const ChooseGamePieces: NextPage<{ players: string; board: string }> = ({
   );
 };
 
-ChooseGamePieces.getInitialProps = async ({ query }) => {
-  let board: string | string[] | number = query.board || '';
-  let players: string | string[] | number = query.players || '';
-
-  if (Array.isArray(players)) {
-    [players] = players.slice(-1);
-  }
-
-  players = players.replace(/(\D*)(2|3|4)?(.*)/g, '$2');
-
-  if (Array.isArray(board)) {
-    [board] = board.slice(-1);
-  }
-
-  return { players, board };
-};
+ChooseGamePieces.getInitialProps = ({ query }) => ({
+  board: GameUtil.getItem(query.board),
+  players: GameUtil.getPlayersCount(query),
+});
 
 export default ChooseGamePieces;

@@ -3,8 +3,10 @@ import React from 'react';
 import {
   LightLeaveIconUrl,
   LightRetryIconUrl,
+  PlayerDIconUrl,
   PlayerNIconUrl,
   PlayerOIconUrl,
+  PlayerUIconUrl,
   PlayerXIconUrl,
 } from '../../../icons';
 
@@ -15,12 +17,16 @@ const iconUrlByWinner: Record<number, string> = {
   [-1]: PlayerNIconUrl,
   0: PlayerOIconUrl,
   1: PlayerXIconUrl,
+  2: PlayerDIconUrl,
+  3: PlayerUIconUrl,
 };
 
 const messageByWinner: Record<number, string> = {
   [-1]: '平手！',
-  0: 'O方玩家獲勝！',
-  1: 'X方玩家獲勝！',
+  0: '圓圈玩家獲勝！',
+  1: '叉叉玩家獲勝！',
+  2: '三角玩家獲勝！',
+  3: '四方玩家獲勝！',
 };
 
 export type GameOverDialogProps = PopupProps & {

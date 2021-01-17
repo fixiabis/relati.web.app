@@ -4,6 +4,7 @@ import React from 'react';
 import {
   BottomRightFixedButtonDenceGroup,
   ChooseGameBoardLayout,
+  GameUtil,
   Container,
   FadeInButton,
   FadeInDescription,
@@ -12,7 +13,7 @@ import {
 
 import { LightBackIconUrl, BoardIconUrl } from '../../../icons';
 
-const ChooseGameBoard: NextPage<{ players: string }> = ({ players }) => (
+const ChooseGameBoard: NextPage<{ players: number }> = ({ players }) => (
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
@@ -30,16 +31,8 @@ const ChooseGameBoard: NextPage<{ players: string }> = ({ players }) => (
   </Container>
 );
 
-ChooseGameBoard.getInitialProps = async ({ query }) => {
-  let players: string | string[] = query.players || '';
-
-  if (Array.isArray(players)) {
-    [players] = players.slice(-1);
-  }
-
-  players = players.replace(/(\D*)(2|3|4)?(.*)/g, '$2');
-
-  return { players };
-};
+ChooseGameBoard.getInitialProps = ({ query }) => ({
+  players: GameUtil.getPlayersCount(query),
+});
 
 export default ChooseGameBoard;

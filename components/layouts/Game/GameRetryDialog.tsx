@@ -1,6 +1,6 @@
 import React from 'react';
 import { GrayHelpIconUrl } from '../../../icons';
-import { ConfirmDialog, ConfirmDialogProps } from '../../core';
+import { ConfirmDialog, ConfirmDialogProps } from '../../shared';
 
 export type GameRetryDialogProps = Omit<
   ConfirmDialogProps,

@@ -10,6 +10,7 @@ import {
   Icon,
   BottomRightFixedButtonDenceGroup,
   FadeInButton,
+  GameUtil,
 } from '../components';
 
 import { EMPTY_PIECE, Game, GameRule, NO_WINNER } from '../relati';
@@ -68,6 +69,12 @@ const GamePage: NextPage<GamePageProps> = ({
     openGameRetryDialog,
     closeGameRetryDialog,
   ] = useSwitch(false);
+
+  useEffect(() => {
+    const game = Game(GameRule(definition));
+    setGame(game);
+    setPrevGame(game);
+  }, [definition]);
 
   useEffect(() => {
     const playerOfTurn = game.turn % playersCount;
@@ -135,13 +142,16 @@ const GamePage: NextPage<GamePageProps> = ({
   const handleGridClick: BoardForGameProps['onGridClick'] = ({ x, y }) => {
     const player = game.turn % playersCount;
     const shape = shapeByPlayer[player];
-    const pieceIndex = definition.toPieceIndex([x, y]);
-    const gameWithPiecePlaced = game.place(pieceIndex, player);
 
-    if (gameWithPiecePlaced !== game) {
-      setGame(gameWithPiecePlaced);
-      setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
-      setPrevGame(game);
+    if (pieces.includes(shape)) {
+      const pieceIndex = definition.toPieceIndex([x, y]);
+      const gameWithPiecePlaced = game.place(pieceIndex, player);
+
+      if (gameWithPiecePlaced !== game) {
+        setGame(gameWithPiecePlaced);
+        setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
+        setPrevGame(game);
+      }
     }
 
     openGameOverDialog();
@@ -194,49 +204,15 @@ const GamePage: NextPage<GamePageProps> = ({
   );
 };
 
-GamePage.getInitialProps = async ({ query }) => {
-  let board: number[] | string | string[] = query.board || '';
-  let boardWidth: number | string = '';
-  let boardHeight: number | string = '';
-  let pieces: string | string[] = query.pieces || '';
-  let playersCount: string | string[] | number = query.players || '';
+GamePage.getInitialProps = ({ query }) => {
+  const [boardWidth, boardHeight] = GameUtil.getBoardSize(query);
+  const playersCount = GameUtil.getPlayersCount(query);
+  const pieces = GameUtil.getPieces(query, playersCount);
 
-  if (Array.isArray(board)) {
-    [board] = board.slice(-1);
-  }
-
-  [boardWidth, boardHeight] = board.split('x');
-
-  if (boardWidth === '') {
-    boardWidth = boardHeight;
-  }
-
-  if (boardHeight === '') {
-    boardHeight = boardWidth;
-  }
-
-  boardWidth = parseInt(boardWidth);
-  boardHeight = parseInt(boardHeight);
-
-  if (Array.isArray(playersCount)) {
-    [playersCount] = playersCount.slice(-1);
-  }
-
-  playersCount = parseInt(playersCount);
-
-  if (Array.isArray(pieces)) {
-    [pieces] = pieces.slice(-1);
-  }
-
-  pieces = pieces.split(',');
-
-  const portsCount = [8, 16, 24][
-    Math.min(
-      (((((boardWidth + boardHeight) / 2) | 0) - (playersCount * 2 + 1)) / 2) |
-        0,
-      2
-    )
-  ];
+  const portsCount = GameUtil.getPortsCount(query, playersCount, [
+    boardWidth,
+    boardHeight,
+  ]);
 
   return { boardWidth, boardHeight, pieces, playersCount, portsCount };
 };
