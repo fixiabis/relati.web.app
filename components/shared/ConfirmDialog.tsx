@@ -1,10 +1,10 @@
 import React from 'react';
 import { LightAcceptIconUrl, LightRejectIconUrl } from '../../icons';
-import Button from './Button';
-import Dialog from './Dialog';
-import Description from './Description';
-import { PopupProps } from './Popup';
-import Icon from './Icon';
+import Button from '../core/Button';
+import Dialog from '../core/Dialog';
+import Description from '../core/Description';
+import { PopupProps } from '../core/Popup';
+import Icon from '../core/Icon';
 
 export type ConfirmDialogProps = {
   iconUrl: string;
