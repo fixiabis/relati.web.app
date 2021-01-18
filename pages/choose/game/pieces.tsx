@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   BottomRightFixedButtonDenceGroup,
@@ -23,8 +23,11 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
   players,
   board,
 }) => {
-  const [pieces, setPieces] = useState<string[]>(
-    ChooseGamePiecesPageLayout.defaultPiecesByPlayers[players] || []
+  const [pieces, setPieces] = useState<string[]>([]);
+
+  useEffect(
+    () => setPieces(ChooseGamePiecesPageLayout.defaultPiecesByPlayers[players]),
+    [players]
   );
 
   const togglePiece = (piece: string) => () =>
