@@ -11,7 +11,7 @@ import {
   BottomRightFixedButtonDenceGroup,
   FadeInButton,
   GameUtil,
-  InitializePageProps,
+  PagePropsInitialized,
 } from '../components';
 
 import { EMPTY_PIECE, Game, GameRule, NO_WINNER } from '../relati';
@@ -205,7 +205,7 @@ const GamePage: NextPage<GamePageProps> = ({
   );
 };
 
-export default InitializePageProps(GamePage)((query) => {
+export default PagePropsInitialized(GamePage)((query) => {
   const [boardWidth, boardHeight] = GameUtil.getBoardSize(query);
   const playersCount = GameUtil.getPlayersCount(query);
   const pieces = GameUtil.getPieces(query, playersCount);

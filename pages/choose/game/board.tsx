@@ -9,7 +9,7 @@ import {
   FadeInButton,
   FadeInDescription,
   Icon,
-  InitializePageProps,
+  PagePropsInitialized,
 } from '../../../components';
 
 import { LightBackIconUrl, BoardIconUrl } from '../../../icons';
@@ -32,6 +32,6 @@ const ChooseGameBoardPage: NextPage<{ players: number }> = ({ players }) => (
   </Container>
 );
 
-export default InitializePageProps(ChooseGameBoardPage)((query) => ({
+export default PagePropsInitialized(ChooseGameBoardPage)((query) => ({
   players: GameUtil.getPlayersCount(query),
 }));

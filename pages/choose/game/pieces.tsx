@@ -10,7 +10,7 @@ import {
   FadeInDescription,
   Icon,
   GameUtil,
-  InitializePageProps,
+  PagePropsInitialized,
 } from '../../../components';
 
 import {
@@ -64,7 +64,7 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
   );
 };
 
-export default InitializePageProps(ChooseGamePiecesPage)((query) => ({
+export default PagePropsInitialized(ChooseGamePiecesPage)((query) => ({
   board: GameUtil.getItem(query.board),
   players: GameUtil.getPlayersCount(query),
 }));
