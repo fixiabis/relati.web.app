@@ -90,7 +90,7 @@ const GameRule = <Player extends number, Piece extends number>(
     consumedPieceByPiece,
     playerByPiece,
     providerPieceByPlayer,
-    routesByPieceIndex: routesByPieceIndex,
+    routesByPieceIndex,
     isConsumableByPieceByPlayer,
     isProvidableByPieceByPlayer,
   } = definition;
