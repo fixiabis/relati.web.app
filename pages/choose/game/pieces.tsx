@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 
 import {
   BottomRightFixedButtonDenceGroup,
-  ChooseGamePiecesLayout,
+  ChooseGamePiecesPageLayout,
   Container,
   FadeInButton,
   FadeInLinkButton,
   FadeInDescription,
   Icon,
   GameUtil,
+  InitializePageProps,
 } from '../../../components';
 
 import {
@@ -18,12 +19,12 @@ import {
   GrayPlayIconUrl,
 } from '../../../icons';
 
-const ChooseGamePieces: NextPage<{ players: number; board: string }> = ({
+const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
   players,
   board,
 }) => {
   const [pieces, setPieces] = useState<string[]>(
-    ChooseGamePiecesLayout.defaultPiecesByPlayers[players] || []
+    ChooseGamePiecesPageLayout.defaultPiecesByPlayers[players] || []
   );
 
   const togglePiece = (piece: string) => () =>
@@ -39,10 +40,7 @@ const ChooseGamePieces: NextPage<{ players: number; board: string }> = ({
         <Icon url={GrayPlayIconUrl} />
         選擇玩家棋子
       </FadeInDescription>
-      {ChooseGamePiecesLayout.renderButtonsByPlayers[players](
-        pieces,
-        togglePiece
-      )}
+      {ChooseGamePiecesPageLayout.renderButtons(players, pieces, togglePiece)}
       <BottomRightFixedButtonDenceGroup>
         <FadeInLinkButton
           href={`/game?players=${players}&board=${board}&pieces=${pieces.join(
@@ -63,9 +61,7 @@ const ChooseGamePieces: NextPage<{ players: number; board: string }> = ({
   );
 };
 
-ChooseGamePieces.getInitialProps = ({ query }) => ({
+export default InitializePageProps(ChooseGamePiecesPage)((query) => ({
   board: GameUtil.getItem(query.board),
   players: GameUtil.getPlayersCount(query),
-});
-
-export default ChooseGamePieces;
+}));

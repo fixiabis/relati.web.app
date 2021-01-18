@@ -6,11 +6,12 @@ import {
   Container,
   BoardForGame,
   BoardForGameProps,
-  GameLayout,
+  GamePageLayout,
   Icon,
   BottomRightFixedButtonDenceGroup,
   FadeInButton,
   GameUtil,
+  InitializePageProps,
 } from '../components';
 
 import { EMPTY_PIECE, Game, GameRule, NO_WINNER } from '../relati';
@@ -33,14 +34,14 @@ const GamePage: NextPage<GamePageProps> = ({
   playersCount,
   portsCount,
 }) => {
-  const definition = GameLayout.useDefinition(
+  const definition = GamePageLayout.useDefinition(
     playersCount,
     boardWidth,
     boardHeight,
     portsCount
   );
 
-  const thinker = GameLayout.useThinker(definition);
+  const thinker = GamePageLayout.useThinker(definition);
 
   const [game, setGame] = useState(() => Game(GameRule(definition)));
   const [prevGame, setPrevGame] = useState(game);
@@ -181,7 +182,7 @@ const GamePage: NextPage<GamePageProps> = ({
         />
       </BottomRightFixedButtonDenceGroup>
 
-      <GameLayout.GameOverDialog
+      <GamePageLayout.GameOverDialog
         visible={isGameOverDialogVisible}
         onClose={closeGameOverDialog}
         winner={winner}
@@ -189,13 +190,13 @@ const GamePage: NextPage<GamePageProps> = ({
         onLeave={leave}
       />
 
-      <GameLayout.GameLeaveDialog
+      <GamePageLayout.GameLeaveDialog
         visible={isGameLeaveDialogVisible}
         onClose={closeGameLeaveDialog}
         onLeave={leave}
       />
 
-      <GameLayout.GameRetryDialog
+      <GamePageLayout.GameRetryDialog
         visible={isGameRetryDialogVisible}
         onClose={closeGameRetryDialog}
         onRetry={resetGame}
@@ -204,7 +205,7 @@ const GamePage: NextPage<GamePageProps> = ({
   );
 };
 
-GamePage.getInitialProps = ({ query }) => {
+export default InitializePageProps(GamePage)((query) => {
   const [boardWidth, boardHeight] = GameUtil.getBoardSize(query);
   const playersCount = GameUtil.getPlayersCount(query);
   const pieces = GameUtil.getPieces(query, playersCount);
@@ -215,6 +216,4 @@ GamePage.getInitialProps = ({ query }) => {
   ]);
 
   return { boardWidth, boardHeight, pieces, playersCount, portsCount };
-};
-
-export default GamePage;
+});

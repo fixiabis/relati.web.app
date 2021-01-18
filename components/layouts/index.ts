@@ -1,5 +1,5 @@
 export * from './shared';
-export * as HomeLayout from './Home';
-export * as GameLayout from './Game';
-export * as ChooseGameBoardLayout from './ChooseGameBoard';
-export * as ChooseGamePiecesLayout from './ChooseGamePieces';
+export * as HomePageLayout from './Home';
+export * as GamePageLayout from './Game';
+export * as ChooseGameBoardPageLayout from './ChooseGameBoard';
+export * as ChooseGamePiecesPageLayout from './ChooseGamePieces';

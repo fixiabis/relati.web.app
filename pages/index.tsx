@@ -1,15 +1,15 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
-import { Container, Button, Icon, HomeLayout, LinkButton } from '../components';
+import { Container, Button, Icon, HomePageLayout, LinkButton } from '../components';
 import { LightHelpIconUrl, LightPlayIconUrl } from '../icons';
 
 const Home: NextPage = () => (
   <Container>
-    <HomeLayout.SlideTopWhenLogoDrawn>
-      <HomeLayout.Logo splash />
-    </HomeLayout.SlideTopWhenLogoDrawn>
-    <HomeLayout.SlideDownFadeInWhenLogoDrawn as={Button.Group}>
+    <HomePageLayout.SlideTopWhenLogoDrawn>
+      <HomePageLayout.Logo splash />
+    </HomePageLayout.SlideTopWhenLogoDrawn>
+    <HomePageLayout.SlideDownFadeInWhenLogoDrawn as={Button.Group}>
       <LinkButton
         href="/choose/game/players"
         title="開始玩"
@@ -22,7 +22,7 @@ const Home: NextPage = () => (
         backgroundColor="royalblue"
         children={<Icon url={LightHelpIconUrl} />}
       /> */}
-    </HomeLayout.SlideDownFadeInWhenLogoDrawn>
+    </HomePageLayout.SlideDownFadeInWhenLogoDrawn>
   </Container>
 );
 

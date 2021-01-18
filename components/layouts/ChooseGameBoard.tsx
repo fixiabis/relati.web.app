@@ -80,9 +80,12 @@ export const renderButtonsFor4Player = () => (
   </Button.Group>
 );
 
-export const renderButtonsByPlayers = {
-  '': ChooseGameModeLayout.renderButtonsForUnknown,
-  '2': renderButtonsFor2Player,
-  '3': renderButtonsFor3Player,
-  '4': renderButtonsFor4Player,
+export const buttonsRendererByPlayersCount = {
+  0: ChooseGameModeLayout.renderButtonsForUnknown,
+  2: renderButtonsFor2Player,
+  3: renderButtonsFor3Player,
+  4: renderButtonsFor4Player,
 };
+
+export const renderButtons = (playersCount: number) =>
+  buttonsRendererByPlayersCount[playersCount]();

@@ -12,5 +12,3 @@ export const SlideDownFadeInWhenLogoDrawn = styled.div({
   height: '70px',
   animation: `${slideDownFadeIn} 0.5s linear backwards 1s`,
 });
-
-export { default as Logo } from './Logo';

@@ -12,5 +12,3 @@ export const renderButtonsForUnknown = () => (
     />
   </Button.Group>
 );
-
-export * from './ChooseGameMode/utils';

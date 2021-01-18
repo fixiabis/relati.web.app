@@ -3,23 +3,24 @@ import React from 'react';
 
 import {
   BottomRightFixedButtonDenceGroup,
-  ChooseGameBoardLayout,
+  ChooseGameBoardPageLayout,
   GameUtil,
   Container,
   FadeInButton,
   FadeInDescription,
   Icon,
+  InitializePageProps,
 } from '../../../components';
 
 import { LightBackIconUrl, BoardIconUrl } from '../../../icons';
 
-const ChooseGameBoard: NextPage<{ players: number }> = ({ players }) => (
+const ChooseGameBoardPage: NextPage<{ players: number }> = ({ players }) => (
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
       選擇棋盤大小
     </FadeInDescription>
-    {ChooseGameBoardLayout.renderButtonsByPlayers[players]()}
+    {ChooseGameBoardPageLayout.renderButtons(players)}
     <BottomRightFixedButtonDenceGroup>
       <FadeInButton
         title="back"
@@ -31,8 +32,6 @@ const ChooseGameBoard: NextPage<{ players: number }> = ({ players }) => (
   </Container>
 );
 
-ChooseGameBoard.getInitialProps = ({ query }) => ({
+export default InitializePageProps(ChooseGameBoardPage)((query) => ({
   players: GameUtil.getPlayersCount(query),
-});
-
-export default ChooseGameBoard;
+}));
