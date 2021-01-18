@@ -140,7 +140,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     return points;
   };
 
-  return { getEachPiecePointsOfPlayer: getEachPiecesPointsOfPlayer, getPointsOfPlayer };
+  return { calcEachPiecePointsOfPlayer: getEachPiecesPointsOfPlayer, calcPointsOfPlayer: getPointsOfPlayer };
 };
 
 export default InfluenceBasedThinking;

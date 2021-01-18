@@ -33,7 +33,7 @@ const Thinker = <Player extends number, Piece extends number>(
         continue;
       }
 
-      const points = thinking.getPointsOfPlayer(simulatedGame, player);
+      const points = thinking.calcPointsOfPlayer(simulatedGame, player);
 
       if (points > highestPoints) {
         pieceIndexesOfHighestPoints = [pieceIndex];

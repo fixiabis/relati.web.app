@@ -25,7 +25,7 @@ const MultiInfluencesBasedThinking = <
   const baseThinking = InfluenceBasedThinking(definition);
 
   const getEachPiecesPointsFromBaseThinking =
-    baseThinking.getEachPiecePointsOfPlayer;
+    baseThinking.calcEachPiecePointsOfPlayer;
 
   const OVER_INFLUENCE_POINTS = piecesCount;
   const HIGHEST_INFULENCE_POINTS = OVER_INFLUENCE_POINTS - 1; // prototype is OVER_INFLUENCE_POINTS - 0
@@ -164,7 +164,7 @@ const MultiInfluencesBasedThinking = <
     return points;
   };
 
-  return { getEachPiecePointsOfPlayer, getPointsOfPlayer };
+  return { calcEachPiecePointsOfPlayer: getEachPiecePointsOfPlayer, calcPointsOfPlayer: getPointsOfPlayer };
 };
 
 export default MultiInfluencesBasedThinking;

@@ -21,7 +21,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
     const playerOfTurn = (turn % playersCount) as Player;
 
     if (depth === NO_DEPTH) {
-      const points = thinking.getPointsOfPlayer(game, player);
+      const points = thinking.calcPointsOfPlayer(game, player);
       return points;
     }
 
@@ -88,7 +88,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
     }
   };
 
-  return { getPointsOfPlayer };
+  return { calcPointsOfPlayer: getPointsOfPlayer };
 };
 
 export default DeepThinking;
