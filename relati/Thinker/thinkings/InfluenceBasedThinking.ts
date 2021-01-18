@@ -5,7 +5,6 @@ import {
   GameDefinition,
   PieceIndex,
   ReadonlyRecord,
-  START_INDEX,
   STEP,
 } from '../../core';
 
@@ -71,7 +70,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     const pieceIndexToInfluencePointsMap: Record<PieceIndex, number> = [];
     const providerPieceIndexes = [];
 
-    for (let pieceIndex = START_INDEX; pieceIndex < piecesCount; pieceIndex++) {
+    for (const pieceIndex of pieceIndexes) {
       const piece = pieces[pieceIndex];
 
       if (isProvidableByPiece[piece]) {
@@ -109,7 +108,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     const providerPieceIndexes = [];
     let points = NO_POINTS;
 
-    for (let pieceIndex = START_INDEX; pieceIndex < piecesCount; pieceIndex++) {
+    for (const pieceIndex of pieceIndexes) {
       const piece = pieces[pieceIndex];
 
       if (isProvidableByPiece[piece]) {
@@ -141,7 +140,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     return points;
   };
 
-  return { getEachPiecesPointsOfPlayer, getPointsOfPlayer };
+  return { getEachPiecePointsOfPlayer: getEachPiecesPointsOfPlayer, getPointsOfPlayer };
 };
 
 export default InfluenceBasedThinking;

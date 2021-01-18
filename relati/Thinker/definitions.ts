@@ -12,7 +12,7 @@ export type Thinking<Player extends number, Piece extends number> = {
 /** 可解釋的思路 */
 export type ExplainableThinking<Player extends number, Piece extends number> = {
   /** 取得作為該玩家個棋子的分數 */
-  readonly getEachPiecesPointsOfPlayer: (
+  readonly getEachPiecePointsOfPlayer: (
     game: Game<Player, Piece>,
     player: Player
   ) => ReadonlyRecord<PieceIndex, number>;

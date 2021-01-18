@@ -21,11 +21,11 @@ const MultiInfluencesBasedThinking = <
 >(
   definition: GameDefinition<Player, Piece>
 ): ExplainableThinking<Player, Piece> => {
-  const { playersCount, piecesCount } = definition;
+  const { piecesCount, pieceIndexes, players } = definition;
   const baseThinking = InfluenceBasedThinking(definition);
 
   const getEachPiecesPointsFromBaseThinking =
-    baseThinking.getEachPiecesPointsOfPlayer;
+    baseThinking.getEachPiecePointsOfPlayer;
 
   const OVER_INFLUENCE_POINTS = piecesCount;
   const HIGHEST_INFULENCE_POINTS = OVER_INFLUENCE_POINTS - 1; // prototype is OVER_INFLUENCE_POINTS - 0
@@ -38,7 +38,7 @@ const MultiInfluencesBasedThinking = <
       ReadonlyRecord<PieceIndex, number>
     > = [];
 
-    for (let player = FIRST_PLAYER as Player; player < playersCount; player++) {
+    for (const player of players) {
       const pieceIndexToInfluencePointsMap = getEachPiecesPointsFromBaseThinking(
         game,
         player
@@ -52,7 +52,7 @@ const MultiInfluencesBasedThinking = <
     return playerToPieceIndexToInfluencePointsMap;
   };
 
-  const getEachPiecesPointsOfPlayer = (
+  const getEachPiecePointsOfPlayer = (
     game: Game<Player, Piece>,
     player: Player
   ) => {
@@ -65,7 +65,7 @@ const MultiInfluencesBasedThinking = <
 
     const pieceIndexToPointsMap: Record<PieceIndex, number> = [];
 
-    for (let pieceIndex = START_INDEX; pieceIndex < piecesCount; pieceIndex++) {
+    for (const pieceIndex of pieceIndexes) {
       const influencePoints = pieceIndexToInfluencePointsMap[pieceIndex];
 
       switch (influencePoints) {
@@ -83,11 +83,7 @@ const MultiInfluencesBasedThinking = <
         default: {
           let piecePoints = HIGHEST_INFULENCE_POINTS;
 
-          for (
-            let otherPlayer = FIRST_PLAYER as Player;
-            otherPlayer < playersCount;
-            otherPlayer++
-          ) {
+          for (const otherPlayer of players) {
             if (otherPlayer !== player) {
               const pieceIndexToInfluencePointsMapOfOtherPlayer =
                 playerToPieceIndexToInfluencePointsMap[otherPlayer];
@@ -124,7 +120,7 @@ const MultiInfluencesBasedThinking = <
 
     let points = NO_POINTS;
 
-    for (let pieceIndex = START_INDEX; pieceIndex < piecesCount; pieceIndex++) {
+    for (const pieceIndex of pieceIndexes) {
       const influencePoints = pieceIndexToInfluencePointsMap[pieceIndex];
 
       switch (influencePoints) {
@@ -141,11 +137,7 @@ const MultiInfluencesBasedThinking = <
         default: {
           let piecePoints = HIGHEST_INFULENCE_POINTS;
 
-          for (
-            let otherPlayer = FIRST_PLAYER as Player;
-            otherPlayer < playersCount;
-            otherPlayer++
-          ) {
+          for (const otherPlayer of players) {
             if (otherPlayer !== player) {
               const pieceIndexToInfluencePointsMapOfOtherPlayer =
                 playerToPieceIndexToInfluencePointsMap[otherPlayer];
@@ -172,7 +164,7 @@ const MultiInfluencesBasedThinking = <
     return points;
   };
 
-  return { getEachPiecesPointsOfPlayer, getPointsOfPlayer };
+  return { getEachPiecePointsOfPlayer, getPointsOfPlayer };
 };
 
 export default MultiInfluencesBasedThinking;
