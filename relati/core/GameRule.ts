@@ -65,11 +65,7 @@ export const isRouteAvailable = <Piece extends number>(
   pieces: readonly Piece[],
   route: Route<PieceIndex>
 ): boolean => {
-  for (
-    let indexOfRoute = PIECE_INDEX_ROUTE_START_INDEX;
-    indexOfRoute < route.length;
-    indexOfRoute++
-  ) {
+  for (const indexOfRoute of route.slice(PIECE_INDEX_ROUTE_START_INDEX)) {
     const pieceIndex = route[indexOfRoute];
     const piece = pieces[pieceIndex];
 
@@ -86,7 +82,7 @@ const GameRule = <Player extends number, Piece extends number>(
 ): GameRule<Player, Piece> => {
   const {
     playersCount,
-    piecesCount,
+    pieceIndexes,
     consumedPieceByPiece,
     playerByPiece,
     providerPieceByPlayer,
@@ -96,7 +92,7 @@ const GameRule = <Player extends number, Piece extends number>(
   } = definition;
 
   const mutatePiecesToConsumed = (pieces: Piece[]) => {
-    for (let pieceIndex = START_INDEX; pieceIndex < piecesCount; pieceIndex++) {
+    for (const pieceIndex of pieceIndexes) {
       const piece = pieces[pieceIndex];
       pieces[pieceIndex] = consumedPieceByPiece[piece];
     }

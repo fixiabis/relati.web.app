@@ -1,4 +1,4 @@
-import { Game, GameDefinition, START_INDEX } from '../../core';
+import { Game, GameDefinition } from '../../core';
 import { NO_POINTS, ExplainableThinking } from '../definitions';
 import MultiInfluencesBasedThinking from './MultiInfluencesBasedThinking';
 

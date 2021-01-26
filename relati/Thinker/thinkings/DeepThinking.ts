@@ -1,4 +1,4 @@
-import { Game, START_INDEX, STEP } from '../../core';
+import { Game, STEP } from '../../core';
 import type { Thinking, ExplainableThinking } from '../definitions';
 
 /** 無深度 */
@@ -17,7 +17,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
     beta = +Infinity
   ): number => {
     const { definition, turn } = game;
-    const { playersCount, piecesCount } = definition;
+    const { playersCount, piecesCount, pieceIndexes } = definition;
     const playerOfTurn = (turn % playersCount) as Player;
 
     if (depth === NO_DEPTH) {
@@ -26,11 +26,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
     }
 
     if (player === playerOfTurn) {
-      for (
-        let pieceIndex = START_INDEX;
-        pieceIndex < piecesCount;
-        pieceIndex++
-      ) {
+      for (const pieceIndex of pieceIndexes) {
         const simulatedGame = game.place(pieceIndex, playerOfTurn);
 
         if (simulatedGame === game) {
@@ -56,11 +52,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
 
       return alpha;
     } else {
-      for (
-        let pieceIndex = START_INDEX;
-        pieceIndex < piecesCount;
-        pieceIndex++
-      ) {
+      for (const pieceIndex of pieceIndexes) {
         const simulatedGame = game.place(pieceIndex, playerOfTurn);
 
         if (simulatedGame === game) {

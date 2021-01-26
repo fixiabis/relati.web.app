@@ -1,12 +1,4 @@
-import {
-  FIRST_PLAYER,
-  Game,
-  GameDefinition,
-  PieceIndex,
-  ReadonlyRecord,
-  START_INDEX,
-} from '../../core';
-
+import { Game, GameDefinition, PieceIndex, ReadonlyRecord } from '../../core';
 import { NO_POINTS, ExplainableThinking } from '../definitions';
 
 import InfluenceBasedThinking, {
