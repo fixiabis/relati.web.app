@@ -24,7 +24,7 @@ const MultiInfluencesBasedThinking = <
   const { piecesCount, pieceIndexes, players } = definition;
   const baseThinking = InfluenceBasedThinking(definition);
 
-  const getEachPiecesPointsFromBaseThinking =
+  const calcEachPiecesPointsFromBaseThinking =
     baseThinking.calcEachPiecePointsOfPlayer;
 
   const OVER_INFLUENCE_POINTS = piecesCount;
@@ -39,7 +39,7 @@ const MultiInfluencesBasedThinking = <
     > = [];
 
     for (const player of players) {
-      const pieceIndexToInfluencePointsMap = getEachPiecesPointsFromBaseThinking(
+      const pieceIndexToInfluencePointsMap = calcEachPiecesPointsFromBaseThinking(
         game,
         player
       );
@@ -52,7 +52,7 @@ const MultiInfluencesBasedThinking = <
     return playerToPieceIndexToInfluencePointsMap;
   };
 
-  const getEachPiecePointsOfPlayer = (
+  const calcEachPiecePointsOfPlayer = (
     game: Game<Player, Piece>,
     player: Player
   ) => {
@@ -110,7 +110,7 @@ const MultiInfluencesBasedThinking = <
     return pieceIndexToPointsMap;
   };
 
-  const getPointsOfPlayer = (game: Game<Player, Piece>, player: Player) => {
+  const calcPointsOfPlayer = (game: Game<Player, Piece>, player: Player) => {
     const playerToPieceIndexToInfluencePointsMap = getEachPiecesPointsOfEachPlayer(
       game
     );
@@ -164,7 +164,7 @@ const MultiInfluencesBasedThinking = <
     return points;
   };
 
-  return { calcEachPiecePointsOfPlayer: getEachPiecePointsOfPlayer, calcPointsOfPlayer: getPointsOfPlayer };
+  return { calcEachPiecePointsOfPlayer, calcPointsOfPlayer };
 };
 
 export default MultiInfluencesBasedThinking;

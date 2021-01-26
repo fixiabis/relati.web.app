@@ -9,7 +9,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
   thinking: ExplainableThinking<Player, Piece>,
   defaultDepth: number = NO_DEPTH
 ): Thinking<Player, Piece> => {
-  const getPointsOfPlayer = (
+  const calcPointsOfPlayer = (
     game: Game<Player, Piece>,
     player: Player,
     depth: number = defaultDepth,
@@ -37,7 +37,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
           continue;
         }
 
-        const points = getPointsOfPlayer(
+        const points = calcPointsOfPlayer(
           simulatedGame,
           player,
           depth - STEP,
@@ -67,7 +67,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
           continue;
         }
 
-        const points = getPointsOfPlayer(
+        const points = calcPointsOfPlayer(
           simulatedGame,
           player,
           depth - STEP,
@@ -88,7 +88,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
     }
   };
 
-  return { calcPointsOfPlayer: getPointsOfPlayer };
+  return { calcPointsOfPlayer };
 };
 
 export default DeepThinking;

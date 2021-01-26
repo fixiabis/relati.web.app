@@ -12,17 +12,17 @@ const MaximumTerritoryBasedThinking = <
   const { piecesCount, pieceIndexes } = definition;
   const baseThinking = MultiInfluencesBasedThinking(definition);
 
-  const getEachPiecesPointsFromBaseThinking =
+  const calcEachPiecesPointsFromBaseThinking =
     baseThinking.calcEachPiecePointsOfPlayer;
 
   const OVER_INFLUENCE_POINTS = piecesCount;
   const HIGHEST_INFULENCE_POINTS = OVER_INFLUENCE_POINTS - 1; // prototype is OVER_INFLUENCE_POINTS - 0
 
-  const getEachPiecesPointsOfPlayer = (
+  const calcEachPiecePointsOfPlayer = (
     game: Game<Player, Piece>,
     player: Player
   ) => {
-    const pieceIndexToMultiInfluencesPointsMap = getEachPiecesPointsFromBaseThinking(
+    const pieceIndexToMultiInfluencesPointsMap = calcEachPiecesPointsFromBaseThinking(
       game,
       player
     );
@@ -48,8 +48,8 @@ const MaximumTerritoryBasedThinking = <
     return pieceIndexToPointsMap;
   };
 
-  const getPointsOfPlayer = (game: Game<Player, Piece>, player: Player) => {
-    const pieceIndexToMultiInfluencesPointsMap = getEachPiecesPointsFromBaseThinking(
+  const calcPointsOfPlayer = (game: Game<Player, Piece>, player: Player) => {
+    const pieceIndexToMultiInfluencesPointsMap = calcEachPiecesPointsFromBaseThinking(
       game,
       player
     );
@@ -75,7 +75,7 @@ const MaximumTerritoryBasedThinking = <
     return points;
   };
 
-  return { calcEachPiecePointsOfPlayer: getEachPiecesPointsOfPlayer, calcPointsOfPlayer: getPointsOfPlayer };
+  return { calcEachPiecePointsOfPlayer, calcPointsOfPlayer };
 };
 
 export default MaximumTerritoryBasedThinking;

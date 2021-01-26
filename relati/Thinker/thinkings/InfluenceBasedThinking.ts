@@ -61,7 +61,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
 
   const OVER_INFLUENCE_POINTS = piecesCount;
 
-  const getEachPiecesPointsOfPlayer = (
+  const calcEachPiecePointsOfPlayer = (
     game: Game<Player, Piece>,
     player: Player
   ): ReadonlyRecord<PieceIndex, number> => {
@@ -101,7 +101,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     return pieceIndexToInfluencePointsMap;
   };
 
-  const getPointsOfPlayer = (game: Game<Player, Piece>, player: Player) => {
+  const calcPointsOfPlayer = (game: Game<Player, Piece>, player: Player) => {
     const { pieces } = game;
     const isProvidableByPiece = isProvidableByPieceByPlayer[player];
     const pieceIndexToInfluencePointsMap: Record<PieceIndex, number> = [];
@@ -140,7 +140,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     return points;
   };
 
-  return { calcEachPiecePointsOfPlayer: getEachPiecesPointsOfPlayer, calcPointsOfPlayer: getPointsOfPlayer };
+  return { calcEachPiecePointsOfPlayer, calcPointsOfPlayer };
 };
 
 export default InfluenceBasedThinking;
