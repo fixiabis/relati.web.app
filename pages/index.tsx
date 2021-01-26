@@ -12,13 +12,13 @@ const Home: NextPage = () => (
     <HomePageLayout.SlideDownFadeInWhenLogoDrawn as={Button.Group}>
       <LinkButton
         href="/choose/game/players"
-        title="開始玩"
+        title="play"
         backgroundColor="crimson"
         children={<Icon url={LightPlayIconUrl} />}
       />
       {/* <LinkButton
         href="/choose/tutorial/board"
-        title="如何玩"
+        title="how to play"
         backgroundColor="royalblue"
         children={<Icon url={LightHelpIconUrl} />}
       /> */}
