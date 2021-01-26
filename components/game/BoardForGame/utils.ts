@@ -1,8 +1,8 @@
 import {
   Game,
   GameRule,
-  isRouteAvailable,
   PieceIndex,
+  PieceStatus,
   Route,
 } from '../../../relati';
 
@@ -62,7 +62,7 @@ const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
       const piece = pieces[pieceIndex];
 
       const isRouteConsumable =
-        isConsumableByPiece[piece] && isRouteAvailable<Piece>(pieces, route);
+        isConsumableByPiece[piece] && rule.isRouteAvailable(pieces, route);
 
       if (isRouteConsumable) {
         pieces[pieceIndex] = providerPiece;
@@ -201,9 +201,18 @@ export const getKeyframesOfEffect = <
   const keyframes: Keyframe<Piece>[] = [
     {
       type: 'initial',
-      pieces: prevGame.pieces.map((piece, pieceIndex) =>
-        piece ? piece : game.pieces[pieceIndex]
-      ),
+
+      /** @todo 抹殺特效，目前是直接消除 */
+      pieces: prevGame.pieces.map((piece, pieceIndex) => {
+        if (
+          game.definition.getStatus(game.pieces[pieceIndex]) ===
+          PieceStatus.Deceased
+        ) {
+          return game.pieces[pieceIndex];
+        }
+
+        return piece ? piece : game.pieces[pieceIndex];
+      }),
       routesByPieceIndex: prevRoutesByPieceIndex,
       addedRoutesByPieceIndex: (prevRoutesByPieceIndex as PieceIndex[][][]).map(
         () => []

@@ -12,6 +12,7 @@ import {
   PIECE_STATUS_COUNT,
   Coordinate,
   range,
+  EMPTY_PIECE,
 } from './definitions';
 
 /** 遊戲規則定義 */
@@ -28,6 +29,9 @@ type GameDefinition<Player extends number, Piece extends number> = {
   /** 方向路徑 */
   readonly directionRoutes: readonly Route<Direction>[];
 
+  /** 砲塔路徑 */
+  readonly directionTurretBases: readonly Route<Direction>[];
+
   /** 棋子數 */
   readonly piecesCount: number;
 
@@ -37,8 +41,17 @@ type GameDefinition<Player extends number, Piece extends number> = {
   /** 棋子所屬玩家 */
   readonly playerByPiece: ReadonlyRecord<Piece, Player | NoPlayer>;
 
+  /** 棋子狀態 */
+  readonly statusByPiece: ReadonlyRecord<Piece, PieceStatus>;
+
   /** 各自棋子索引可用的棋子索引路徑(不含越界) */
   readonly routesByPieceIndex: ReadonlyRecord<
+    PieceIndex,
+    readonly Route<PieceIndex>[]
+  >;
+
+  /** 各自棋子索引可用的砲塔路徑(不含越界) */
+  readonly turretBasesByPieceIndex: ReadonlyRecord<
     PieceIndex,
     readonly Route<PieceIndex>[]
   >;
@@ -49,6 +62,9 @@ type GameDefinition<Player extends number, Piece extends number> = {
   /** 棋子在被消耗資源後的樣子 */
   readonly consumedPieceByPiece: ReadonlyRecord<Piece, Piece>;
 
+  /** 棋子在被喪失資源後的樣子 */
+  readonly deceasedPieceByPiece: ReadonlyRecord<Piece, Piece>;
+
   /** 玩家的資源生產者棋子 */
   readonly producerPieceByPlayer: ReadonlyRecord<Player, Piece>;
 
@@ -57,6 +73,9 @@ type GameDefinition<Player extends number, Piece extends number> = {
 
   /** 玩家的資源消耗者棋子 */
   readonly consumerPieceByPlayer: ReadonlyRecord<Player, Piece>;
+
+  /** 玩家的資源喪失者棋子 */
+  readonly deceasedPieceByPlayer: ReadonlyRecord<Player, Piece>;
 
   /** 玩家的棋子是否能夠提供資源 */
   readonly isProvidableByPieceByPlayer: ReadonlyRecord<
@@ -69,6 +88,15 @@ type GameDefinition<Player extends number, Piece extends number> = {
     Player,
     ReadonlyRecord<Piece, boolean>
   >;
+
+  /** 玩家的棋子是否能作為目標 */
+  readonly isTargetableByPieceByPlayer: ReadonlyRecord<
+    Player,
+    ReadonlyRecord<Piece, boolean>
+  >;
+
+  /** 棋子是否可以用於通過路徑 */
+  readonly isAvailableForRouteByPiece: ReadonlyRecord<Piece, boolean>;
 
   /** 各棋子索引對應的座標 */
   readonly pieceCoordinateByPieceIndex: ReadonlyRecord<PieceIndex, Coordinate>;
@@ -133,7 +161,8 @@ const GameDefinition = <Player extends number, Piece extends number>(
   playersCount: number,
   boardWidth: number,
   boardHeight: number,
-  directionRoutes: readonly Route<Direction>[]
+  directionRoutes: readonly Route<Direction>[],
+  directionTurretBases: readonly Route<Direction>[] = []
 ): GameDefinition<Player, Piece> => {
   const pieceTypesCount = PIECE_STATUS_COUNT * playersCount + EMPTY_PIECE_COUNT;
   const piecesCount = boardWidth * boardHeight;
@@ -175,6 +204,8 @@ const GameDefinition = <Player extends number, Piece extends number>(
 
   const playerByPiece = pieceTypes.map(getPlayer);
 
+  const statusByPiece = pieceTypes.map(getStatus);
+
   const toRoute = (coordinate: Coordinate) => (
     directionRoute: Route<Direction>
   ) => {
@@ -194,6 +225,13 @@ const GameDefinition = <Player extends number, Piece extends number>(
     directionRoutes.map(toRoute(coordinate)).filter(isRouteValid);
 
   const routesByPieceIndex = pieceIndexes.map(toCoordinate).map(toRoutes);
+
+  const toTurretBases = (coordinate: Coordinate) =>
+    directionTurretBases.map(toRoute(coordinate)).filter(isRouteValid);
+
+  const turretBasesByPieceIndex = pieceIndexes
+    .map(toCoordinate)
+    .map(toTurretBases);
 
   type PieceInfo = [Piece, PieceStatus, Player];
 
@@ -229,20 +267,35 @@ const GameDefinition = <Player extends number, Piece extends number>(
     .map(toPieceWithPieceStatusWithPlayer)
     .map(toConsumedPiece);
 
+  const toDeceasedPiece = ([piece, pieceStatus, player]: PieceInfo) =>
+    [PieceStatus.Provider, PieceStatus.Consumer, PieceStatus.Producer].includes(
+      pieceStatus
+    )
+      ? toPiece(PieceStatus.Deceased, player)
+      : piece;
+
+  const deceasedPieceByPiece = pieceTypes
+    .map(toPieceWithPieceStatusWithPlayer)
+    .map(toDeceasedPiece);
+
   const toPieceByPlayer = (pieceStatus: PieceStatus) => (player: Player) =>
     toPiece(pieceStatus, player);
 
-  const toProducerPiece = toPieceByPlayer(PieceStatus.Producer);
+  const producerPieceByPlayer = players.map(
+    toPieceByPlayer(PieceStatus.Producer)
+  );
 
-  const producerPieceByPlayer = players.map(toProducerPiece);
+  const providerPieceByPlayer = players.map(
+    toPieceByPlayer(PieceStatus.Provider)
+  );
 
-  const toProviderPiece = toPieceByPlayer(PieceStatus.Provider);
+  const consumerPieceByPlayer = players.map(
+    toPieceByPlayer(PieceStatus.Consumer)
+  );
 
-  const providerPieceByPlayer = players.map(toProviderPiece);
-
-  const toConsumerPiece = toPieceByPlayer(PieceStatus.Consumer);
-
-  const consumerPieceByPlayer = players.map(toConsumerPiece);
+  const deceasedPieceByPlayer = players.map(
+    toPieceByPlayer(PieceStatus.Deceased)
+  );
 
   const toIsProvidable = (player: Player) => {
     const producerPiece = toPiece(PieceStatus.Producer, player);
@@ -265,6 +318,23 @@ const GameDefinition = <Player extends number, Piece extends number>(
 
   const isConsumableByPieceByPlayer = players.map(toPieceToIsConsumableMap);
 
+  const toIsTargetable = (player: Player) => {
+    return (piece: Piece) =>
+      piece !== EMPTY_PIECE &&
+      playerByPiece[piece] !== player &&
+      getStatus(piece) !== PieceStatus.Deceased;
+  };
+
+  const toPieceToIsTargetableMap = (player: Player) =>
+    pieceTypes.map(toIsTargetable(player));
+
+  const isTargetableByPieceByPlayer = players.map(toPieceToIsTargetableMap);
+
+  const isAvailableForRoute = (piece: Piece) =>
+    piece === EMPTY_PIECE || getStatus(piece) === PieceStatus.Deceased;
+
+  const isAvailableForRouteByPiece = pieceTypes.map(isAvailableForRoute);
+
   const pieceCoordinateByPieceIndex = pieceIndexes.map(toCoordinate);
 
   return {
@@ -272,17 +342,24 @@ const GameDefinition = <Player extends number, Piece extends number>(
     boardWidth,
     boardHeight,
     directionRoutes,
+    directionTurretBases,
     piecesCount,
     pieceTypesCount,
     playerByPiece,
+    statusByPiece,
     routesByPieceIndex,
+    turretBasesByPieceIndex,
     providedPieceByPiece,
     consumedPieceByPiece,
+    deceasedPieceByPiece,
     producerPieceByPlayer,
     providerPieceByPlayer,
     consumerPieceByPlayer,
+    deceasedPieceByPlayer,
     isProvidableByPieceByPlayer,
     isConsumableByPieceByPlayer,
+    isTargetableByPieceByPlayer,
+    isAvailableForRouteByPiece,
     pieceCoordinateByPieceIndex,
     players,
     pieceTypes,

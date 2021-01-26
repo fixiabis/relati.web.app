@@ -1,9 +1,9 @@
 import {
-  START_INDEX,
   NoPlayer,
   PieceIndex,
   Route,
   EMPTY_PIECE,
+  Coordinate,
 } from './definitions';
 
 import type Game from './Game';
@@ -36,6 +36,26 @@ type GameRule<Player extends number, Piece extends number> = {
   ) => void;
 
   /**
+   * 抹殺棋子
+   * @param pieces 棋子
+   * @param trigger 板機索引
+   */
+  readonly mutatePiecesToDeceased: (
+    pieces: Piece[],
+    triggerIndex: PieceIndex
+  ) => void;
+
+  /**
+   * 是否可用該棋子索引路徑
+   * @param pieces 棋子
+   * @param route 棋子索引路徑
+   */
+  readonly isRouteAvailable: (
+    pieces: readonly Piece[],
+    route: Route<PieceIndex>
+  ) => boolean;
+
+  /**
    * 是否玩家棋子索引有可供應的棋子索引路徑
    * @param pieces 棋子
    * @param pieceIndex 棋子索引
@@ -56,20 +76,15 @@ type GameRule<Player extends number, Piece extends number> = {
   ) => Player | NoPlayer | NoWinner;
 };
 
-/**
- * 是否可用該棋子索引路徑
- * @param pieces 棋子
- * @param route 棋子索引路徑
- */
-export const isRouteAvailable = <Piece extends number>(
+export const isTurretBaseFulfilled = <Piece extends number>(
   pieces: readonly Piece[],
-  route: Route<PieceIndex>
+  turretBase: Route<PieceIndex>,
+  isProvidableByPiece: Readonly<Record<Piece, boolean>>
 ): boolean => {
-  for (const indexOfRoute of route.slice(PIECE_INDEX_ROUTE_START_INDEX)) {
-    const pieceIndex = route[indexOfRoute];
+  for (const pieceIndex of turretBase) {
     const piece = pieces[pieceIndex];
 
-    if (piece !== EMPTY_PIECE) {
+    if (!isProvidableByPiece[piece]) {
       return false;
     }
   }
@@ -84,11 +99,19 @@ const GameRule = <Player extends number, Piece extends number>(
     playersCount,
     pieceIndexes,
     consumedPieceByPiece,
+    deceasedPieceByPiece,
     playerByPiece,
     providerPieceByPlayer,
+    deceasedPieceByPlayer,
     routesByPieceIndex,
+    turretBasesByPieceIndex,
     isConsumableByPieceByPlayer,
     isProvidableByPieceByPlayer,
+    isTargetableByPieceByPlayer,
+    isAvailableForRouteByPiece,
+    toCoordinate,
+    toPieceIndex,
+    isCoordinateValid,
   } = definition;
 
   const mutatePiecesToConsumed = (pieces: Piece[]) => {
@@ -105,23 +128,91 @@ const GameRule = <Player extends number, Piece extends number>(
     for (const pieceIndex of providerIndexes) {
       const piece = pieces[pieceIndex];
       const player = playerByPiece[piece] as Player;
-      const providerPiece = providerPieceByPlayer[player];
-      const routes = routesByPieceIndex[pieceIndex];
-      const isConsumableByPiece = isConsumableByPieceByPlayer[player];
+      const isProvidableByPiece = isProvidableByPieceByPlayer[player];
 
-      for (const route of routes) {
-        const [pieceIndex] = route;
-        const piece = pieces[pieceIndex];
+      if (isProvidableByPiece[piece]) {
+        const routes = routesByPieceIndex[pieceIndex];
+        const providerPiece = providerPieceByPlayer[player];
+        const isConsumableByPiece = isConsumableByPieceByPlayer[player];
 
-        const isRouteConsumable =
-          isConsumableByPiece[piece] && isRouteAvailable<Piece>(pieces, route);
+        for (const route of routes) {
+          const [pieceIndex] = route;
+          const piece = pieces[pieceIndex];
 
-        if (isRouteConsumable) {
-          pieces[pieceIndex] = providerPiece;
-          providerIndexes.push(pieceIndex);
+          const isRouteConsumable =
+            isConsumableByPiece[piece] && isRouteAvailable(pieces, route);
+
+          if (isRouteConsumable) {
+            pieces[pieceIndex] = providerPiece;
+            providerIndexes.push(pieceIndex);
+          }
         }
       }
     }
+  };
+
+  const mutatePiecesToDeceased = (
+    pieces: Piece[],
+    triggerIndex: PieceIndex
+  ) => {
+    const piece = pieces[triggerIndex];
+    const player = playerByPiece[piece] as Player;
+    const isProvidableByPiece = isProvidableByPieceByPlayer[player];
+    const isTargetableByPiece = isTargetableByPieceByPlayer[player];
+    const turretBases = turretBasesByPieceIndex[triggerIndex];
+    const [triggerX, triggerY] = toCoordinate(triggerIndex);
+
+    for (const turretBase of turretBases) {
+      const isTurretFulfilled = isTurretBaseFulfilled(
+        pieces,
+        turretBase,
+        isProvidableByPiece
+      );
+
+      if (isTurretFulfilled) {
+        const [bulletIndex] = turretBase;
+        const [bulletX, bulletY] = toCoordinate(bulletIndex);
+        const deltaX = triggerX - bulletX;
+        const deltaY = triggerY - bulletY;
+
+        let targetX = triggerX + deltaX;
+        let targetY = triggerY + deltaY;
+        let targetCoordinate: Coordinate = [targetX, targetY];
+
+        while (isCoordinateValid(targetCoordinate)) {
+          const targetIndex = toPieceIndex(targetCoordinate);
+          const target = pieces[targetIndex];
+          const isTargetTargetable = isTargetableByPiece[target];
+
+          if (isTargetTargetable) {
+            pieces[targetIndex] = deceasedPieceByPiece[target];
+            pieces[bulletIndex] = deceasedPieceByPlayer[player];
+            break;
+          }
+
+          targetX += deltaX;
+          targetY += deltaY;
+          targetCoordinate = [targetX, targetY];
+        }
+      }
+    }
+  };
+
+  const isRouteAvailable = (
+    pieces: readonly Piece[],
+    route: Route<PieceIndex>
+  ): boolean => {
+    const availableRoute = route.slice(PIECE_INDEX_ROUTE_START_INDEX);
+
+    for (const pieceIndex of availableRoute) {
+      const piece = pieces[pieceIndex];
+
+      if (!isAvailableForRouteByPiece[piece]) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   const isPieceIndexHasProvidableRoute = (
@@ -137,7 +228,7 @@ const GameRule = <Player extends number, Piece extends number>(
       const piece = pieces[pieceIndex];
 
       const isRouteProvidable =
-        isProvidableByPiece[piece] && isRouteAvailable<Piece>(pieces, route);
+        isProvidableByPiece[piece] && isRouteAvailable(pieces, route);
 
       if (isRouteProvidable) {
         return true;
@@ -193,6 +284,8 @@ const GameRule = <Player extends number, Piece extends number>(
     definition,
     mutatePiecesToConsumed,
     mutatePiecesToProvided,
+    mutatePiecesToDeceased,
+    isRouteAvailable,
     isPieceIndexHasProvidableRoute,
     getWinner,
   };
