@@ -76,22 +76,6 @@ type GameRule<Player extends number, Piece extends number> = {
   ) => Player | NoPlayer | NoWinner;
 };
 
-export const isTurretBaseFulfilled = <Piece extends number>(
-  pieces: readonly Piece[],
-  turretBase: Route<PieceIndex>,
-  isProvidableByPiece: Readonly<Record<Piece, boolean>>
-): boolean => {
-  for (const pieceIndex of turretBase) {
-    const piece = pieces[pieceIndex];
-
-    if (!isProvidableByPiece[piece]) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
 const GameRule = <Player extends number, Piece extends number>(
   definition: GameDefinition<Player, Piece>
 ): GameRule<Player, Piece> => {
@@ -151,32 +135,29 @@ const GameRule = <Player extends number, Piece extends number>(
     }
   };
 
-  const mutatePiecesToDeceased = (
-    pieces: Piece[],
-    triggerIndex: PieceIndex
-  ) => {
-    const piece = pieces[triggerIndex];
-    const player = playerByPiece[piece] as Player;
-    const isProvidableByPiece = isProvidableByPieceByPlayer[player];
+  const mutatePiecesToDeceased = (pieces: Piece[], bulletIndex: PieceIndex) => {
+    const bullet = pieces[bulletIndex];
+    const player = playerByPiece[bullet] as Player;
     const isTargetableByPiece = isTargetableByPieceByPlayer[player];
-    const turretBases = turretBasesByPieceIndex[triggerIndex];
-    const [triggerX, triggerY] = toCoordinate(triggerIndex);
+    const turretBases = turretBasesByPieceIndex[bulletIndex];
+    const [bulletX, bulletY] = toCoordinate(bulletIndex);
 
     for (const turretBase of turretBases) {
+      const [triggerIndex] = turretBase;
+
       const isTurretFulfilled = isTurretBaseFulfilled(
         pieces,
         turretBase,
-        isProvidableByPiece
+        player
       );
 
       if (isTurretFulfilled) {
-        const [bulletIndex] = turretBase;
-        const [bulletX, bulletY] = toCoordinate(bulletIndex);
+        const [triggerX, triggerY] = toCoordinate(triggerIndex);
         const deltaX = triggerX - bulletX;
         const deltaY = triggerY - bulletY;
 
-        let targetX = triggerX + deltaX;
-        let targetY = triggerY + deltaY;
+        let targetX = bulletX + deltaX;
+        let targetY = bulletY + deltaY;
         let targetCoordinate: Coordinate = [targetX, targetY];
 
         while (isCoordinateValid(targetCoordinate)) {
@@ -186,7 +167,7 @@ const GameRule = <Player extends number, Piece extends number>(
 
           if (isTargetTargetable) {
             pieces[targetIndex] = deceasedPieceByPiece[target];
-            pieces[bulletIndex] = deceasedPieceByPlayer[player];
+            pieces[bulletIndex] = deceasedPieceByPiece[bullet];
             break;
           }
 
@@ -196,6 +177,23 @@ const GameRule = <Player extends number, Piece extends number>(
         }
       }
     }
+  };
+
+  const isTurretBaseFulfilled = (
+    pieces: readonly Piece[],
+    turretBase: Route<PieceIndex>,
+    player: Player
+  ): boolean => {
+    for (const pieceIndex of turretBase) {
+      const piece = pieces[pieceIndex];
+      const playerOfPiece = playerByPiece[piece];
+
+      if (playerOfPiece !== player) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   const isRouteAvailable = (
