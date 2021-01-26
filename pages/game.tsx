@@ -24,7 +24,8 @@ type GamePageProps = {
   boardHeight: number;
   pieces: string[];
   playersCount: number;
-  portsCount: number;
+  routePortsCount: number;
+  turretPortsCount: number;
 };
 
 const GamePage: NextPage<GamePageProps> = ({
@@ -32,13 +33,15 @@ const GamePage: NextPage<GamePageProps> = ({
   boardHeight,
   pieces,
   playersCount,
-  portsCount,
+  routePortsCount,
+  turretPortsCount,
 }) => {
   const definition = GamePageLayout.useDefinition(
     playersCount,
     boardWidth,
     boardHeight,
-    portsCount
+    routePortsCount,
+    turretPortsCount
   );
 
   const thinker = GamePageLayout.useThinker(definition);
@@ -203,12 +206,24 @@ const GamePage: NextPage<GamePageProps> = ({
 export default PagePropsInitialized(GamePage)((query) => {
   const [boardWidth, boardHeight] = GameUtil.getBoardSize(query);
   const playersCount = GameUtil.getPlayersCount(query);
-  const pieces = GameUtil.getPieces(query, playersCount);
+  const pieces = GameUtil.getPieceShapes(query, playersCount);
 
-  const portsCount = GameUtil.getPortsCount(query, playersCount, [
+  const routePortsCount = GameUtil.getRoutePortsCount(query, playersCount, [
     boardWidth,
     boardHeight,
   ]);
 
-  return { boardWidth, boardHeight, pieces, playersCount, portsCount };
+  const turretPortsCount = GameUtil.getTurretPortsCount(query, playersCount, [
+    boardWidth,
+    boardHeight,
+  ]);
+
+  return {
+    boardWidth,
+    boardHeight,
+    pieces,
+    playersCount,
+    routePortsCount,
+    turretPortsCount,
+  };
 });

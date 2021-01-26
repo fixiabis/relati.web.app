@@ -14,7 +14,7 @@ export const getBoardSize = (query: ParsedUrlQuery) =>
     index === 1 && size === 0 ? sizes[0] : size
   ) as [number, number];
 
-export const getPieces = (
+export const getPieceShapes = (
   query: ParsedUrlQuery,
   playersCount: number = getPlayersCount(query)
 ) => {
@@ -25,15 +25,28 @@ export const getPieces = (
     .filter((shape) => shapes.includes(shape));
 };
 
-export const getPortsCount = (
+export const getRoutePortsCount = (
   query: ParsedUrlQuery,
   playersCount: number = getPlayersCount(query),
   [boardWidth, boardHeight]: [number, number] = getBoardSize(query)
 ) =>
-  [8, 16, 24][
-    Math.min(
-      (((((boardWidth + boardHeight) / 2) | 0) - (playersCount * 2 + 1)) / 2) |
-        0,
-      2
-    )
-  ];
+  Math.min(
+    Math.floor(
+      (Math.floor((boardWidth + boardHeight) / 2) - (playersCount * 2 + 1)) / 2
+    ),
+    2
+  ) *
+    8 +
+  8;
+
+export const getTurretPortsCount = (
+  query: ParsedUrlQuery,
+  playersCount: number = getPlayersCount(query),
+  [boardWidth, boardHeight]: [number, number] = getBoardSize(query)
+) =>
+  Math.min(
+    Math.floor(
+      (Math.floor((boardWidth + boardHeight) / 2) - (playersCount * 4 + 1)) / 2
+    ),
+    1
+  ) * 4;

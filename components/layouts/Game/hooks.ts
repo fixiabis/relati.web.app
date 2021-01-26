@@ -4,7 +4,7 @@ import Thinker, {
   DeepThinking,
   MultiInfluencesBasedThinking,
 } from '../../../relati/Thinker';
-import { DirectionRoute } from '../../../relati/values';
+import { DirectionRoute, TurretBase } from '../../../relati/values';
 
 type Player = number;
 type Piece = number;
@@ -13,7 +13,8 @@ export const useDefinition = (
   playersCount: number,
   boardWidth: number,
   boardHeight: number,
-  portsCount: number
+  routePortsCount: number,
+  turretPortsCount: number
 ) =>
   useMemo(
     () =>
@@ -21,9 +22,10 @@ export const useDefinition = (
         playersCount,
         boardWidth,
         boardHeight,
-        DirectionRoute['P' + portsCount]
+        DirectionRoute['P' + routePortsCount],
+        TurretBase['P' + turretPortsCount]
       ),
-    [boardWidth, boardHeight, portsCount]
+    [boardWidth, boardHeight, routePortsCount, turretPortsCount]
   );
 
 export const useThinker = (definition: GameDefinition<Player, Piece>) =>
