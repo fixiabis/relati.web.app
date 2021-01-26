@@ -26,7 +26,10 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
   const [pieces, setPieces] = useState<string[]>([]);
 
   useEffect(
-    () => setPieces(ChooseGamePiecesPageLayout.defaultPiecesByPlayers[players]),
+    () =>
+      setPieces(
+        ChooseGamePiecesPageLayout.defaultPiecesByPlayers[players] || []
+      ),
     [players]
   );
 
