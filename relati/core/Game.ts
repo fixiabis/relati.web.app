@@ -24,7 +24,7 @@ type Game<Player extends number, Piece extends number> = {
   readonly pieces: readonly Piece[];
 
   /** 生產者索引 */
-  readonly producerPieceIndexes: readonly PieceIndex[];
+  readonly producerIndexes: readonly PieceIndex[];
 
   /** 放置棋子 */
   readonly place: (pieceIndex: number, player: Player) => Game<Player, Piece>;
@@ -38,7 +38,7 @@ const Game = <Player extends number, Piece extends number>(
   rule: GameRule<Player, Piece>,
   turn: number = START_TURN,
   pieces: readonly Piece[] = createPieces(rule.definition.piecesCount),
-  producerPieceIndexes: readonly PieceIndex[] = []
+  producerIndexes: readonly PieceIndex[] = []
 ): Game<Player, Piece> => {
   const {
     definition,
@@ -69,9 +69,9 @@ const Game = <Player extends number, Piece extends number>(
 
         piecesAfterPlaced[pieceIndex] = providerPiece;
         mutatePiecesToConsumed(piecesAfterPlaced);
-        mutatePiecesToProvided(piecesAfterPlaced, [...producerPieceIndexes]);
+        mutatePiecesToProvided(piecesAfterPlaced, [...producerIndexes]);
 
-        return Game(rule, turn + STEP, piecesAfterPlaced, producerPieceIndexes);
+        return Game(rule, turn + STEP, piecesAfterPlaced, producerIndexes);
       }
     } else {
       const isPieceIndexPlaceable =
@@ -80,11 +80,7 @@ const Game = <Player extends number, Piece extends number>(
       if (isPieceIndexPlaceable) {
         const producerPiece = producerPieceByPlayer[player];
         const piecesAfterPlaced = [...pieces];
-
-        const producerPieceIndexesAfterPlaced = [
-          ...producerPieceIndexes,
-          pieceIndex,
-        ];
+        const producerIndexesAfterPlaced = [...producerIndexes, pieceIndex];
 
         piecesAfterPlaced[pieceIndex] = producerPiece;
 
@@ -92,7 +88,7 @@ const Game = <Player extends number, Piece extends number>(
           rule,
           turn + STEP,
           piecesAfterPlaced,
-          producerPieceIndexesAfterPlaced
+          producerIndexesAfterPlaced
         );
       }
     }
@@ -105,7 +101,7 @@ const Game = <Player extends number, Piece extends number>(
     rule,
     turn,
     pieces,
-    producerPieceIndexes,
+    producerIndexes,
     place,
   };
 

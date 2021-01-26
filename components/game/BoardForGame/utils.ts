@@ -15,10 +15,7 @@ export type Keyframe<Piece> = {
   duration: number;
   pieces: readonly Piece[];
 
-  routesByPieceIndex: ReadonlyRecord<
-    PieceIndex,
-    readonly Route<PieceIndex>[]
-  >;
+  routesByPieceIndex: ReadonlyRecord<PieceIndex, readonly Route<PieceIndex>[]>;
 
   addedRoutesByPieceIndex: ReadonlyRecord<
     PieceIndex,
@@ -65,8 +62,7 @@ const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
       const piece = pieces[pieceIndex];
 
       const isRouteConsumable =
-        isConsumableByPiece[piece] &&
-        isRouteAvailable<Piece>(pieces, route);
+        isConsumableByPiece[piece] && isRouteAvailable<Piece>(pieces, route);
 
       if (isRouteConsumable) {
         pieces[pieceIndex] = providerPiece;
@@ -92,9 +88,9 @@ export const getKeyframesOfEffect = <
   const { pieceIndexes } = definition;
 
   const prevPieces = [...prevGame.pieces];
-  const prevProviderPieceIndexes = [...prevGame.producerPieceIndexes];
+  const prevProviderPieceIndexes = [...prevGame.producerIndexes];
   const pieces = [...game.pieces];
-  const providerPieceIndexes = [...game.producerPieceIndexes];
+  const providerPieceIndexes = [...game.producerIndexes];
 
   prevGame.rule.mutatePiecesToConsumed(prevPieces);
   game.rule.mutatePiecesToConsumed(pieces);
@@ -141,44 +137,33 @@ export const getKeyframesOfEffect = <
     const prevRoutes = prevRoutesByPieceIndex[pieceIndex];
     const routes = routesByPieceIndex[pieceIndex];
 
-    const isRouteInPrevRoutes = (
-      route: Route<PieceIndex>
-    ) => prevRoutes.includes(route);
+    const isRouteInPrevRoutes = (route: Route<PieceIndex>) =>
+      prevRoutes.includes(route);
 
-    const isRouteNotInPrevRoutes = (
-      route: Route<PieceIndex>
-    ) => !prevRoutes.includes(route);
+    const isRouteNotInPrevRoutes = (route: Route<PieceIndex>) =>
+      !prevRoutes.includes(route);
 
-    const isRouteNotInRoutes = (
-      route: Route<PieceIndex>
-    ) => !routes.includes(route);
+    const isRouteNotInRoutes = (route: Route<PieceIndex>) =>
+      !routes.includes(route);
 
-    const unchangedRoutes = routes.filter(
-      isRouteInPrevRoutes
-    );
+    const unchangedRoutes = routes.filter(isRouteInPrevRoutes);
 
-    const addedRoutes = routes.filter(
-      isRouteNotInPrevRoutes
-    );
+    const addedRoutes = routes.filter(isRouteNotInPrevRoutes);
 
-    const removedRoutes = prevRoutes.filter(
-      isRouteNotInRoutes
-    );
+    const removedRoutes = prevRoutes.filter(isRouteNotInRoutes);
 
-    unchangedRoutesByPieceIndex[
-      pieceIndex
-    ] = unchangedRoutes;
+    unchangedRoutesByPieceIndex[pieceIndex] = unchangedRoutes;
 
     addedRoutesByPieceIndex[pieceIndex] = addedRoutes;
     removedRoutesByPieceIndex[pieceIndex] = removedRoutes;
   }
 
-  for (const pieceIndex of prevGame.producerPieceIndexes) {
+  for (const pieceIndex of prevGame.producerIndexes) {
     prevStepByPieceIndex[pieceIndex] = 0;
     prevPieceIndexesOfSteps[0].push(pieceIndex);
   }
 
-  for (const pieceIndex of game.producerPieceIndexes) {
+  for (const pieceIndex of game.producerIndexes) {
     stepByPieceIndex[pieceIndex] = 0;
     pieceIndexesOfSteps[0].push(pieceIndex);
   }
@@ -295,15 +280,12 @@ export const getKeyframesOfEffect = <
       let hasRouteAdded = false;
 
       for (const pieceIndex of unchangedAndAddedPieceIndexes) {
-        const addedRoutes =
-          addedRoutesByPieceIndex[pieceIndex];
+        const addedRoutes = addedRoutesByPieceIndex[pieceIndex];
 
         if (addedRoutes.length > 0) {
           hasRouteAdded = true;
 
-          addedRoutesByPieceIndexOfKeyframe[
-            pieceIndex
-          ] = addedRoutes;
+          addedRoutesByPieceIndexOfKeyframe[pieceIndex] = addedRoutes;
         }
       }
 
@@ -319,11 +301,8 @@ export const getKeyframesOfEffect = <
         keyframes.push({
           ...keyframe,
           type: 'added-routes to routes',
-          routesByPieceIndex: routesByPieceIndex.map(
-            (routes, pieceIndex) =>
-              routes.concat(
-                addedRoutesByPieceIndexOfKeyframe[pieceIndex]
-              )
+          routesByPieceIndex: routesByPieceIndex.map((routes, pieceIndex) =>
+            routes.concat(addedRoutesByPieceIndexOfKeyframe[pieceIndex])
           ),
           addedRoutesByPieceIndex: addedRoutesByPieceIndexOfKeyframe.map(
             () => []
@@ -363,22 +342,16 @@ export const getKeyframesOfEffect = <
       let hasRouteRemoved = false;
 
       for (const pieceIndex of unchangedAndRemovedPieceIndexes) {
-        const removedRoutes =
-          removedRoutesByPieceIndex[pieceIndex];
+        const removedRoutes = removedRoutesByPieceIndex[pieceIndex];
 
         if (removedRoutes.length > 0) {
           hasRouteRemoved = true;
 
-          removedRoutesByPieceIndexOfKeyframe[
-            pieceIndex
-          ] = removedRoutes;
+          removedRoutesByPieceIndexOfKeyframe[pieceIndex] = removedRoutes;
 
-          routesByPieceIndex[
+          routesByPieceIndex[pieceIndex] = routesByPieceIndex[
             pieceIndex
-          ] = routesByPieceIndex[pieceIndex].filter(
-            (route) =>
-              !removedRoutes.includes(route)
-          );
+          ].filter((route) => !removedRoutes.includes(route));
         }
       }
 

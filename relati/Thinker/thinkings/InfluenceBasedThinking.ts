@@ -55,7 +55,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
       .filter(isCoordinateValid)
       .map(toPieceIndex);
 
-  const nearbyPieceIndexesByPieceIndex = pieceIndexes
+  const nearbyIndexesByPieceIndex = pieceIndexes
     .map(toCoordinate)
     .map(toNearbyPieceIndexes);
 
@@ -68,14 +68,14 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     const { pieces } = game;
     const isProvidableByPiece = isProvidableByPieceByPlayer[player];
     const pieceIndexToInfluencePointsMap: Record<PieceIndex, number> = [];
-    const providerPieceIndexes = [];
+    const providerIndexes = [];
 
     for (const pieceIndex of pieceIndexes) {
       const piece = pieces[pieceIndex];
 
       if (isProvidableByPiece[piece]) {
         pieceIndexToInfluencePointsMap[pieceIndex] = OVER_INFLUENCE_POINTS;
-        providerPieceIndexes.push(pieceIndex);
+        providerIndexes.push(pieceIndex);
       } else {
         pieceIndexToInfluencePointsMap[pieceIndex] = piece
           ? UNDER_INFLUENCE_POINTS
@@ -83,17 +83,17 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
       }
     }
 
-    for (const pieceIndex of providerPieceIndexes) {
+    for (const pieceIndex of providerIndexes) {
       const influencePoints = pieceIndexToInfluencePointsMap[pieceIndex];
-      const nearbyPieceIndexes = nearbyPieceIndexesByPieceIndex[pieceIndex];
+      const nearbyIndexes = nearbyIndexesByPieceIndex[pieceIndex];
 
-      for (const pieceIndex of nearbyPieceIndexes) {
+      for (const pieceIndex of nearbyIndexes) {
         const influencePointsOfNearbyPiece =
           pieceIndexToInfluencePointsMap[pieceIndex];
 
         if (influencePointsOfNearbyPiece === NO_INFLUENCE_POINTS) {
           pieceIndexToInfluencePointsMap[pieceIndex] = influencePoints - STEP;
-          providerPieceIndexes.push(pieceIndex);
+          providerIndexes.push(pieceIndex);
         }
       }
     }
@@ -105,7 +105,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
     const { pieces } = game;
     const isProvidableByPiece = isProvidableByPieceByPlayer[player];
     const pieceIndexToInfluencePointsMap: Record<PieceIndex, number> = [];
-    const providerPieceIndexes = [];
+    const providerIndexes = [];
     let points = NO_POINTS;
 
     for (const pieceIndex of pieceIndexes) {
@@ -113,7 +113,7 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
 
       if (isProvidableByPiece[piece]) {
         pieceIndexToInfluencePointsMap[pieceIndex] = OVER_INFLUENCE_POINTS;
-        providerPieceIndexes.push(pieceIndex);
+        providerIndexes.push(pieceIndex);
       } else {
         pieceIndexToInfluencePointsMap[pieceIndex] = piece
           ? UNDER_INFLUENCE_POINTS
@@ -121,18 +121,18 @@ const InfluenceBasedThinking = <Player extends number, Piece extends number>(
       }
     }
 
-    for (const pieceIndex of providerPieceIndexes) {
+    for (const pieceIndex of providerIndexes) {
       const influencePoints = pieceIndexToInfluencePointsMap[pieceIndex];
-      const nearbyPieceIndexes = nearbyPieceIndexesByPieceIndex[pieceIndex];
+      const nearbyIndexes = nearbyIndexesByPieceIndex[pieceIndex];
 
-      for (const pieceIndex of nearbyPieceIndexes) {
+      for (const pieceIndex of nearbyIndexes) {
         const influencePointsOfNearbyPiece =
           pieceIndexToInfluencePointsMap[pieceIndex];
 
         if (influencePointsOfNearbyPiece === NO_INFLUENCE_POINTS) {
           pieceIndexToInfluencePointsMap[pieceIndex] = influencePoints - STEP;
           points += influencePoints - STEP;
-          providerPieceIndexes.push(pieceIndex);
+          providerIndexes.push(pieceIndex);
         }
       }
     }

@@ -28,7 +28,7 @@ type GameRule<Player extends number, Piece extends number> = {
   /**
    * 供應棋子資源
    * @param pieces 棋子
-   * @param producerPieceIndexes 生產者索引
+   * @param providerIndexes 生產者索引
    */
   readonly mutatePiecesToProvided: (
     pieces: Piece[],
@@ -100,9 +100,9 @@ const GameRule = <Player extends number, Piece extends number>(
 
   const mutatePiecesToProvided = (
     pieces: Piece[],
-    providerPieceIndexes: PieceIndex[]
+    providerIndexes: PieceIndex[]
   ) => {
-    for (const pieceIndex of providerPieceIndexes) {
+    for (const pieceIndex of providerIndexes) {
       const piece = pieces[pieceIndex];
       const player = playerByPiece[piece] as Player;
       const providerPiece = providerPieceByPlayer[player];
@@ -118,7 +118,7 @@ const GameRule = <Player extends number, Piece extends number>(
 
         if (isRouteConsumable) {
           pieces[pieceIndex] = providerPiece;
-          providerPieceIndexes.push(pieceIndex);
+          providerIndexes.push(pieceIndex);
         }
       }
     }

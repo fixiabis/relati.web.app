@@ -96,7 +96,7 @@ const GamePage: NextPage<GamePageProps> = ({
   }, [game]);
 
   useEffect(() => {
-    const { turn, pieces, producerPieceIndexes } = game;
+    const { turn, pieces, producerIndexes } = game;
     const { pieceIndexes } = game.definition;
 
     const { isPieceIndexHasProvidableRoute, getWinner } = game.rule;
@@ -116,12 +116,7 @@ const GamePage: NextPage<GamePageProps> = ({
     );
 
     if (!hasPieceIndexOfPlayerPlaceable) {
-      const turnPassedGame = Game(
-        game.rule,
-        turn + 1,
-        pieces,
-        producerPieceIndexes
-      );
+      const turnPassedGame = Game(game.rule, turn + 1, pieces, producerIndexes);
 
       setGame(turnPassedGame);
       setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, -1]);
