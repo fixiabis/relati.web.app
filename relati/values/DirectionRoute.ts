@@ -27,7 +27,7 @@ namespace PlacementDirection {
   export const BBRR: Direction = [+2, +2];
 }
 
-namespace DirectionRoutes {
+namespace DirectionRoute {
   export const P8: readonly Route<Direction>[] = [
     [PlacementDirection.F],
     [PlacementDirection.B],
@@ -89,4 +89,4 @@ namespace DirectionRoutes {
   ];
 }
 
-export default DirectionRoutes;
+export default DirectionRoute;

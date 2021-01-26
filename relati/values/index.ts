@@ -1,1 +1,1 @@
-export { default as DirectionRoutes } from './DirectionRoutes';
+export { default as DirectionRoute } from './DirectionRoute';

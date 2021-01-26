@@ -4,7 +4,7 @@ import Thinker, {
   DeepThinking,
   MultiInfluencesBasedThinking,
 } from '../../../relati/Thinker';
-import { DirectionRoutes } from '../../../relati/values';
+import { DirectionRoute } from '../../../relati/values';
 
 type Player = number;
 type Piece = number;
@@ -21,7 +21,7 @@ export const useDefinition = (
         playersCount,
         boardWidth,
         boardHeight,
-        DirectionRoutes['P' + portsCount]
+        DirectionRoute['P' + portsCount]
       ),
     [boardWidth, boardHeight, portsCount]
   );
