@@ -135,29 +135,32 @@ const GameRule = <Player extends number, Piece extends number>(
     }
   };
 
-  const mutatePiecesToDeceased = (pieces: Piece[], bulletIndex: PieceIndex) => {
-    const bullet = pieces[bulletIndex];
-    const player = playerByPiece[bullet] as Player;
+  const mutatePiecesToDeceased = (
+    pieces: Piece[],
+    triggerIndex: PieceIndex
+  ) => {
+    const trigger = pieces[triggerIndex];
+    const player = playerByPiece[trigger] as Player;
+    const isProvidableByPiece = isProvidableByPieceByPlayer[player];
     const isTargetableByPiece = isTargetableByPieceByPlayer[player];
-    const turretBases = turretBasesByPieceIndex[bulletIndex];
-    const [bulletX, bulletY] = toCoordinate(bulletIndex);
+    const turretBases = turretBasesByPieceIndex[triggerIndex];
+    const [triggerX, triggerY] = toCoordinate(triggerIndex);
 
     for (const turretBase of turretBases) {
-      const [triggerIndex] = turretBase;
+      const [bulletIndex] = turretBase;
+      const bullet = pieces[bulletIndex];
 
-      const isTurretFulfilled = isTurretBaseFulfilled(
-        pieces,
-        turretBase,
-        player
-      );
+      const isTurretFulfilled =
+        isProvidableByPiece[bullet] &&
+        isTurretBaseFulfilled(pieces, turretBase, player);
 
       if (isTurretFulfilled) {
-        const [triggerX, triggerY] = toCoordinate(triggerIndex);
-        const deltaX = triggerX - bulletX;
-        const deltaY = triggerY - bulletY;
+        const [bulletX, bulletY] = toCoordinate(bulletIndex);
+        const deltaX = bulletX - triggerX;
+        const deltaY = bulletY - triggerY;
 
-        let targetX = bulletX + deltaX;
-        let targetY = bulletY + deltaY;
+        let targetX = triggerX + deltaX;
+        let targetY = triggerY + deltaY;
         let targetCoordinate: Coordinate = [targetX, targetY];
 
         while (isCoordinateValid(targetCoordinate)) {
