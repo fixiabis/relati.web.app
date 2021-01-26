@@ -141,7 +141,7 @@ const GameRule = <Player extends number, Piece extends number>(
   ) => {
     const trigger = pieces[triggerIndex];
     const player = playerByPiece[trigger] as Player;
-    const isProvidableByPiece = isProvidableByPieceByPlayer[player];
+    const provider = providerPieceByPlayer[player];
     const isTargetableByPiece = isTargetableByPieceByPlayer[player];
     const turretBases = turretBasesByPieceIndex[triggerIndex];
     const [triggerX, triggerY] = toCoordinate(triggerIndex);
@@ -151,7 +151,7 @@ const GameRule = <Player extends number, Piece extends number>(
       const bullet = pieces[bulletIndex];
 
       const isTurretFulfilled =
-        isProvidableByPiece[bullet] &&
+        bullet === provider &&
         isTurretBaseFulfilled(pieces, turretBase, player);
 
       if (isTurretFulfilled) {
