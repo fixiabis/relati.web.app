@@ -1,18 +1,14 @@
-import {
-  NoPlayer,
-  PieceIndex,
-  Route,
-  EMPTY_PIECE,
-  Coordinate,
-} from './definitions';
-
+import { NoPlayer, PieceIndex, Route, EMPTY_PIECE } from './definitions';
 import type Game from './Game';
 import type GameDefinition from './GameDefinition';
 
 export type NoWinner = -2;
 export const NO_PLAYER = -1;
 export const NO_WINNER = -2;
-const PIECE_INDEX_ROUTE_START_INDEX = 1;
+const ROUTE_START_INDEX = 1;
+const ROUTE_END_INDEX = -1;
+const TURRET_BASE_START_INDEX = 1;
+const TURRET_BASE_END_INDEX = -1;
 
 /** 遊戲規則 */
 type GameRule<Player extends number, Piece extends number> = {
@@ -86,7 +82,6 @@ const GameRule = <Player extends number, Piece extends number>(
     deceasedPieceByPiece,
     playerByPiece,
     providerPieceByPlayer,
-    deceasedPieceByPlayer,
     routesByPieceIndex,
     turretBasesByPieceIndex,
     isConsumableByPieceByPlayer,
@@ -155,16 +150,13 @@ const GameRule = <Player extends number, Piece extends number>(
         isTurretBaseFulfilled(pieces, turretBase, player);
 
       if (isTurretFulfilled) {
-        const [bulletX, bulletY] = toCoordinate(bulletIndex);
-        const deltaX = bulletX - triggerX;
-        const deltaY = bulletY - triggerY;
-
-        let targetX = triggerX + deltaX;
-        let targetY = triggerY + deltaY;
-        let targetCoordinate: Coordinate = [targetX, targetY];
+        let [targetIndex] = turretBase.slice(TURRET_BASE_END_INDEX);
+        let targetCoordinate = toCoordinate(targetIndex);
+        let [targetX, targetY] = targetCoordinate;
+        const deltaX = targetX - triggerX;
+        const deltaY = targetY - triggerY;
 
         while (isCoordinateValid(targetCoordinate)) {
-          const targetIndex = toPieceIndex(targetCoordinate);
           const target = pieces[targetIndex];
           const isTargetTargetable = isTargetableByPiece[target];
 
@@ -177,6 +169,7 @@ const GameRule = <Player extends number, Piece extends number>(
           targetX += deltaX;
           targetY += deltaY;
           targetCoordinate = [targetX, targetY];
+          targetIndex = toPieceIndex(targetCoordinate);
         }
       }
     }
@@ -187,7 +180,12 @@ const GameRule = <Player extends number, Piece extends number>(
     turretBase: Route<PieceIndex>,
     player: Player
   ): boolean => {
-    for (const pieceIndex of turretBase) {
+    const availableTurretBase = turretBase.slice(
+      TURRET_BASE_START_INDEX,
+      TURRET_BASE_END_INDEX
+    );
+
+    for (const pieceIndex of availableTurretBase) {
       const piece = pieces[pieceIndex];
       const playerOfPiece = playerByPiece[piece];
 
@@ -203,7 +201,7 @@ const GameRule = <Player extends number, Piece extends number>(
     pieces: readonly Piece[],
     route: Route<PieceIndex>
   ): boolean => {
-    const availableRoute = route.slice(PIECE_INDEX_ROUTE_START_INDEX);
+    const availableRoute = route.slice(ROUTE_START_INDEX, ROUTE_END_INDEX);
 
     for (const pieceIndex of availableRoute) {
       const piece = pieces[pieceIndex];

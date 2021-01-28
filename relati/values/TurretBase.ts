@@ -15,10 +15,15 @@ namespace TurretBase {
   export const P0: readonly Route<Direction>[] = [];
 
   export const P4: readonly Route<Direction>[] = [
-    [BuildDirection.F, BuildDirection.FL, BuildDirection.FR],
-    [BuildDirection.B, BuildDirection.BL, BuildDirection.BR],
-    [BuildDirection.L, BuildDirection.FL, BuildDirection.BL],
-    [BuildDirection.R, BuildDirection.FR, BuildDirection.BR],
+    [BuildDirection.F, BuildDirection.FL, BuildDirection.FR, BuildDirection.F],
+    [BuildDirection.B, BuildDirection.BL, BuildDirection.BR, BuildDirection.B],
+    [BuildDirection.L, BuildDirection.FL, BuildDirection.BL, BuildDirection.L],
+    [BuildDirection.R, BuildDirection.FR, BuildDirection.BR, BuildDirection.R],
+
+    [BuildDirection.F, BuildDirection.L, BuildDirection.R, BuildDirection.B],
+    [BuildDirection.B, BuildDirection.L, BuildDirection.R, BuildDirection.F],
+    [BuildDirection.L, BuildDirection.F, BuildDirection.B, BuildDirection.R],
+    [BuildDirection.R, BuildDirection.F, BuildDirection.B, BuildDirection.L],
   ];
 }
 

@@ -1,6 +1,7 @@
 import type { Direction, Route } from '../core';
 
 namespace PlacementDirection {
+  export const C: Direction = [+0, +0];
   export const F: Direction = [+0, -1];
   export const B: Direction = [+0, +1];
   export const L: Direction = [-1, +0];
@@ -29,63 +30,63 @@ namespace PlacementDirection {
 
 namespace DirectionRoute {
   export const P8: readonly Route<Direction>[] = [
-    [PlacementDirection.F],
-    [PlacementDirection.B],
-    [PlacementDirection.L],
-    [PlacementDirection.R],
+    [PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.B, PlacementDirection.C],
+    [PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.R, PlacementDirection.C],
 
-    [PlacementDirection.FL],
-    [PlacementDirection.FR],
-    [PlacementDirection.BL],
-    [PlacementDirection.BR],
+    [PlacementDirection.FL, PlacementDirection.C],
+    [PlacementDirection.FR, PlacementDirection.C],
+    [PlacementDirection.BL, PlacementDirection.C],
+    [PlacementDirection.BR, PlacementDirection.C],
   ];
 
   export const P16: readonly Route<Direction>[] = [
     ...P8,
 
-    [PlacementDirection.FF, PlacementDirection.F],
-    [PlacementDirection.BB, PlacementDirection.B],
-    [PlacementDirection.LL, PlacementDirection.L],
-    [PlacementDirection.RR, PlacementDirection.R],
+    [PlacementDirection.FF, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.BB, PlacementDirection.B, PlacementDirection.C],
+    [PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
 
-    [PlacementDirection.FFLL, PlacementDirection.FL],
-    [PlacementDirection.FFRR, PlacementDirection.FR],
-    [PlacementDirection.BBLL, PlacementDirection.BL],
-    [PlacementDirection.BBRR, PlacementDirection.BR],
+    [PlacementDirection.FFLL, PlacementDirection.FL, PlacementDirection.C],
+    [PlacementDirection.FFRR, PlacementDirection.FR, PlacementDirection.C],
+    [PlacementDirection.BBLL, PlacementDirection.BL, PlacementDirection.C],
+    [PlacementDirection.BBRR, PlacementDirection.BR, PlacementDirection.C],
   ];
 
   export const P24: readonly Route<Direction>[] = [
     ...P16,
 
-    [PlacementDirection.FFL, PlacementDirection.FF, PlacementDirection.F],
-    [PlacementDirection.FFR, PlacementDirection.FF, PlacementDirection.F],
-    [PlacementDirection.BBL, PlacementDirection.BB, PlacementDirection.B],
-    [PlacementDirection.BBR, PlacementDirection.BB, PlacementDirection.B],
+    [PlacementDirection.FFL, PlacementDirection.FF, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.FFR, PlacementDirection.FF, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.BBL, PlacementDirection.BB, PlacementDirection.B, PlacementDirection.C],
+    [PlacementDirection.BBR, PlacementDirection.BB, PlacementDirection.B, PlacementDirection.C],
 
-    [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.F],
-    [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.F],
-    [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.B],
-    [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.B],
+    [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.B, PlacementDirection.C],
+    [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.B, PlacementDirection.C],
 
-    [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.L],
-    [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.R],
-    [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.L],
-    [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.R],
+    [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.R, PlacementDirection.C],
+    [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.R, PlacementDirection.C],
 
-    [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.F],
-    [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.F],
-    [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.B],
-    [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.B],
+    [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.B, PlacementDirection.C],
+    [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.B, PlacementDirection.C],
 
-    [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.L],
-    [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.R],
-    [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.L],
-    [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.R],
+    [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.R, PlacementDirection.C],
+    [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.R, PlacementDirection.C],
 
-    [PlacementDirection.FLL, PlacementDirection.LL, PlacementDirection.L],
-    [PlacementDirection.FRR, PlacementDirection.RR, PlacementDirection.R],
-    [PlacementDirection.BLL, PlacementDirection.LL, PlacementDirection.L],
-    [PlacementDirection.BRR, PlacementDirection.RR, PlacementDirection.R],
+    [PlacementDirection.FLL, PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.FRR, PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
+    [PlacementDirection.BLL, PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.BRR, PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
   ];
 }
 
