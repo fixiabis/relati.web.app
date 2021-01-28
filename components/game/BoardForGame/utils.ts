@@ -40,7 +40,8 @@ const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
     pieceIndexes,
     playerByPiece,
     providerPieceByPlayer,
-    routesByPieceIndex: routesByPieceIndex,
+    routesByPieceIndex,
+    isProvidableByPieceByPlayer,
     isConsumableByPieceByPlayer,
   } = rule.definition;
 
@@ -52,26 +53,30 @@ const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
   for (const pieceIndex of providerPieceIndexes) {
     const piece = pieces[pieceIndex];
     const player = playerByPiece[piece] as Player;
-    const providerPiece = providerPieceByPlayer[player];
-    const routes = routesByPieceIndex[pieceIndex];
-    const isConsumableByPiece = isConsumableByPieceByPlayer[player];
-    const providedRoutes: Route<PieceIndex>[] = [];
+    const isProvidableByPiece = isProvidableByPieceByPlayer[player];
 
-    for (const route of routes) {
-      const [pieceIndex] = route;
-      const piece = pieces[pieceIndex];
+    if (isProvidableByPiece[piece]) {
+      const providerPiece = providerPieceByPlayer[player];
+      const routes = routesByPieceIndex[pieceIndex];
+      const isConsumableByPiece = isConsumableByPieceByPlayer[player];
+      const providedRoutes: Route<PieceIndex>[] = [];
 
-      const isRouteConsumable =
-        isConsumableByPiece[piece] && rule.isRouteAvailable(pieces, route);
+      for (const route of routes) {
+        const [pieceIndex] = route;
+        const piece = pieces[pieceIndex];
 
-      if (isRouteConsumable) {
-        pieces[pieceIndex] = providerPiece;
-        providerPieceIndexes.push(pieceIndex);
-        providedRoutes.push(route);
+        const isRouteConsumable =
+          isConsumableByPiece[piece] && rule.isRouteAvailable(pieces, route);
+
+        if (isRouteConsumable) {
+          pieces[pieceIndex] = providerPiece;
+          providerPieceIndexes.push(pieceIndex);
+          providedRoutes.push(route);
+        }
       }
-    }
 
-    pieceIndexToRoutes[pieceIndex] = providedRoutes;
+      pieceIndexToRoutes[pieceIndex] = providedRoutes;
+    }
   }
 
   return pieceIndexToRoutes;
