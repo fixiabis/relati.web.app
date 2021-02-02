@@ -1,4 +1,10 @@
-import { NoPlayer, PieceIndex, Route, EMPTY_PIECE } from './definitions';
+import {
+  NoPlayer,
+  PieceIndex,
+  Route,
+  EMPTY_PIECE,
+  PieceStatus,
+} from './definitions';
 import type Game from './Game';
 import type GameDefinition from './GameDefinition';
 
@@ -146,8 +152,7 @@ const GameRule = <Player extends number, Piece extends number>(
       const bullet = pieces[bulletIndex];
 
       const isTurretFulfilled =
-        bullet === provider &&
-        isTurretBaseFulfilled(pieces, turretBase, player);
+        bullet === provider && isTurretBaseFulfilled(pieces, turretBase);
 
       if (isTurretFulfilled) {
         let [targetIndex] = turretBase.slice(TURRET_BASE_END_INDEX);
@@ -177,8 +182,7 @@ const GameRule = <Player extends number, Piece extends number>(
 
   const isTurretBaseFulfilled = (
     pieces: readonly Piece[],
-    turretBase: Route<PieceIndex>,
-    player: Player
+    turretBase: Route<PieceIndex>
   ): boolean => {
     const availableTurretBase = turretBase.slice(
       TURRET_BASE_START_INDEX,
@@ -187,9 +191,8 @@ const GameRule = <Player extends number, Piece extends number>(
 
     for (const pieceIndex of availableTurretBase) {
       const piece = pieces[pieceIndex];
-      const playerOfPiece = playerByPiece[piece];
 
-      if (playerOfPiece !== player) {
+      if (piece === EMPTY_PIECE) {
         return false;
       }
     }
