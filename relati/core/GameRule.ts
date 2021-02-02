@@ -1,10 +1,4 @@
-import {
-  NoPlayer,
-  PieceIndex,
-  Route,
-  EMPTY_PIECE,
-  PieceStatus,
-} from './definitions';
+import { NoPlayer, PieceIndex, Route, EMPTY_PIECE } from './definitions';
 import type Game from './Game';
 import type GameDefinition from './GameDefinition';
 
