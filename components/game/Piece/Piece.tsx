@@ -3,11 +3,11 @@ import React from 'react';
 import {
   BouncingPiece,
   DroppedBouncingPiece,
-  DroppedEmphasizedPiece,
   DroppedFlickeringPiece,
   DroppedPiece,
-  EmphasizedPiece,
+  DroppedShakingPiece,
   FlickeringPiece,
+  ShakingPiece,
 } from './elements';
 
 import { ShapePath } from './utils';
@@ -22,6 +22,7 @@ export type PieceProps = {
   bouncing?: boolean;
   flickering?: boolean;
   emphasized?: boolean;
+  shaking?: boolean;
 };
 
 const Piece: React.FC<PieceProps> = ({
@@ -34,6 +35,7 @@ const Piece: React.FC<PieceProps> = ({
   bouncing: isBouncing = false,
   flickering: isFlickering = false,
   emphasized: isEmphasized = false,
+  shaking: isShaking = false,
 }) => {
   if (shape === '') {
     return <></>;
@@ -42,19 +44,19 @@ const Piece: React.FC<PieceProps> = ({
   const path = `M ${x * 5} ${y * 5} ${ShapePath[shape]}`;
 
   const PieceBase = isDropped
-    ? isEmphasized
-      ? DroppedEmphasizedPiece
-      : isFlickering
+    ? isFlickering
       ? DroppedFlickeringPiece
       : isBouncing
       ? DroppedBouncingPiece
+      : isShaking
+      ? DroppedShakingPiece
       : DroppedPiece
-    : isEmphasized
-    ? EmphasizedPiece
     : isFlickering
     ? FlickeringPiece
     : isBouncing
     ? BouncingPiece
+    : isShaking
+    ? ShakingPiece
     : 'path';
 
   const style = { transformOrigin: `${x * 5}px ${y * 5}px` };
