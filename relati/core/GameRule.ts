@@ -52,6 +52,16 @@ type GameRule<Player extends number, Piece extends number> = {
   ) => boolean;
 
   /**
+   * 是否完備該砲塔基底
+   * @param pieces 棋子
+   * @param turretBase 砲塔陣型
+   */
+  readonly isTurretBaseFulfilled: (
+    pieces: readonly Piece[],
+    turretBase: Route<PieceIndex>
+  ) => boolean;
+
+  /**
    * 是否玩家棋子索引有可供應的棋子索引路徑
    * @param pieces 棋子
    * @param pieceIndex 棋子索引
@@ -186,7 +196,7 @@ const GameRule = <Player extends number, Piece extends number>(
     for (const pieceIndex of availableTurretBase) {
       const piece = pieces[pieceIndex];
 
-      if (piece === EMPTY_PIECE) {
+      if (isAvailableForRouteByPiece[piece]) {
         return false;
       }
     }
@@ -282,6 +292,7 @@ const GameRule = <Player extends number, Piece extends number>(
     mutatePiecesToProvided,
     mutatePiecesToDeceased,
     isRouteAvailable,
+    isTurretBaseFulfilled,
     isPieceIndexHasProvidableRoute,
     getWinner,
   };
