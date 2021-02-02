@@ -268,7 +268,7 @@ const GameDefinition = <Player extends number, Piece extends number>(
     .map(toConsumedPiece);
 
   const toDeceasedPiece = ([piece, pieceStatus, player]: PieceInfo) =>
-    [PieceStatus.Provider, PieceStatus.Producer].includes(pieceStatus)
+    [PieceStatus.Provider, PieceStatus.Producer, PieceStatus.Consumer].includes(pieceStatus)
       ? toPiece(PieceStatus.Deceased, player)
       : piece;
 
