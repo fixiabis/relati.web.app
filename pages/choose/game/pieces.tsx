@@ -36,7 +36,9 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
   const togglePiece = (piece: string) => () =>
     setPieces((pieces) =>
       pieces.includes(piece)
-        ? pieces.filter((pieceForRemove) => pieceForRemove !== piece)
+        ? pieces.filter(
+            (pieceForRemove) => pieceForRemove !== piece || pieces.length <= 1
+          )
         : [...pieces, piece]
     );
 
