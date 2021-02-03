@@ -1,6 +1,6 @@
-import { Button } from '../core';
-import { SlideLeftFadeInLinkButton } from '../shared';
-import { ChooseGameModeLayout } from './shared';
+import { Button } from '../../../core';
+import { SlideLeftFadeInLinkButton } from '../../../shared';
+import * as ChooseGameModeLayout from './shared/mode';
 
 export const renderButtonsFor2Player = () => (
   <Button.Group>

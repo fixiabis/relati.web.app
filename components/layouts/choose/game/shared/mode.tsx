@@ -1,6 +1,6 @@
-import { LightBackIconUrl } from '../../../icons';
-import { Button, Icon } from '../../core';
-import { FadeInButton } from '../../shared';
+import { LightBackIconUrl } from '../../../../../icons';
+import { Button, Icon } from '../../../../core';
+import { FadeInButton } from '../../../../shared';
 
 export const renderButtonsForUnknown = () => (
   <Button.Group>

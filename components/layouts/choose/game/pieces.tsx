@@ -7,11 +7,11 @@ import {
   GrayPlayerXIconUrl,
   GrayPlayerDIconUrl,
   GrayPlayerUIconUrl,
-} from '../../icons';
+} from '../../../../icons';
 
-import { Button, Icon } from '../core';
-import { SlideLeftFadeInButton } from '../shared';
-import { ChooseGameModeLayout } from './shared';
+import { Button, Icon } from '../../../core';
+import { SlideLeftFadeInButton } from '../../../shared';
+import * as ChooseGameModeLayout from './shared/mode';
 
 const toggledPieceUrls = {
   O: [GrayPlayerOIconUrl, PlayerOIconUrl],
