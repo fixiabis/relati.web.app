@@ -46,7 +46,7 @@ export const getTurretPortsCount = (
 ) =>
   Math.min(
     Math.floor(
-      (Math.floor((boardWidth + boardHeight) / 2) - (playersCount * 4 + 1)) / 2
+      (Math.floor((boardWidth + boardHeight) / 2) - (playersCount * 2 + 5)) / 2
     ),
     1
   ) * 4;
