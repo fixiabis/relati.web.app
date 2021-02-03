@@ -5,6 +5,7 @@ import {
   PieceStatus,
   Route,
 } from '../../../relati';
+import { PieceProps, ShapeColor } from '../Piece';
 
 type ReadonlyRecord<K extends number | string | symbol, T> = Readonly<
   Record<K, T>
@@ -28,12 +29,112 @@ export type Keyframe<Piece> = {
   >;
 };
 
+type Player = number;
+
+export const shapeByPlayer: Record<Player, keyof typeof ShapeColor> = [
+  'O',
+  'X',
+  'D',
+  'U',
+];
+
+export const styleByPieceStatus: Record<PieceStatus, PieceProps['style']> = {
+  [PieceStatus.Unknown]: 'default',
+  [PieceStatus.Producer]: 'double',
+  [PieceStatus.Provider]: 'default',
+  [PieceStatus.Consumer]: 'gray',
+  [PieceStatus.Deceased]: 'light',
+};
+
+export const getPieceIndexToEffectMap = <
+  Player extends number,
+  Piece extends number
+>(
+  pieces: readonly Piece[],
+  rule: GameRule<Player, Piece>
+) => {
+  const {
+    players,
+    pieceIndexes,
+    providerPieceByPlayer,
+    turretBasesByPieceIndex,
+    isTargetableByPieceByPlayer,
+    toCoordinate,
+    toPieceIndex,
+    isCoordinateValid,
+  } = rule.definition;
+
+  const { isTurretBaseFulfilled } = rule;
+
+  const pieceIndexToEffect: Record<
+    PieceIndex,
+    Partial<PieceProps>
+  > = pieceIndexes.map(() => ({}));
+
+  for (const player of players) {
+    for (const pieceIndex of pieceIndexes) {
+      if (pieces[pieceIndex]) {
+        continue;
+      }
+
+      const provider = providerPieceByPlayer[player];
+      const isTargetableByPiece = isTargetableByPieceByPlayer[player];
+      const turretBases = turretBasesByPieceIndex[pieceIndex];
+      const [triggerX, triggerY] = toCoordinate(pieceIndex);
+
+      for (const turretBase of turretBases) {
+        const [bulletIndex] = turretBase;
+        const bullet = pieces[bulletIndex];
+
+        const isTurretFulfilled =
+          bullet === provider && isTurretBaseFulfilled(pieces, turretBase);
+
+        if (isTurretFulfilled) {
+          let [targetIndex] = turretBase.slice(-1);
+          let targetCoordinate = toCoordinate(targetIndex);
+          let [targetX, targetY] = targetCoordinate;
+          const deltaX = targetX - triggerX;
+          const deltaY = targetY - triggerY;
+
+          while (isCoordinateValid(targetCoordinate)) {
+            const target = pieces[targetIndex];
+            const isTargetTargetable = isTargetableByPiece[target];
+
+            if (isTargetTargetable) {
+              pieceIndexToEffect[targetIndex].shaking = true;
+
+              if (!pieceIndexToEffect[pieceIndex].shape) {
+                pieceIndexToEffect[pieceIndex].color =
+                  ShapeColor[shapeByPlayer[player]];
+              } else {
+                pieceIndexToEffect[pieceIndex].color = 'purple';
+              }
+
+              pieceIndexToEffect[pieceIndex].shape = '+';
+              pieceIndexToEffect[pieceIndex].bouncing = true;
+
+              break;
+            }
+
+            targetX += deltaX;
+            targetY += deltaY;
+            targetCoordinate = [targetX, targetY];
+            targetIndex = toPieceIndex(targetCoordinate);
+          }
+        }
+      }
+    }
+  }
+
+  return pieceIndexToEffect;
+};
+
 const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
   Player extends number,
   Piece extends number
 >(
   pieces: Piece[],
-  providerPieceIndexes: PieceIndex[],
+  providerIndexes: PieceIndex[],
   rule: GameRule<Player, Piece>
 ) => {
   const {
@@ -50,7 +151,7 @@ const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
     readonly Route<PieceIndex>[]
   > = pieceIndexes.map(() => []);
 
-  for (const pieceIndex of providerPieceIndexes) {
+  for (const pieceIndex of providerIndexes) {
     const piece = pieces[pieceIndex];
     const player = playerByPiece[piece] as Player;
     const isProvidableByPiece = isProvidableByPieceByPlayer[player];
@@ -70,7 +171,7 @@ const getPieceIndexToRoutesMapByMutatePiecesToProvided = <
 
         if (isRouteConsumable) {
           pieces[pieceIndex] = providerPiece;
-          providerPieceIndexes.push(pieceIndex);
+          providerIndexes.push(pieceIndex);
           providedRoutes.push(route);
         }
       }

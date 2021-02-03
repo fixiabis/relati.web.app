@@ -3,7 +3,13 @@ import { EMPTY_PIECE, Game, PieceIndex, PieceStatus } from '../../../relati';
 import BoardBase, { BoardProps as BoardBaseProps } from '../Board';
 import PieceBase, { PieceProps as PieceBaseProps, ShapeColor } from '../Piece';
 import Route from '../Route';
-import { getKeyframesOfEffect, Keyframe } from './utils';
+import {
+  getKeyframesOfEffect,
+  getPieceIndexToEffectMap,
+  Keyframe,
+  shapeByPlayer,
+  styleByPieceStatus,
+} from './utils';
 
 type Player = number;
 type Piece = number;
@@ -16,21 +22,6 @@ type BoardProps = Omit<BoardBaseProps, 'width' | 'height'> & {
 
 export type BoardForGameProps = BoardProps;
 
-const shapeByPlayer: Record<Player, keyof typeof ShapeColor> = [
-  'O',
-  'X',
-  'D',
-  'U',
-];
-
-const styleByPieceStatus: Record<PieceStatus, PieceBaseProps['style']> = {
-  [PieceStatus.Unknown]: 'default',
-  [PieceStatus.Producer]: 'double',
-  [PieceStatus.Provider]: 'default',
-  [PieceStatus.Consumer]: 'gray',
-  [PieceStatus.Deceased]: 'light',
-};
-
 const Board: React.FC<BoardProps> = ({
   game,
   prevGame,
@@ -40,13 +31,19 @@ const Board: React.FC<BoardProps> = ({
   const [state, setState] = useState({
     game,
     prevGame,
+    effectByPieceIndex: [] as Record<PieceIndex, Partial<PieceBaseProps>>,
     keyframes: [] as Keyframe<Piece>[],
   });
 
   useEffect(() => {
     if (state.game !== game || state.prevGame !== prevGame) {
       const keyframes = getKeyframesOfEffect(prevGame, game).slice(1);
-      setState({ game, prevGame, keyframes });
+      const effectByPieceIndex = getPieceIndexToEffectMap(
+        game.pieces,
+        game.rule
+      );
+
+      setState({ game, effectByPieceIndex, prevGame, keyframes });
     } else if (state.keyframes.length > 1) {
       const [keyframe] = state.keyframes;
 
@@ -94,6 +91,7 @@ const Board: React.FC<BoardProps> = ({
   const toPieceElement = (piece: Piece, pieceIndex: number) => {
     const key = pieceIndex;
     const [x, y] = toPieceCoordinate(pieceIndex);
+    const effect = state.effectByPieceIndex[pieceIndex];
 
     if (piece === EMPTY_PIECE) {
       const shape = shapeByPlayer[playerOfTurn];
@@ -106,7 +104,18 @@ const Board: React.FC<BoardProps> = ({
       );
 
       if (isPiecePlaceable) {
-        return <PieceBase key={key} x={x} y={y} shape="." color={color} />;
+        return (
+          <PieceBase
+            key={key}
+            x={x}
+            y={y}
+            shape="."
+            color={color}
+            {...effect}
+          />
+        );
+      } else {
+        return <PieceBase key={key} x={x} y={y} {...effect} />;
       }
     } else {
       const player = playerByPiece[piece];
@@ -125,6 +134,7 @@ const Board: React.FC<BoardProps> = ({
           color={color}
           style={style}
           dropped={dropped}
+          {...effect}
         />
       );
     }
