@@ -15,7 +15,7 @@ import { ShapePath } from './utils';
 export type PieceProps = {
   x: number;
   y: number;
-  shape?: '' | '.' | '#' | 'O' | 'X' | 'D' | 'U' | 'N' | 'K';
+  shape?: '' | '.' | '^' | '+' | '#' | 'O' | 'X' | 'D' | 'U' | 'N' | 'K';
   color?: string;
   style?: 'double' | 'default' | 'gray' | 'light';
   dropped?: boolean;
@@ -64,7 +64,7 @@ const Piece: React.FC<PieceProps> = ({
   color =
     pieceStyle === 'gray' ? '#888' : pieceStyle === 'light' ? '#ddd' : color;
 
-  if (shape === '.') {
+  if (shape === '.' || shape === '^') {
     return <PieceBase d={path} fill={color} style={style} />;
   }
 
