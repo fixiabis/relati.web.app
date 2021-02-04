@@ -11,7 +11,6 @@ import {
 
 import { Button, Icon } from '../../../core';
 import { SlideLeftFadeInButton } from '../../../shared';
-import * as ChooseGameModeLayout from './shared/mode';
 
 const toggledPieceUrls = {
   O: [GrayPlayerOIconUrl, PlayerOIconUrl],
@@ -104,20 +103,19 @@ export const renderButtonsFor4Player = (
 );
 
 export const buttonRendererByPlayersCount = {
-  0: ChooseGameModeLayout.renderButtonsForUnknown,
   2: renderButtonsFor2Player,
   3: renderButtonsFor3Player,
   4: renderButtonsFor4Player,
 };
 
 export const defaultPiecesByPlayers = {
-  2: ['O'],
-  3: ['O', 'X'],
-  4: ['O', 'X', 'D'],
+  2: ['O', 'X'],
+  3: ['O', 'X', 'D'],
+  4: ['O', 'X', 'D', 'U'],
 };
 
 export const renderButtons = (
   playersCount: number,
   pieces: string[],
   togglePiece: PieceToggler
-) => buttonRendererByPlayersCount[playersCount](pieces, togglePiece);
+) => buttonRendererByPlayersCount[playersCount]?.(pieces, togglePiece);

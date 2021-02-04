@@ -1,6 +1,5 @@
 import { Button } from '../../../core';
 import { SlideLeftFadeInLinkButton } from '../../../shared';
-import * as ChooseGameModeLayout from './shared/mode';
 
 export const renderButtonsFor2Player = () => (
   <Button.Group>
@@ -24,6 +23,13 @@ export const renderButtonsFor2Player = () => (
       title="9"
       backgroundColor="crimson"
       children="9"
+    />
+    <SlideLeftFadeInLinkButton
+      animationDelay="1s"
+      href="/choose/game/pieces?players=2&board=x11"
+      title="11"
+      backgroundColor="seagreen"
+      children="11"
     />
   </Button.Group>
 );
@@ -51,6 +57,13 @@ export const renderButtonsFor3Player = () => (
       backgroundColor="crimson"
       children="11"
     />
+    <SlideLeftFadeInLinkButton
+      animationDelay="1s"
+      href="/choose/game/pieces?players=3&board=x13"
+      title="13"
+      backgroundColor="seagreen"
+      children="13"
+    />
   </Button.Group>
 );
 
@@ -77,15 +90,21 @@ export const renderButtonsFor4Player = () => (
       backgroundColor="crimson"
       children="13"
     />
+    <SlideLeftFadeInLinkButton
+      animationDelay="1s"
+      href="/choose/game/pieces?players=4&board=x15"
+      title="15"
+      backgroundColor="seagreen"
+      children="15"
+    />
   </Button.Group>
 );
 
 export const buttonsRendererByPlayersCount = {
-  0: ChooseGameModeLayout.renderButtonsForUnknown,
   2: renderButtonsFor2Player,
   3: renderButtonsFor3Player,
   4: renderButtonsFor4Player,
 };
 
 export const renderButtons = (playersCount: number) =>
-  buttonsRendererByPlayersCount[playersCount]();
+  buttonsRendererByPlayersCount[playersCount]?.();
