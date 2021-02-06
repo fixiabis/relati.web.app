@@ -24,13 +24,13 @@ export const renderButtonsFor2Player = () => (
       backgroundColor="crimson"
       children="9"
     />
-    <SlideLeftFadeInLinkButton
+    {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/game/pieces?players=2&board=x11"
       title="11"
       backgroundColor="seagreen"
       children="11"
-    />
+    /> */}
   </Button.Group>
 );
 
@@ -57,13 +57,13 @@ export const renderButtonsFor3Player = () => (
       backgroundColor="crimson"
       children="11"
     />
-    <SlideLeftFadeInLinkButton
+    {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/game/pieces?players=3&board=x13"
       title="13"
       backgroundColor="seagreen"
       children="13"
-    />
+    /> */}
   </Button.Group>
 );
 
@@ -90,13 +90,13 @@ export const renderButtonsFor4Player = () => (
       backgroundColor="crimson"
       children="13"
     />
-    <SlideLeftFadeInLinkButton
+    {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/game/pieces?players=4&board=x15"
       title="15"
       backgroundColor="seagreen"
       children="15"
-    />
+    /> */}
   </Button.Group>
 );
 
