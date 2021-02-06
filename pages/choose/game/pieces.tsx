@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   BottomRightFixedButtonDenceGroup,
@@ -25,20 +25,26 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
 }) => {
   const [pieces, setPieces] = useState<string[]>([]);
 
-  useEffect(
-    () =>
-      setPieces(
-        ChooseGamePiecesPageLayout.defaultPiecesByPlayers[players] || []
-      ),
-    [players]
-  );
+  const isGameAvailable = players && board && pieces.length;
+
+  const gameLink = `/game?players=${players}&board=${board}&pieces=${pieces}`;
+
+  const description = pieces.length
+    ? pieces.length +
+      '位玩家' +
+      (players - pieces.length
+        ? '對' + (players - pieces.length) + '位電腦'
+        : '')
+    : '選擇玩家棋子';
+
+  const handleGameLinkButtonClick = !isGameAvailable
+    ? (event: React.SyntheticEvent) => event.preventDefault()
+    : undefined;
 
   const togglePiece = (piece: string) => () =>
     setPieces((pieces) =>
       pieces.includes(piece)
-        ? pieces.filter(
-            (pieceForRemove) => pieceForRemove !== piece || pieces.length <= 1
-          )
+        ? pieces.filter((pieceForRemove) => pieceForRemove !== piece)
         : [...pieces, piece]
     );
 
@@ -46,16 +52,15 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
     <Container>
       <FadeInDescription>
         <Icon url={GrayPlayIconUrl} />
-        選擇玩家棋子
+        {description}
       </FadeInDescription>
       {ChooseGamePiecesPageLayout.renderButtons(players, pieces, togglePiece)}
       <BottomRightFixedButtonDenceGroup>
         <FadeInLinkButton
-          href={`/game?players=${players}&board=${board}&pieces=${pieces.join(
-            ','
-          )}`}
+          href={gameLink}
           title="done"
           backgroundColor="seagreen"
+          onClick={handleGameLinkButtonClick}
           children={<Icon url={LightVerifyIconUrl} />}
         />
         <FadeInButton

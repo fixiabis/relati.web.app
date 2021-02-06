@@ -108,12 +108,6 @@ export const buttonRendererByPlayersCount = {
   4: renderButtonsFor4Player,
 };
 
-export const defaultPiecesByPlayers = {
-  2: ['O', 'X'],
-  3: ['O', 'X', 'D'],
-  4: ['O', 'X', 'D', 'U'],
-};
-
 export const renderButtons = (
   playersCount: number,
   pieces: string[],
