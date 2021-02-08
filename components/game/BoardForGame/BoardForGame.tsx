@@ -17,7 +17,7 @@ type Piece = number;
 type BoardProps = Omit<BoardBaseProps, 'width' | 'height'> & {
   game: Game<Player, Piece>;
   prevGame: Game<Player, Piece>;
-  pieceIndexesOfPlacement: PieceIndex[];
+  lastPieceIndexOfPlacement: PieceIndex;
 };
 
 export type BoardForGameProps = BoardProps;
@@ -25,7 +25,7 @@ export type BoardForGameProps = BoardProps;
 const Board: React.FC<BoardProps> = ({
   game,
   prevGame,
-  pieceIndexesOfPlacement,
+  lastPieceIndexOfPlacement,
   ...props
 }) => {
   const [state, setState] = useState({
@@ -83,7 +83,6 @@ const Board: React.FC<BoardProps> = ({
 
   const { isPieceIndexHasProvidableRoute } = rule;
   const playerOfTurn = (game.turn % playersCount) as Player;
-  const [lastPieceIndexOfPlacement] = pieceIndexesOfPlacement.slice(-1);
 
   const colorByPiece = (piece: Piece) =>
     ShapeColor[shapeByPlayer[playerByPiece[piece]]];
