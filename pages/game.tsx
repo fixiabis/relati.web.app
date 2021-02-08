@@ -15,9 +15,17 @@ import {
   useGameDefinition,
   useGameDeepThinker,
   useGameThinkerPlacement,
+  useGamePassTurn,
 } from '../components';
 
-import { EMPTY_PIECE, Game, GameRule, NO_WINNER, PieceIndex } from '../relati';
+import {
+  EMPTY_PIECE,
+  Game,
+  GameDefinition,
+  GameRule,
+  NO_WINNER,
+  PieceIndex,
+} from '../relati';
 import { LightRetryIconUrl, LightLeaveIconUrl } from '../icons';
 import { MultiInfluencesBasedThinking } from '../relati/Thinker';
 
@@ -66,6 +74,28 @@ const GamePage: NextPage<GamePageProps> = ({
     }
   };
 
+  const setRecordsByPassTurn = () => {
+    const { rule, turn, pieces, producerIndexes } = game;
+    const turnPassedGame = Game(rule, turn + 1, pieces, producerIndexes);
+
+    setRecords((records) => [
+      ...records,
+      { pieceIndex: -1, game: turnPassedGame },
+    ]);
+  };
+
+  const resetRecords = () => setRecords(([record]) => [record]);
+
+  const resetRecordsByDefinition = (
+    definition: GameDefinition<number, number>
+  ) =>
+    setRecords([
+      {
+        pieceIndex: -1,
+        game: Game(GameRule(definition)),
+      },
+    ]);
+
   const [
     { game, pieceIndex: lastPlacedPieceIndex },
     { game: prevGame = game } = {},
@@ -78,10 +108,7 @@ const GamePage: NextPage<GamePageProps> = ({
   const gameLeaveDialog = useDialogState();
   const gameRetryDialog = useDialogState();
 
-  useEffect(() => {
-    const game = Game(GameRule(definition));
-    setRecords([{ pieceIndex: -1, game }]);
-  }, [definition]);
+  useEffect(() => resetRecordsByDefinition(definition), [definition]);
 
   useGameThinkerPlacement(
     game,
@@ -90,39 +117,10 @@ const GamePage: NextPage<GamePageProps> = ({
     (player) => !players.includes(player)
   );
 
-  useEffect(() => {
-    const { turn, pieces, producerIndexes } = game;
-    const { pieceIndexes } = game.definition;
-
-    const { isPieceIndexHasProvidableRoute, getWinner } = game.rule;
-
-    const winner = getWinner(game);
-
-    if (turn < playersCount || winner !== NO_WINNER) {
-      return;
-    }
-
-    const playerOfTurn = turn % playersCount;
-
-    const hasPieceIndexOfPlayerPlaceable = pieceIndexes.some(
-      (pieceIndex) =>
-        pieces[pieceIndex] === EMPTY_PIECE &&
-        isPieceIndexHasProvidableRoute(pieces, pieceIndex, playerOfTurn)
-    );
-
-    if (!hasPieceIndexOfPlayerPlaceable) {
-      const turnPassedGame = Game(game.rule, turn + 1, pieces, producerIndexes);
-
-      setRecords((records) => [
-        ...records,
-        { pieceIndex: -1, game: turnPassedGame },
-      ]);
-    }
-  }, [game]);
+  useGamePassTurn(game, setRecordsByPassTurn);
 
   const resetGame = () => {
-    const resetedGame = Game(game.rule);
-    setRecords([{ pieceIndex: -1, game: resetedGame }]);
+    resetRecords();
     gameRetryDialog.close();
   };
 
