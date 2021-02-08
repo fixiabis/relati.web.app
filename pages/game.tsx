@@ -14,9 +14,10 @@ import {
   useDialogState,
   useGameDefinition,
   useGameDeepThinker,
+  useGameThinkerPlacement,
 } from '../components';
 
-import { EMPTY_PIECE, Game, GameRule, NO_WINNER } from '../relati';
+import { EMPTY_PIECE, Game, GameRule, NO_WINNER, PieceIndex } from '../relati';
 import { LightRetryIconUrl, LightLeaveIconUrl } from '../icons';
 import { MultiInfluencesBasedThinking } from '../relati/Thinker';
 
@@ -25,7 +26,7 @@ const shapeByPlayer = ['O', 'X', 'D', 'U'];
 type GamePageProps = {
   boardWidth: number;
   boardHeight: number;
-  pieces: string[];
+  players: number[];
   playersCount: number;
   routePortsCount: number;
   turretPortsCount: number;
@@ -34,7 +35,7 @@ type GamePageProps = {
 const GamePage: NextPage<GamePageProps> = ({
   boardWidth,
   boardHeight,
-  pieces,
+  players,
   playersCount,
   routePortsCount,
   turretPortsCount,
@@ -53,6 +54,18 @@ const GamePage: NextPage<GamePageProps> = ({
     { pieceIndex: -1, game: Game(GameRule(definition)) },
   ]);
 
+  const setRecordsByPlace = (pieceIndex: PieceIndex) => {
+    const player = game.turn % playersCount;
+    const gameAfterPlaced = game.place(pieceIndex, player);
+
+    if (gameAfterPlaced !== game) {
+      setRecords((records) => [
+        ...records,
+        { pieceIndex, game: gameAfterPlaced },
+      ]);
+    }
+  };
+
   const [
     { game, pieceIndex: lastPlacedPieceIndex },
     { game: prevGame = game } = {},
@@ -70,24 +83,12 @@ const GamePage: NextPage<GamePageProps> = ({
     setRecords([{ pieceIndex: -1, game }]);
   }, [definition]);
 
-  useEffect(() => {
-    const playerOfTurn = game.turn % playersCount;
-    const shapeOfTurn = shapeByPlayer[playerOfTurn];
-
-    if (!pieces.includes(shapeOfTurn)) {
-      setTimeout(() => {
-        const pieceIndex = thinker.getPieceIndexForPlacement(game);
-        const gameAfterPlaced = game.place(pieceIndex, playerOfTurn);
-
-        if (game !== gameAfterPlaced) {
-          setRecords((records) => [
-            ...records,
-            { pieceIndex, game: gameAfterPlaced },
-          ]);
-        }
-      }, 600);
-    }
-  }, [game]);
+  useGameThinkerPlacement(
+    game,
+    thinker,
+    setRecordsByPlace,
+    (player) => !players.includes(player)
+  );
 
   useEffect(() => {
     const { turn, pieces, producerIndexes } = game;
@@ -131,18 +132,10 @@ const GamePage: NextPage<GamePageProps> = ({
 
   const handleGridClick: BoardForGameProps['onGridClick'] = ({ x, y }) => {
     const player = game.turn % playersCount;
-    const shape = shapeByPlayer[player];
 
-    if (pieces.includes(shape)) {
+    if (players.includes(player)) {
       const pieceIndex = definition.toPieceIndex([x, y]);
-      const gameAfterPlaced = game.place(pieceIndex, player);
-
-      if (gameAfterPlaced !== game) {
-        setRecords((records) => [
-          ...records,
-          { pieceIndex, game: gameAfterPlaced },
-        ]);
-      }
+      setRecordsByPlace(pieceIndex);
     }
 
     gameOverDialog.open();
@@ -198,7 +191,8 @@ const GamePage: NextPage<GamePageProps> = ({
 export default PagePropsInitialized(GamePage)((query) => {
   const [boardWidth, boardHeight] = GameUtil.getBoardSize(query);
   const playersCount = GameUtil.getPlayersCount(query);
-  const pieces = GameUtil.getPieceShapes(query, playersCount);
+  const shapes = GameUtil.getPieceShapes(query, playersCount);
+  const players = shapes.map((shape) => shapeByPlayer.indexOf(shape));
 
   const routePortsCount = GameUtil.getRoutePortsCount(query, playersCount, [
     boardWidth,
@@ -213,7 +207,7 @@ export default PagePropsInitialized(GamePage)((query) => {
   return {
     boardWidth,
     boardHeight,
-    pieces,
+    players,
     playersCount,
     routePortsCount,
     turretPortsCount,
