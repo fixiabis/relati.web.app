@@ -41,6 +41,8 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
     ? (event: React.SyntheticEvent) => event.preventDefault()
     : undefined;
 
+  const gameLinkButtonColor = !isGameAvailable ? '#888' : 'seagreen';
+
   const togglePiece = (piece: string) => () =>
     setPieces((pieces) =>
       pieces.includes(piece)
@@ -59,7 +61,7 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
         <FadeInLinkButton
           href={gameLink}
           title="done"
-          backgroundColor="seagreen"
+          backgroundColor={gameLinkButtonColor}
           onClick={handleGameLinkButtonClick}
           children={<Icon url={LightVerifyIconUrl} />}
         />
