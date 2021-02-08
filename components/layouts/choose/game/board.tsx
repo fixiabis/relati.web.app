@@ -6,28 +6,28 @@ export const renderButtonsFor2Player = () => (
     <SlideLeftFadeInLinkButton
       animationDelay="0.25s"
       href="/choose/game/pieces?players=2&board=x5"
-      title="5"
+      title="5x5"
       backgroundColor="royalblue"
       children="5"
     />
     <SlideLeftFadeInLinkButton
       animationDelay="0.5s"
       href="/choose/game/pieces?players=2&board=x7"
-      title="7"
+      title="7x7"
       backgroundColor="darkorange"
       children="7"
     />
     <SlideLeftFadeInLinkButton
       animationDelay="0.75s"
       href="/choose/game/pieces?players=2&board=x9"
-      title="9"
+      title="9x9"
       backgroundColor="crimson"
       children="9"
     />
     {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/game/pieces?players=2&board=x11"
-      title="11"
+      title="11x11"
       backgroundColor="seagreen"
       children="11"
     /> */}
@@ -39,28 +39,28 @@ export const renderButtonsFor3Player = () => (
     <SlideLeftFadeInLinkButton
       animationDelay="0.25s"
       href="/choose/game/pieces?players=3&board=x7"
-      title="7"
+      title="7x7"
       backgroundColor="royalblue"
       children="7"
     />
     <SlideLeftFadeInLinkButton
       animationDelay="0.5s"
       href="/choose/game/pieces?players=3&board=x9"
-      title="9"
+      title="9x9"
       backgroundColor="darkorange"
       children="9"
     />
     <SlideLeftFadeInLinkButton
       animationDelay="0.75s"
       href="/choose/game/pieces?players=3&board=x11"
-      title="11"
+      title="11x11"
       backgroundColor="crimson"
       children="11"
     />
     {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/game/pieces?players=3&board=x13"
-      title="13"
+      title="13x13"
       backgroundColor="seagreen"
       children="13"
     /> */}
@@ -72,28 +72,28 @@ export const renderButtonsFor4Player = () => (
     <SlideLeftFadeInLinkButton
       animationDelay="0.25s"
       href="/choose/game/pieces?players=4&board=x9"
-      title="9"
+      title="9x9"
       backgroundColor="royalblue"
       children="9"
     />
     <SlideLeftFadeInLinkButton
       animationDelay="0.5s"
       href="/choose/game/pieces?players=4&board=x11"
-      title="11"
+      title="11x11"
       backgroundColor="darkorange"
       children="11"
     />
     <SlideLeftFadeInLinkButton
       animationDelay="0.75s"
       href="/choose/game/pieces?players=4&board=x13"
-      title="13"
+      title="13x13"
       backgroundColor="crimson"
       children="13"
     />
     {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/game/pieces?players=4&board=x15"
-      title="15"
+      title="15x15"
       backgroundColor="seagreen"
       children="15"
     /> */}
