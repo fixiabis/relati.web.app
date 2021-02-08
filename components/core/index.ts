@@ -15,3 +15,4 @@ export * as animations from './animations';
 export * as styles from './styles';
 export * from './styled';
 export * from './utils';
+export * from './hooks';
