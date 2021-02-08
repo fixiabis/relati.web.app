@@ -19,21 +19,21 @@ import {
   GrayPlayIconUrl,
 } from '../../../icons';
 
-const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
-  players,
-  board,
-}) => {
+const ChooseGamePiecesPage: NextPage<{
+  playersCount: number;
+  boardParams: string;
+}> = ({ playersCount, boardParams }) => {
   const [pieces, setPieces] = useState<string[]>([]);
 
-  const isGameAvailable = players && board && pieces.length;
+  const isGameAvailable = playersCount && boardParams && pieces.length;
 
-  const gameLink = `/game?players=${players}&board=${board}&pieces=${pieces}`;
+  const gameLink = `/game?players=${playersCount}&board=${boardParams}&pieces=${pieces}`;
 
   const description = pieces.length
     ? pieces.length +
       '位玩家' +
-      (players - pieces.length
-        ? '對' + (players - pieces.length) + '位電腦'
+      (playersCount - pieces.length
+        ? '對' + (playersCount - pieces.length) + '位電腦'
         : '')
     : '選擇玩家棋子';
 
@@ -56,7 +56,11 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
         <Icon url={GrayPlayIconUrl} />
         {description}
       </FadeInDescription>
-      {ChooseGamePiecesPageLayout.renderButtons(players, pieces, togglePiece)}
+      {ChooseGamePiecesPageLayout.renderButtons(
+        playersCount,
+        pieces,
+        togglePiece
+      )}
       <BottomRightFixedButtonDenceGroup>
         <FadeInLinkButton
           href={gameLink}
@@ -77,6 +81,6 @@ const ChooseGamePiecesPage: NextPage<{ players: number; board: string }> = ({
 };
 
 export default PagePropsInitialized(ChooseGamePiecesPage)((query) => ({
-  board: GameUtil.getItem(query.board),
-  players: GameUtil.getPlayersCount(query),
+  boardParams: GameUtil.getItem(query.board),
+  playersCount: GameUtil.getPlayersCount(query),
 }));

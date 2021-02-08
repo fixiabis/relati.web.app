@@ -14,13 +14,15 @@ import {
 
 import { LightBackIconUrl, BoardIconUrl } from '../../../icons';
 
-const ChooseGameBoardPage: NextPage<{ players: number }> = ({ players }) => (
+const ChooseGameBoardPage: NextPage<{ playersCount: number }> = ({
+  playersCount,
+}) => (
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
       選擇棋盤大小
     </FadeInDescription>
-    {ChooseGameBoardPageLayout.renderButtons(players)}
+    {ChooseGameBoardPageLayout.renderButtons(playersCount)}
     <BottomRightFixedButtonDenceGroup>
       <FadeInButton
         title="back"
@@ -33,5 +35,5 @@ const ChooseGameBoardPage: NextPage<{ players: number }> = ({ players }) => (
 );
 
 export default PagePropsInitialized(ChooseGameBoardPage)((query) => ({
-  players: GameUtil.getPlayersCount(query),
+  playersCount: GameUtil.getPlayersCount(query),
 }));
