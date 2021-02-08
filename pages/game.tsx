@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 
 import {
-  useSwitch,
   Container,
   BoardForGame,
   BoardForGameProps,
@@ -12,10 +11,14 @@ import {
   FadeInButton,
   GameUtil,
   PagePropsInitialized,
+  useDialogState,
+  useGameDefinition,
+  useGameDeepThinker,
 } from '../components';
 
 import { EMPTY_PIECE, Game, GameRule, NO_WINNER } from '../relati';
 import { LightRetryIconUrl, LightLeaveIconUrl } from '../icons';
+import { MultiInfluencesBasedThinking } from '../relati/Thinker';
 
 const shapeByPlayer = ['O', 'X', 'D', 'U'];
 
@@ -36,7 +39,7 @@ const GamePage: NextPage<GamePageProps> = ({
   routePortsCount,
   turretPortsCount,
 }) => {
-  const definition = GamePageLayout.useDefinition(
+  const definition = useGameDefinition(
     playersCount,
     boardWidth,
     boardHeight,
@@ -44,40 +47,30 @@ const GamePage: NextPage<GamePageProps> = ({
     turretPortsCount
   );
 
-  const thinker = GamePageLayout.useThinker(definition);
+  const thinker = useGameDeepThinker(definition, MultiInfluencesBasedThinking);
 
-  const [game, setGame] = useState(() => Game(GameRule(definition)));
-  const [prevGame, setPrevGame] = useState(game);
+  const [records, setRecords] = useState(() => [
+    { pieceIndex: -1, game: Game(GameRule(definition)) },
+  ]);
+
+  const [
+    { game: prevGame, pieceIndex: prevPieceIndexOfPlacement },
+    {
+      game = prevGame,
+      pieceIndex: lastPieceIndexOfPlacement = prevPieceIndexOfPlacement,
+    } = {},
+  ] = records.slice(-2);
 
   const winner = game.rule.getWinner(game);
   const canControlDirectly = winner !== NO_WINNER || game.turn === 0;
 
-  const [pieceIndexesOfPlacement, setPieceIndexesOfPlacement] = useState<
-    number[]
-  >([]);
-
-  const [
-    isGameOverDialogVisible,
-    openGameOverDialog,
-    closeGameOverDialog,
-  ] = useSwitch(false);
-
-  const [
-    isGameLeaveDialogVisible,
-    openGameLeaveDialog,
-    closeGameLeaveDialog,
-  ] = useSwitch(false);
-
-  const [
-    isGameRetryDialogVisible,
-    openGameRetryDialog,
-    closeGameRetryDialog,
-  ] = useSwitch(false);
+  const gameOverDialog = useDialogState();
+  const gameLeaveDialog = useDialogState();
+  const gameRetryDialog = useDialogState();
 
   useEffect(() => {
     const game = Game(GameRule(definition));
-    setGame(game);
-    setPrevGame(game);
+    setRecords([{ pieceIndex: -1, game }]);
   }, [definition]);
 
   useEffect(() => {
@@ -87,12 +80,13 @@ const GamePage: NextPage<GamePageProps> = ({
     if (!pieces.includes(shapeOfTurn)) {
       setTimeout(() => {
         const pieceIndex = thinker.getPieceIndexForPlacement(game);
-        const gameWithPiecePlaced = game.place(pieceIndex, playerOfTurn);
+        const gameAfterPlaced = game.place(pieceIndex, playerOfTurn);
 
-        if (game !== gameWithPiecePlaced) {
-          setGame(gameWithPiecePlaced);
-          setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
-          setPrevGame(game);
+        if (game !== gameAfterPlaced) {
+          setRecords((records) => [
+            ...records,
+            { pieceIndex, game: gameAfterPlaced },
+          ]);
         }
       }, 600);
     }
@@ -121,22 +115,22 @@ const GamePage: NextPage<GamePageProps> = ({
     if (!hasPieceIndexOfPlayerPlaceable) {
       const turnPassedGame = Game(game.rule, turn + 1, pieces, producerIndexes);
 
-      setGame(turnPassedGame);
-      setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, -1]);
-      setPrevGame(game);
+      setRecords((records) => [
+        ...records,
+        { pieceIndex: -1, game: turnPassedGame },
+      ]);
     }
   }, [game]);
 
   const resetGame = () => {
     const resetedGame = Game(game.rule);
-    setGame(resetedGame);
-    setPrevGame(resetedGame);
-    closeGameRetryDialog();
+    setRecords([{ pieceIndex: -1, game: resetedGame }]);
+    gameRetryDialog.close();
   };
 
   const leave = () => history.back();
-  const handleRetry = canControlDirectly ? resetGame : openGameRetryDialog;
-  const handleLeave = canControlDirectly ? leave : openGameLeaveDialog;
+  const handleRetry = canControlDirectly ? resetGame : gameRetryDialog.open;
+  const handleLeave = canControlDirectly ? leave : gameLeaveDialog.open;
 
   const handleGridClick: BoardForGameProps['onGridClick'] = ({ x, y }) => {
     const player = game.turn % playersCount;
@@ -144,16 +138,17 @@ const GamePage: NextPage<GamePageProps> = ({
 
     if (pieces.includes(shape)) {
       const pieceIndex = definition.toPieceIndex([x, y]);
-      const gameWithPiecePlaced = game.place(pieceIndex, player);
+      const gameAfterPlaced = game.place(pieceIndex, player);
 
-      if (gameWithPiecePlaced !== game) {
-        setGame(gameWithPiecePlaced);
-        setPieceIndexesOfPlacement([...pieceIndexesOfPlacement, pieceIndex]);
-        setPrevGame(game);
+      if (gameAfterPlaced !== game) {
+        setRecords((records) => [
+          ...records,
+          { pieceIndex, game: gameAfterPlaced },
+        ]);
       }
     }
 
-    openGameOverDialog();
+    gameOverDialog.open();
   };
 
   return (
@@ -161,7 +156,7 @@ const GamePage: NextPage<GamePageProps> = ({
       <BoardForGame
         game={game}
         prevGame={prevGame}
-        pieceIndexesOfPlacement={pieceIndexesOfPlacement}
+        lastPieceIndexOfPlacement={lastPieceIndexOfPlacement}
         onGridClick={handleGridClick}
       />
 
@@ -181,22 +176,22 @@ const GamePage: NextPage<GamePageProps> = ({
       </BottomRightFixedButtonDenceGroup>
 
       <GamePageLayout.GameOverDialog
-        visible={isGameOverDialogVisible}
-        onClose={closeGameOverDialog}
+        visible={gameOverDialog.isVisible}
+        onClose={gameOverDialog.close}
         winner={winner}
         onRetry={resetGame}
         onLeave={leave}
       />
 
       <GamePageLayout.GameLeaveDialog
-        visible={isGameLeaveDialogVisible}
-        onClose={closeGameLeaveDialog}
+        visible={gameLeaveDialog.isVisible}
+        onClose={gameLeaveDialog.close}
         onLeave={leave}
       />
 
       <GamePageLayout.GameRetryDialog
-        visible={isGameRetryDialogVisible}
-        onClose={closeGameRetryDialog}
+        visible={gameRetryDialog.isVisible}
+        onClose={gameRetryDialog.close}
         onRetry={resetGame}
       />
     </Container>
