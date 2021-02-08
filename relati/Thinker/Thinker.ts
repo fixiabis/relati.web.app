@@ -8,7 +8,7 @@ const RANDOMLY = true;
 const getRandomIndex = (count: number) => (count * Math.random()) | 0;
 
 /** 思考者 */
-export type Thinker<Player extends number, Piece extends number> = {
+type Thinker<Player extends number, Piece extends number> = {
   /** 取得下一步要放的棋子索引 */
   readonly getPieceIndexForPlacement: (game: Game<Player, Piece>) => number;
 };
