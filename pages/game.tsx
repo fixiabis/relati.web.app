@@ -54,12 +54,9 @@ const GamePage: NextPage<GamePageProps> = ({
   ]);
 
   const [
-    { game: prevGame, pieceIndex: prevPieceIndexOfPlacement },
-    {
-      game = prevGame,
-      pieceIndex: lastPieceIndexOfPlacement = prevPieceIndexOfPlacement,
-    } = {},
-  ] = records.slice(-2);
+    { game, pieceIndex: lastPlacedPieceIndex },
+    { game: prevGame = game } = {},
+  ] = records.slice(-2).reverse();
 
   const winner = game.rule.getWinner(game);
   const canControlDirectly = winner !== NO_WINNER || game.turn === 0;
@@ -156,7 +153,7 @@ const GamePage: NextPage<GamePageProps> = ({
       <BoardForGame
         game={game}
         prevGame={prevGame}
-        lastPieceIndexOfPlacement={lastPieceIndexOfPlacement}
+        lastPlacedPieceIndex={lastPlacedPieceIndex}
         onGridClick={handleGridClick}
       />
 
