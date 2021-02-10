@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import React from 'react';
 
 import {
-  BottomRightFixedButtonDenceGroup,
+  BottomLeftFixedButtonDenceGroup,
   Button,
   Container,
   FadeInButton,
@@ -48,14 +48,14 @@ const ChooseGameBoardSize: NextPage = () => (
         children="4"
       />
     </Button.Group>
-    <BottomRightFixedButtonDenceGroup>
+    <BottomLeftFixedButtonDenceGroup>
       <FadeInButton
         title="back"
         backgroundColor="#888"
         onClick={() => history.back()}
         children={<Icon url={LightBackIconUrl} />}
       />
-    </BottomRightFixedButtonDenceGroup>
+    </BottomLeftFixedButtonDenceGroup>
   </Container>
 );
 

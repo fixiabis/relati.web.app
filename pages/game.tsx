@@ -7,7 +7,7 @@ import {
   BoardForGameProps,
   GamePageLayout,
   Icon,
-  BottomRightFixedButtonDenceGroup,
+  BottomLeftFixedButtonDenceGroup,
   FadeInButton,
   GameUtil,
   PagePropsInitialized,
@@ -148,7 +148,7 @@ const GamePage: NextPage<GamePageProps> = ({
         onGridClick={handleGridClick}
       />
 
-      <BottomRightFixedButtonDenceGroup>
+      <BottomLeftFixedButtonDenceGroup>
         <FadeInButton
           title="retry"
           backgroundColor="#888"
@@ -161,7 +161,7 @@ const GamePage: NextPage<GamePageProps> = ({
           onClick={handleLeave}
           children={<Icon url={LightLeaveIconUrl} />}
         />
-      </BottomRightFixedButtonDenceGroup>
+      </BottomLeftFixedButtonDenceGroup>
 
       <GamePageLayout.GameOverDialog
         visible={gameOverDialog.isVisible}
