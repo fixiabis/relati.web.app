@@ -30,7 +30,7 @@ const gameLinkButtonInactiveStyle = {
   transitionProperty: 'opacity, transform',
   transitionDuration: '500ms, 0ms',
   transitionDelay: '0ms, 500ms',
-  transform: 'translateX(-100vw)',
+  transform: 'translateX(100vw)',
   opacity: 0,
 };
 
@@ -81,6 +81,12 @@ const ChooseGamePiecesPage: NextPage<{
         togglePiece
       )}
       <BottomLeftFixedButtonDenceGroup>
+        <FadeInButton
+          title="back"
+          backgroundColor="#888"
+          onClick={() => history.back()}
+          children={<Icon url={LightBackIconUrl} />}
+        />
         <FadeInLinkButton
           href={gameLink}
           title="done"
@@ -88,12 +94,6 @@ const ChooseGamePiecesPage: NextPage<{
           onClick={handleGameLinkButtonClick}
           children={<Icon url={LightVerifyIconUrl} />}
           style={gameLinkButtonStyle}
-        />
-        <FadeInButton
-          title="back"
-          backgroundColor="#888"
-          onClick={() => history.back()}
-          children={<Icon url={LightBackIconUrl} />}
         />
       </BottomLeftFixedButtonDenceGroup>
     </Container>
