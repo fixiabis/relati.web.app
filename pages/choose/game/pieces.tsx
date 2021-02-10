@@ -19,6 +19,21 @@ import {
   GrayPlayIconUrl,
 } from '../../../icons';
 
+const gameLinkButtonActiveStyle = {
+  transitionProperty: 'transform',
+  transitionDuration: '500ms',
+  transform: 'translateX(0vw)',
+  opacity: 1,
+};
+
+const gameLinkButtonInactiveStyle = {
+  transitionProperty: 'opacity, transform',
+  transitionDuration: '500ms, 0ms',
+  transitionDelay: '0ms, 500ms',
+  transform: 'translateX(-100vw)',
+  opacity: 0,
+};
+
 const ChooseGamePiecesPage: NextPage<{
   playersCount: number;
   boardParams: string;
@@ -42,6 +57,10 @@ const ChooseGamePiecesPage: NextPage<{
     : undefined;
 
   const gameLinkButtonColor = !isGameAvailable ? '#888' : 'seagreen';
+
+  const gameLinkButtonStyle = isGameAvailable
+    ? gameLinkButtonActiveStyle
+    : gameLinkButtonInactiveStyle;
 
   const togglePiece = (piece: string) => () =>
     setPieces((pieces) =>
@@ -68,6 +87,7 @@ const ChooseGamePiecesPage: NextPage<{
           backgroundColor={gameLinkButtonColor}
           onClick={handleGameLinkButtonClick}
           children={<Icon url={LightVerifyIconUrl} />}
+          style={gameLinkButtonStyle}
         />
         <FadeInButton
           title="back"
