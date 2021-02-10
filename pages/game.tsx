@@ -150,16 +150,16 @@ const GamePage: NextPage<GamePageProps> = ({
 
       <BottomLeftFixedButtonDenceGroup>
         <FadeInButton
-          title="retry"
-          backgroundColor="#888"
-          onClick={handleRetry}
-          children={<Icon url={LightRetryIconUrl} />}
-        />
-        <FadeInButton
           title="leave"
           backgroundColor="#888"
           onClick={handleLeave}
           children={<Icon url={LightLeaveIconUrl} />}
+        />
+        <FadeInButton
+          title="retry"
+          backgroundColor="#888"
+          onClick={handleRetry}
+          children={<Icon url={LightRetryIconUrl} />}
         />
       </BottomLeftFixedButtonDenceGroup>
 
