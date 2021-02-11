@@ -1,12 +1,12 @@
 import { Game, STEP } from '../../core';
-import type { Thinking, ExplainableThinking } from '../definitions';
+import type { Thinking } from '../definitions';
 
 /** 無深度 */
 const NO_DEPTH = 0;
 
 /** 深度思路 */
 const DeepThinking = <Player extends number, Piece extends number>(
-  thinking: ExplainableThinking<Player, Piece>,
+  thinking: Thinking<Player, Piece>,
   defaultDepth: number = NO_DEPTH
 ): Thinking<Player, Piece> => {
   const calcPointsOfPlayer = (
@@ -17,7 +17,7 @@ const DeepThinking = <Player extends number, Piece extends number>(
     beta = +Infinity
   ): number => {
     const { definition, turn } = game;
-    const { playersCount, piecesCount, pieceIndexes } = definition;
+    const { playersCount, pieceIndexes } = definition;
     const playerOfTurn = (turn % playersCount) as Player;
 
     if (depth === NO_DEPTH) {

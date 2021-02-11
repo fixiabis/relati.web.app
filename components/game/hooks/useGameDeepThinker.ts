@@ -1,16 +1,13 @@
 import { useMemo } from 'react';
 import { GameDefinition } from '../../../relati';
-import Thinker, {
-  DeepThinking,
-  ExplainableThinking,
-} from '../../../relati/Thinker';
+import Thinker, { DeepThinking, Thinking } from '../../../relati/Thinker';
 import { Player, Piece } from './types';
 
 const useGameDeepThinker = (
   definition: GameDefinition<Player, Piece>,
   Thinking: (
     definition: GameDefinition<Player, Piece>
-  ) => ExplainableThinking<Player, Piece>,
+  ) => Thinking<Player, Piece>,
   depth: number = 1
 ) =>
   useMemo(() => {
