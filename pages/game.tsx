@@ -9,7 +9,7 @@ import {
   Icon,
   BottomLeftFixedButtonDenceGroup,
   FadeInButton,
-  GameUtil,
+  QueryUtil,
   PagePropsInitialized,
   useDialogState,
   useGameDefinition,
@@ -187,17 +187,17 @@ const GamePage: NextPage<GamePageProps> = ({
 };
 
 export default PagePropsInitialized(GamePage)((query) => {
-  const [boardWidth, boardHeight] = GameUtil.getBoardSize(query);
-  const playersCount = GameUtil.getPlayersCount(query);
-  const shapes = GameUtil.getPieceShapes(query, playersCount);
+  const [boardWidth, boardHeight] = QueryUtil.getBoardSize(query);
+  const playersCount = QueryUtil.getPlayersCount(query);
+  const shapes = QueryUtil.getPieceShapes(query, playersCount);
   const players = shapes.map((shape) => shapeByPlayer.indexOf(shape));
 
-  const routePortsCount = GameUtil.getRoutePortsCount(query, playersCount, [
+  const routePortsCount = QueryUtil.getRoutePortsCount(query, playersCount, [
     boardWidth,
     boardHeight,
   ]);
 
-  const turretPortsCount = GameUtil.getTurretPortsCount(query, playersCount, [
+  const turretPortsCount = QueryUtil.getTurretPortsCount(query, playersCount, [
     boardWidth,
     boardHeight,
   ]);

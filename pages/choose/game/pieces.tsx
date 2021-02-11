@@ -9,7 +9,7 @@ import {
   FadeInLinkButton,
   FadeInDescription,
   Icon,
-  GameUtil,
+  QueryUtil,
   PagePropsInitialized,
 } from '../../../components';
 
@@ -101,6 +101,6 @@ const ChooseGamePiecesPage: NextPage<{
 };
 
 export default PagePropsInitialized(ChooseGamePiecesPage)((query) => ({
-  boardParams: GameUtil.getItem(query.board),
-  playersCount: GameUtil.getPlayersCount(query),
+  boardParams: QueryUtil.getItem(query.board),
+  playersCount: QueryUtil.getPlayersCount(query),
 }));

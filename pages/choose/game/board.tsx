@@ -4,7 +4,7 @@ import React from 'react';
 import {
   BottomLeftFixedButtonDenceGroup,
   ChooseGameBoardPageLayout,
-  GameUtil,
+  QueryUtil,
   Container,
   FadeInButton,
   FadeInDescription,
@@ -35,5 +35,5 @@ const ChooseGameBoardPage: NextPage<{ playersCount: number }> = ({
 );
 
 export default PagePropsInitialized(ChooseGameBoardPage)((query) => ({
-  playersCount: GameUtil.getPlayersCount(query),
+  playersCount: QueryUtil.getPlayersCount(query),
 }));
