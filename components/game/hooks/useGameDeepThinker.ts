@@ -15,6 +15,6 @@ const useGameDeepThinker = (
     const deepThinking = DeepThinking(baseThinking, depth);
     const thinker = Thinker(deepThinking);
     return thinker;
-  }, [definition, Thinking]);
+  }, [definition, Thinking, depth]);
 
 export default useGameDeepThinker;
