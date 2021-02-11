@@ -15,7 +15,6 @@ import {
   useGameDefinition,
   useGameDeepThinker,
   useGameThinkerPlacement,
-  useGamePassTurn,
 } from '../components';
 
 import {
@@ -66,21 +65,22 @@ const GamePage: NextPage<GamePageProps> = ({
     const gameAfterPlaced = game.place(pieceIndex, player);
 
     if (gameAfterPlaced !== game) {
-      setRecords((records) => [
-        ...records,
-        { pieceIndex, game: gameAfterPlaced },
-      ]);
+      const winnerOfGameAfterPlaced = gameAfterPlaced.rule.getWinner(
+        gameAfterPlaced
+      );
+
+      if (winnerOfGameAfterPlaced === NO_WINNER) {
+        setRecords((records) => [
+          ...records,
+          { pieceIndex, game: gameAfterPlaced.passTurnToNextPlaceablePlayer() },
+        ]);
+      } else {
+        setRecords((records) => [
+          ...records,
+          { pieceIndex, game: gameAfterPlaced },
+        ]);
+      }
     }
-  };
-
-  const setRecordsByPassTurn = () => {
-    const { rule, turn, pieces, producerIndexes } = game;
-    const turnPassedGame = Game(rule, turn + 1, pieces, producerIndexes);
-
-    setRecords((records) => [
-      ...records,
-      { pieceIndex: -1, game: turnPassedGame },
-    ]);
   };
 
   const resetRecords = () => setRecords(([record]) => [record]);
@@ -115,8 +115,6 @@ const GamePage: NextPage<GamePageProps> = ({
     setRecordsByPlace,
     (player) => !players.includes(player)
   );
-
-  useGamePassTurn(game, setRecordsByPassTurn);
 
   const resetGame = () => {
     resetRecords();
