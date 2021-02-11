@@ -7,7 +7,7 @@ import {
 } from './definitions';
 
 import type GameDefinition from './GameDefinition';
-import type GameRule from './GameRule';
+import GameRule from './GameRule';
 
 /** 遊戲 */
 type Game<Player extends number, Piece extends number> = {
@@ -28,6 +28,9 @@ type Game<Player extends number, Piece extends number> = {
 
   /** 放置棋子 */
   readonly place: (pieceIndex: number, player: Player) => Game<Player, Piece>;
+
+  /** 跳到下一個可以放置棋子的玩家 */
+  readonly passTurnToNextPlaceablePlayer: () => Game<Player, Piece>;
 };
 
 /** 建立棋子 */
@@ -50,6 +53,7 @@ const Game = <Player extends number, Piece extends number>(
 
   const {
     playersCount,
+    pieceIndexes,
     providerPieceByPlayer,
     producerPieceByPlayer,
   } = definition;
@@ -98,6 +102,41 @@ const Game = <Player extends number, Piece extends number>(
     return game;
   };
 
+  const passTurnToNextPlaceablePlayer = () => {
+    if (turn < playersCount) {
+      return game;
+    }
+
+    const hasPieceIndexPlaceable = (player: Player) =>
+      pieceIndexes.some(
+        (pieceIndex) =>
+          pieces[pieceIndex] === EMPTY_PIECE &&
+          isPieceIndexHasProvidableRoute(pieces, pieceIndex, player)
+      );
+
+    const playerOfTurn = (turn % playersCount) as Player;
+
+    if (hasPieceIndexPlaceable(playerOfTurn)) {
+      return game;
+    }
+
+    const nextTurnOfPlayer = turn + playersCount;
+
+    for (
+      let passedTurn = turn + 1;
+      passedTurn < nextTurnOfPlayer;
+      passedTurn++
+    ) {
+      const playerOfPassedTurn = (passedTurn % playersCount) as Player;
+
+      if (hasPieceIndexPlaceable(playerOfPassedTurn)) {
+        return Game(rule, passedTurn, pieces, producerIndexes);
+      }
+    }
+
+    return game;
+  };
+
   const game: Game<Player, Piece> = {
     definition,
     rule,
@@ -105,6 +144,7 @@ const Game = <Player extends number, Piece extends number>(
     pieces,
     producerIndexes,
     place,
+    passTurnToNextPlaceablePlayer,
   };
 
   return game;
