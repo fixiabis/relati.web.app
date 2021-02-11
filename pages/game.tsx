@@ -19,7 +19,6 @@ import {
 } from '../components';
 
 import {
-  EMPTY_PIECE,
   Game,
   GameDefinition,
   GameRule,
