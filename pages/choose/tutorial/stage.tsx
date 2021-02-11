@@ -14,15 +14,15 @@ import {
 
 import { LightBackIconUrl, GrayHelpIconUrl } from '../../../icons';
 
-const ChooseTutorialStagePage: NextPage<{ boardSize: string }> = ({
-  boardSize,
+const ChooseTutorialStagePage: NextPage<{ boardParams: string }> = ({
+  boardParams,
 }) => (
   <Container>
     <FadeInDescription>
       <Icon url={GrayHelpIconUrl} />
       選擇教學階段
     </FadeInDescription>
-    {ChooseTutorialStagePageLayout.renderButtons(boardSize)}
+    {ChooseTutorialStagePageLayout.renderButtons(boardParams)}
     <BottomLeftFixedButtonDenceGroup>
       <FadeInButton
         title="back"
@@ -35,5 +35,5 @@ const ChooseTutorialStagePage: NextPage<{ boardSize: string }> = ({
 );
 
 export default PagePropsInitialized(ChooseTutorialStagePage)((query) => ({
-  boardSize: QueryUtil.getItem(query.board),
+  boardParams: QueryUtil.getItem(query.board),
 }));
