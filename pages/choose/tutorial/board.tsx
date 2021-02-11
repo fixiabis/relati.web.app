@@ -4,7 +4,6 @@ import React from 'react';
 import {
   BottomLeftFixedButtonDenceGroup,
   ChooseTutorialBoardPageLayout,
-  GameUtil,
   Container,
   FadeInButton,
   FadeInDescription,
@@ -13,9 +12,7 @@ import {
 
 import { LightBackIconUrl, BoardIconUrl } from '../../../icons';
 
-const ChooseTutorialBoardPage: NextPage<{ playersCount: number }> = ({
-  playersCount,
-}) => (
+const ChooseTutorialBoardPage: NextPage = () => (
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
