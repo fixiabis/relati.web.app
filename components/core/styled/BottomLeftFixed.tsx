@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { bottomLeftFixed } from '../styles';
 
-const BottomRightFixed = styled.div(bottomLeftFixed);
+const BottomLeftFixed = styled.div(bottomLeftFixed);
 
-export default BottomRightFixed;
+export default BottomLeftFixed;
