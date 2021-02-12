@@ -20,3 +20,9 @@ export const bottomLeftFixed: CSSObject = {
   bottom: 0,
   left: 0,
 };
+
+export const bottomRightFixed: CSSObject = {
+  position: 'fixed',
+  bottom: 0,
+  right: 0,
+};
