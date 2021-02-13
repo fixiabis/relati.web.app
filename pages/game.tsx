@@ -4,7 +4,6 @@ import { NextPage } from 'next';
 import {
   Container,
   BoardForGame,
-  BoardForGameProps,
   GamePageLayout,
   Icon,
   BottomLeftFixedButtonDenceGroup,
@@ -19,18 +18,14 @@ import {
   useGamePlacementGridClickHandler,
 } from '../components';
 
-import {
-  Game,
-  GameDefinition,
-  GameRule,
-  NO_WINNER,
-  PieceIndex,
-} from '../relati';
+import { Game, GameRule, NO_WINNER, PieceIndex } from '../relati';
+
 import {
   LightRetryIconUrl,
   LightLeaveIconUrl,
   LightHelpIconUrl,
 } from '../icons';
+
 import { MultiInfluencesBasedThinking } from '../relati/Thinker';
 
 const shapeByPlayer = ['O', 'X', 'D', 'U'];
@@ -71,33 +66,28 @@ const GamePage: NextPage<GamePageProps> = ({
     const gameAfterPlaced = game.place(pieceIndex, player);
 
     if (gameAfterPlaced !== game) {
-      const winnerOfGameAfterPlaced = gameAfterPlaced.rule.getWinner(
-        gameAfterPlaced
-      );
+      const winner = gameAfterPlaced.rule.getWinner(gameAfterPlaced);
 
-      if (winnerOfGameAfterPlaced === NO_WINNER) {
-        setRecords((records) => [
-          ...records,
-          { pieceIndex, game: gameAfterPlaced.passTurnToNextPlaceablePlayer() },
-        ]);
-      } else {
-        setRecords((records) => [
-          ...records,
-          { pieceIndex, game: gameAfterPlaced },
-        ]);
-      }
+      const game =
+        winner === NO_WINNER
+          ? gameAfterPlaced.passTurnToNextPlaceablePlayer()
+          : gameAfterPlaced;
+
+      const record = { pieceIndex, game };
+
+      setRecords((records) => [...records, record]);
     }
   };
 
-  const resetRecords = () => setRecords(([record]) => [record]);
-
-  const resetRecordsByDefinition = () =>
+  const setRecordsByDefinition = () =>
     setRecords([
       {
         pieceIndex: -1,
         game: Game(GameRule(definition)),
       },
     ]);
+
+  const resetRecords = () => setRecords(([record]) => [record]);
 
   const [
     { game, pieceIndex: lastPlacedPieceIndex },
@@ -111,7 +101,7 @@ const GamePage: NextPage<GamePageProps> = ({
   const gameLeaveDialog = useDialogState();
   const gameRetryDialog = useDialogState();
 
-  useEffect(resetRecordsByDefinition, [definition]);
+  useEffect(setRecordsByDefinition, [definition]);
 
   useGameThinkerPlacement(
     thinker,
