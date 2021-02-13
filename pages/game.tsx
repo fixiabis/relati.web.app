@@ -13,7 +13,7 @@ import {
   PagePropsInitialized,
   useDialogState,
   useGameDeepThinker,
-  useGameThinkerPlacement,
+  useGamePlacementThinker,
   useGamePlacementGridClickHandler,
 } from '../components';
 
@@ -87,7 +87,7 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
 
   const thinker = useGameDeepThinker(definition, MultiInfluencesBasedThinking);
 
-  useGameThinkerPlacement(
+  useGamePlacementThinker(
     thinker,
     game,
     setRecordsByPlace,

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Game, PieceIndex, Thinker } from '../../../relati';
 import { Player, Piece } from './types';
 
-const useGameThinkerPlacement = (
+const useGamePlacementThinker = (
   thinker: Thinker<Player, Piece>,
   game: Game<Player, Piece>,
   place: (pieceIndex: PieceIndex) => void,
@@ -19,4 +19,4 @@ const useGameThinkerPlacement = (
     }
   }, [game, thinker, place, isPlaceable]);
 
-export default useGameThinkerPlacement;
+export default useGamePlacementThinker;
