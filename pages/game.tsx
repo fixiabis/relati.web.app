@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NextPage } from 'next';
 
 import {
@@ -12,10 +12,13 @@ import {
   QueryUtil,
   PagePropsInitialized,
   useDialogState,
-  useGameDeepThinker,
-  useGamePlacementThinker,
-  useGamePlacementGridClickHandler,
 } from '../components';
+
+import {
+  LightRetryIconUrl,
+  LightLeaveIconUrl,
+  LightHelpIconUrl,
+} from '../icons';
 
 import {
   Game,
@@ -25,13 +28,11 @@ import {
   PieceIndex,
 } from '../relati';
 
-import {
-  LightRetryIconUrl,
-  LightLeaveIconUrl,
-  LightHelpIconUrl,
-} from '../icons';
+import Thinker, {
+  DeepThinking,
+  MultiInfluencesBasedThinking,
+} from '../relati/Thinker';
 
-import { MultiInfluencesBasedThinking } from '../relati/Thinker';
 import { DirectionRoute, TurretBase } from '../relati/values';
 
 const shapeByPlayer = ['O', 'X', 'D', 'U'];
@@ -52,7 +53,7 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
   ] = records.slice(-2).reverse();
 
   const setRecordsByPlace = (pieceIndex: PieceIndex) => {
-    const player = game.turn % players.length;
+    const player = game.turn % game.definition.playersCount;
     const gameAfterPlaced = game.place(pieceIndex, player);
 
     if (gameAfterPlaced !== game) {
@@ -79,21 +80,6 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
 
   useEffect(setRecordsByDefinition, [definition]);
 
-  const handleGridClick = useGamePlacementGridClickHandler(
-    game,
-    setRecordsByPlace,
-    (player) => players.includes(player)
-  );
-
-  const thinker = useGameDeepThinker(definition, MultiInfluencesBasedThinking);
-
-  useGamePlacementThinker(
-    thinker,
-    game,
-    setRecordsByPlace,
-    (player) => !players.includes(player)
-  );
-
   const overDialog = useDialogState();
   const leaveDialog = useDialogState();
   const retryDialog = useDialogState();
@@ -109,6 +95,33 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
   const leave = () => history.back();
   const handleRetry = canControlDirectly ? reset : retryDialog.open;
   const handleLeave = canControlDirectly ? leave : leaveDialog.open;
+
+  const thinker = useMemo(
+    () => Thinker(DeepThinking(MultiInfluencesBasedThinking(definition))),
+    [definition]
+  );
+
+  useEffect(() => {
+    const playerOfTurn = game.turn % game.definition.playersCount;
+
+    if (!players.includes(playerOfTurn)) {
+      setTimeout(() => {
+        const pieceIndex = thinker.getPieceIndexForPlacement(game);
+        setRecordsByPlace(pieceIndex);
+      }, 600);
+    }
+  }, [game, thinker, setRecordsByPlace]);
+
+  const handleGridClick = ({ x, y }) => {
+    const playerOfTurn = game.turn % game.definition.playersCount;
+
+    if (players.includes(playerOfTurn)) {
+      const pieceIndex = game.definition.toPieceIndex([x, y]);
+      setRecordsByPlace(pieceIndex);
+    }
+
+    overDialog.open();
+  };
 
   return (
     <Container>
