@@ -16,7 +16,7 @@ import {
   useGameDefinition,
   useGameDeepThinker,
   useGameThinkerPlacement,
-  useGameGridClickHandler,
+  useGamePlacementGridClickHandler,
 } from '../components';
 
 import {
@@ -129,7 +129,7 @@ const GamePage: NextPage<GamePageProps> = ({
   const handleRetry = canControlDirectly ? reset : gameRetryDialog.open;
   const handleLeave = canControlDirectly ? leave : gameLeaveDialog.open;
 
-  const handleGridClick = useGameGridClickHandler(
+  const handleGridClick = useGamePlacementGridClickHandler(
     game,
     setRecordsByPlace,
     (player) => players.includes(player)

@@ -2,7 +2,7 @@ import { Game, PieceIndex } from '../../../relati';
 import { BoardForGameProps } from '../BoardForGame';
 import { Piece, Player } from './types';
 
-const useGameGridClickHandler = (
+const useGamePlacementGridClickHandler = (
   game: Game<Player, Piece>,
   place: (pieceIndex: PieceIndex) => void,
   isPlaceable: (player: Player) => boolean
@@ -15,4 +15,4 @@ const useGameGridClickHandler = (
   }
 };
 
-export default useGameGridClickHandler;
+export default useGamePlacementGridClickHandler;
