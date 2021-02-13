@@ -55,11 +55,14 @@ const GamePage: NextPage<GamePageProps> = ({
     turretPortsCount
   );
 
-  const thinker = useGameDeepThinker(definition, MultiInfluencesBasedThinking);
-
   const [records, setRecords] = useState(() => [
     { pieceIndex: -1, game: Game(GameRule(definition)) },
   ]);
+
+  const [
+    { game, pieceIndex: lastPlacedPieceIndex },
+    { game: prevGame = game } = {},
+  ] = records.slice(-2).reverse();
 
   const setRecordsByPlace = (pieceIndex: PieceIndex) => {
     const player = game.turn % playersCount;
@@ -89,19 +92,15 @@ const GamePage: NextPage<GamePageProps> = ({
 
   const resetRecords = () => setRecords(([record]) => [record]);
 
-  const [
-    { game, pieceIndex: lastPlacedPieceIndex },
-    { game: prevGame = game } = {},
-  ] = records.slice(-2).reverse();
-
-  const winner = game.rule.getWinner(game);
-  const canControlDirectly = winner !== NO_WINNER || game.turn === 0;
-
-  const gameOverDialog = useDialogState();
-  const gameLeaveDialog = useDialogState();
-  const gameRetryDialog = useDialogState();
-
   useEffect(setRecordsByDefinition, [definition]);
+
+  const handleGridClick = useGamePlacementGridClickHandler(
+    game,
+    setRecordsByPlace,
+    (player) => players.includes(player)
+  );
+
+  const thinker = useGameDeepThinker(definition, MultiInfluencesBasedThinking);
 
   useGameThinkerPlacement(
     thinker,
@@ -110,20 +109,21 @@ const GamePage: NextPage<GamePageProps> = ({
     (player) => !players.includes(player)
   );
 
+  const overDialog = useDialogState();
+  const leaveDialog = useDialogState();
+  const retryDialog = useDialogState();
+
+  const winner = game.rule.getWinner(game);
+  const canControlDirectly = winner !== NO_WINNER || game.turn === 0;
+
   const reset = () => {
     resetRecords();
-    gameRetryDialog.close();
+    retryDialog.close();
   };
 
   const leave = () => history.back();
-  const handleRetry = canControlDirectly ? reset : gameRetryDialog.open;
-  const handleLeave = canControlDirectly ? leave : gameLeaveDialog.open;
-
-  const handleGridClick = useGamePlacementGridClickHandler(
-    game,
-    setRecordsByPlace,
-    (player) => players.includes(player)
-  );
+  const handleRetry = canControlDirectly ? reset : retryDialog.open;
+  const handleLeave = canControlDirectly ? leave : leaveDialog.open;
 
   return (
     <Container>
@@ -158,22 +158,22 @@ const GamePage: NextPage<GamePageProps> = ({
       </BottomRightFixedButtonDenceGroup>
 
       <GamePageLayout.GameOverDialog
-        visible={gameOverDialog.isVisible}
-        onClose={gameOverDialog.close}
+        visible={overDialog.isVisible}
+        onClose={overDialog.close}
         winner={winner}
         onRetry={reset}
         onLeave={leave}
       />
 
       <GamePageLayout.GameLeaveDialog
-        visible={gameLeaveDialog.isVisible}
-        onClose={gameLeaveDialog.close}
+        visible={leaveDialog.isVisible}
+        onClose={leaveDialog.close}
         onLeave={leave}
       />
 
       <GamePageLayout.GameRetryDialog
-        visible={gameRetryDialog.isVisible}
-        onClose={gameRetryDialog.close}
+        visible={retryDialog.isVisible}
+        onClose={retryDialog.close}
         onRetry={reset}
       />
     </Container>
