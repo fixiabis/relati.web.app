@@ -52,7 +52,7 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
   ] = records.slice(-2).reverse();
 
   const setRecordsByPlace = (pieceIndex: PieceIndex) => {
-    const player = game.turn % playersCount;
+    const player = game.turn % players.length;
     const gameAfterPlaced = game.place(pieceIndex, player);
 
     if (gameAfterPlaced !== game) {
