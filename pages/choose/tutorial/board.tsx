@@ -14,7 +14,10 @@ import { LightBackIconUrl, BoardIconUrl } from '../../../icons';
 
 const ChooseTutorialBoardPage: NextPage = () => (
   <Container>
-    <FadeInDescription iconUrl={BoardIconUrl} text="選擇棋盤大小" />
+    <FadeInDescription>
+      <Icon url={BoardIconUrl} />
+      選擇棋盤大小
+    </FadeInDescription>
     {ChooseTutorialBoardPageLayout.renderButtons()}
     <BottomLeftFixedButtonDenceGroup>
       <FadeInButton

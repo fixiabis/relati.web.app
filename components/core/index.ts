@@ -3,6 +3,7 @@ export type { ButtonProps } from './Button';
 
 export { default as BottomNotice } from './BottomNotice';
 export { default as Container } from './Container';
+export { default as Description } from './Description';
 export { default as Dialog } from './Dialog';
 
 export { default as Icon } from './Icon';
