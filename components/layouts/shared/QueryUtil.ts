@@ -10,9 +10,10 @@ export const getBoardSize = (query: ParsedUrlQuery) =>
   Object.assign(
     [0, 0],
     (getItem(query.board) || '').split('x').map(Number).filter(Boolean)
-  ).map((size, index, sizes) =>
-    index === 1 && size === 0 ? sizes[0] : size
-  ) as [number, number];
+  ).map((height, index, [width]) => (index && !height ? width : height)) as [
+    number,
+    number
+  ];
 
 export const getPieceShapes = (
   query: ParsedUrlQuery,
