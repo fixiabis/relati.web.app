@@ -5,6 +5,7 @@ import {
   BottomLeftFixedButtonDenceGroup,
   ChooseTutorialBoardPageLayout,
   Container,
+  Description,
   FadeInButton,
   FadeInDescription,
   Icon,
@@ -16,7 +17,7 @@ const ChooseTutorialBoardPage: NextPage = () => (
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
-      選擇棋盤大小
+      <Description.Text>選擇棋盤大小</Description.Text>
     </FadeInDescription>
     {ChooseTutorialBoardPageLayout.renderButtons()}
     <BottomLeftFixedButtonDenceGroup>

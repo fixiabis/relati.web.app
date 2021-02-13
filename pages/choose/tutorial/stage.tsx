@@ -5,6 +5,7 @@ import {
   BottomLeftFixedButtonDenceGroup,
   ChooseTutorialStagePageLayout,
   Container,
+  Description,
   FadeInButton,
   FadeInDescription,
   Icon,
@@ -20,7 +21,7 @@ const ChooseTutorialStagePage: NextPage<{ boardParams: string }> = ({
   <Container>
     <FadeInDescription>
       <Icon url={GrayHelpIconUrl} />
-      選擇教學階段
+      <Description.Text>選擇教學階段</Description.Text>
     </FadeInDescription>
     {ChooseTutorialStagePageLayout.renderButtons(boardParams)}
     <BottomLeftFixedButtonDenceGroup>

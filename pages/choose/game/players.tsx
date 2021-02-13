@@ -5,6 +5,7 @@ import {
   BottomLeftFixedButtonDenceGroup,
   Button,
   Container,
+  Description,
   FadeInButton,
   FadeInDescription,
   Icon,
@@ -17,7 +18,7 @@ const ChooseGameBoardSize: NextPage = () => (
   <Container>
     <FadeInDescription>
       <Icon url={GrayOnePlayerIconUrl} />
-      選擇玩家數量
+      <Description.Text>選擇玩家數量</Description.Text>
     </FadeInDescription>
     <Button.Group>
       <SlideLeftFadeInLinkButton

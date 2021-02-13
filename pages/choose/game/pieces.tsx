@@ -5,6 +5,7 @@ import {
   BottomLeftFixedButtonDenceGroup,
   ChooseGamePiecesPageLayout,
   Container,
+  Description,
   FadeInButton,
   FadeInLinkButton,
   FadeInDescription,
@@ -73,7 +74,7 @@ const ChooseGamePiecesPage: NextPage<{
     <Container>
       <FadeInDescription>
         <Icon url={GrayPlayIconUrl} />
-        {description}
+        <Description.Text>{description}</Description.Text>
       </FadeInDescription>
       {ChooseGamePiecesPageLayout.renderButtons(
         playersCount,
