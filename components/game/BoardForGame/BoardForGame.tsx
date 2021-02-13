@@ -26,6 +26,7 @@ const Board: React.FC<BoardProps> = ({
   game,
   prevGame,
   lastPlacedPieceIndex,
+  children,
   ...props
 }) => {
   const [state, setState] = useState({
@@ -142,6 +143,7 @@ const Board: React.FC<BoardProps> = ({
   if (keyframe === null) {
     return (
       <BoardBase width={boardWidth} height={boardHeight} {...props}>
+        {children}
         <g className="pieces">{game.pieces.map(toPieceElement)}</g>
       </BoardBase>
     );
@@ -192,6 +194,7 @@ const Board: React.FC<BoardProps> = ({
 
     return (
       <BoardBase width={boardWidth} height={boardHeight} {...props}>
+        {children}
         <g className="effect-lines">
           {(keyframe.routesByPieceIndex as PieceIndex[][][]).map(
             toUnchangedRoutes
