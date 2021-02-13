@@ -12,13 +12,18 @@ import {
   QueryUtil,
   PagePropsInitialized,
   useDialogState,
-  useGameDefinition,
   useGameDeepThinker,
   useGameThinkerPlacement,
   useGamePlacementGridClickHandler,
 } from '../components';
 
-import { Game, GameRule, NO_WINNER, PieceIndex } from '../relati';
+import {
+  Game,
+  GameDefinition,
+  GameRule,
+  NO_WINNER,
+  PieceIndex,
+} from '../relati';
 
 import {
   LightRetryIconUrl,
@@ -27,34 +32,16 @@ import {
 } from '../icons';
 
 import { MultiInfluencesBasedThinking } from '../relati/Thinker';
+import { DirectionRoute, TurretBase } from '../relati/values';
 
 const shapeByPlayer = ['O', 'X', 'D', 'U'];
 
 type GamePageProps = {
-  boardWidth: number;
-  boardHeight: number;
+  definition: GameDefinition<number, number>;
   players: number[];
-  playersCount: number;
-  routePortsCount: number;
-  turretPortsCount: number;
 };
 
-const GamePage: NextPage<GamePageProps> = ({
-  boardWidth,
-  boardHeight,
-  players,
-  playersCount,
-  routePortsCount,
-  turretPortsCount,
-}) => {
-  const definition = useGameDefinition(
-    playersCount,
-    boardWidth,
-    boardHeight,
-    routePortsCount,
-    turretPortsCount
-  );
-
+const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
   const [records, setRecords] = useState(() => [
     { pieceIndex: -1, game: Game(GameRule(definition)) },
   ]);
@@ -196,12 +183,13 @@ export default PagePropsInitialized(GamePage)((query) => {
     boardHeight,
   ]);
 
-  return {
+  const definition = GameDefinition(
+    playersCount,
     boardWidth,
     boardHeight,
-    players,
-    playersCount,
-    routePortsCount,
-    turretPortsCount,
-  };
+    DirectionRoute['P' + routePortsCount],
+    TurretBase['P' + turretPortsCount]
+  );
+
+  return { definition, players };
 });
