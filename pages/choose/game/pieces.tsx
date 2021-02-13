@@ -74,7 +74,7 @@ const ChooseGamePiecesPage: NextPage<{
     <Container>
       <FadeInDescription>
         <Icon url={GrayPlayIconUrl} />
-        <Description.Text>{description}</Description.Text>
+        <Description.Text children={description} />
       </FadeInDescription>
       {ChooseGamePiecesPageLayout.renderButtons(
         playersCount,

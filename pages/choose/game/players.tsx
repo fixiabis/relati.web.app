@@ -18,7 +18,7 @@ const ChooseGameBoardSize: NextPage = () => (
   <Container>
     <FadeInDescription>
       <Icon url={GrayOnePlayerIconUrl} />
-      <Description.Text>選擇玩家數量</Description.Text>
+      <Description.Text children="選擇玩家數量" />
     </FadeInDescription>
     <Button.Group>
       <SlideLeftFadeInLinkButton

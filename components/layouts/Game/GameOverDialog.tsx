@@ -49,7 +49,7 @@ const GameOverDialog: React.FC<GameOverDialogProps> = ({
     <Dialog visible={isVisible && winner !== NO_WINNER} {...props}>
       <Description>
         <Icon url={iconUrl} />
-        <Description.Text>{message}</Description.Text>
+        <Description.Text children={message} />
       </Description>
       <Button.Group>
         <Button backgroundColor="crimson" onClick={emitRetry}>

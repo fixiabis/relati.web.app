@@ -17,7 +17,7 @@ const ChooseTutorialBoardPage: NextPage = () => (
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
-      <Description.Text>選擇棋盤大小</Description.Text>
+      <Description.Text children="選擇棋盤大小" />
     </FadeInDescription>
     {ChooseTutorialBoardPageLayout.renderButtons()}
     <BottomLeftFixedButtonDenceGroup>

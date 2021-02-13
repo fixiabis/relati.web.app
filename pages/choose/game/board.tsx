@@ -21,7 +21,7 @@ const ChooseGameBoardPage: NextPage<{ playersCount: number }> = ({
   <Container>
     <FadeInDescription>
       <Icon url={BoardIconUrl} />
-      <Description.Text>選擇棋盤大小</Description.Text>
+      <Description.Text children="選擇棋盤大小" />
     </FadeInDescription>
     {ChooseGameBoardPageLayout.renderButtons(playersCount)}
     <BottomLeftFixedButtonDenceGroup>

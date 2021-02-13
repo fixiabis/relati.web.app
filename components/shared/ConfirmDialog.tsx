@@ -23,7 +23,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   <Dialog {...props}>
     <Description>
       <Icon url={iconUrl} />
-      <Description.Text>{message}</Description.Text>
+        <Description.Text children={message} />
     </Description>
     <Button.Group>
       <Button backgroundColor="crimson" onClick={emitAccept}>
