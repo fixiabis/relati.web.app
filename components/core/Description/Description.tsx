@@ -11,7 +11,7 @@ const DescriptionNamespace = {
 const Description = styled.div<DescriptionProps>(
   {
     height: '90px',
-    padding: '10px',
+    padding: '10px 0',
     ...styles.flexCenter,
   },
   ({ width = 'auto' }) => ({ width })
