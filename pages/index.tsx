@@ -1,6 +1,14 @@
 import { NextPage } from 'next';
 import React from 'react';
-import { Container, Button, Icon, HomePageLayout, LinkButton } from '../components';
+
+import {
+  Container,
+  Button,
+  Icon,
+  HomePageLayout,
+  LinkButton,
+} from '../components';
+
 import { LightHelpIconUrl, LightPlayIconUrl } from '../icons';
 
 const Home: NextPage = () => (
