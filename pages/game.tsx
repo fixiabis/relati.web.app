@@ -69,15 +69,13 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
     }
   };
 
-  const setRecordsByDefinition = () =>
-    setRecords([
-      {
-        pieceIndex: -1,
-        game: Game(GameRule(definition)),
-      },
-    ]);
-
   const resetRecords = () => setRecords(([record]) => [record]);
+
+  const setRecordsByDefinition = () => {
+    const game = Game(GameRule(definition));
+    const record = { pieceIndex: -1, game };
+    setRecords([record]);
+  };
 
   useEffect(setRecordsByDefinition, [definition]);
 
