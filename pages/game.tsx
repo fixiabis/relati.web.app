@@ -8,6 +8,7 @@ import {
   GamePageLayout,
   Icon,
   BottomLeftFixedButtonDenceGroup,
+  BottomRightFixedButtonDenceGroup,
   FadeInButton,
   QueryUtil,
   PagePropsInitialized,
@@ -15,6 +16,7 @@ import {
   useGameDefinition,
   useGameDeepThinker,
   useGameThinkerPlacement,
+  useGameGridClickHandler,
 } from '../components';
 
 import {
@@ -24,7 +26,11 @@ import {
   NO_WINNER,
   PieceIndex,
 } from '../relati';
-import { LightRetryIconUrl, LightLeaveIconUrl } from '../icons';
+import {
+  LightRetryIconUrl,
+  LightLeaveIconUrl,
+  LightHelpIconUrl,
+} from '../icons';
 import { MultiInfluencesBasedThinking } from '../relati/Thinker';
 
 const shapeByPlayer = ['O', 'X', 'D', 'U'];
@@ -85,9 +91,7 @@ const GamePage: NextPage<GamePageProps> = ({
 
   const resetRecords = () => setRecords(([record]) => [record]);
 
-  const resetRecordsByDefinition = (
-    definition: GameDefinition<number, number>
-  ) =>
+  const resetRecordsByDefinition = () =>
     setRecords([
       {
         pieceIndex: -1,
@@ -107,34 +111,29 @@ const GamePage: NextPage<GamePageProps> = ({
   const gameLeaveDialog = useDialogState();
   const gameRetryDialog = useDialogState();
 
-  useEffect(() => resetRecordsByDefinition(definition), [definition]);
+  useEffect(resetRecordsByDefinition, [definition]);
 
   useGameThinkerPlacement(
-    game,
     thinker,
+    game,
     setRecordsByPlace,
     (player) => !players.includes(player)
   );
 
-  const resetGame = () => {
+  const reset = () => {
     resetRecords();
     gameRetryDialog.close();
   };
 
   const leave = () => history.back();
-  const handleRetry = canControlDirectly ? resetGame : gameRetryDialog.open;
+  const handleRetry = canControlDirectly ? reset : gameRetryDialog.open;
   const handleLeave = canControlDirectly ? leave : gameLeaveDialog.open;
 
-  const handleGridClick: BoardForGameProps['onGridClick'] = ({ x, y }) => {
-    const player = game.turn % playersCount;
-
-    if (players.includes(player)) {
-      const pieceIndex = definition.toPieceIndex([x, y]);
-      setRecordsByPlace(pieceIndex);
-    }
-
-    gameOverDialog.open();
-  };
+  const handleGridClick = useGameGridClickHandler(
+    game,
+    setRecordsByPlace,
+    (player) => players.includes(player)
+  );
 
   return (
     <Container>
@@ -160,11 +159,19 @@ const GamePage: NextPage<GamePageProps> = ({
         />
       </BottomLeftFixedButtonDenceGroup>
 
+      <BottomRightFixedButtonDenceGroup>
+        <FadeInButton
+          title="help"
+          backgroundColor="#888"
+          children={<Icon url={LightHelpIconUrl} />}
+        />
+      </BottomRightFixedButtonDenceGroup>
+
       <GamePageLayout.GameOverDialog
         visible={gameOverDialog.isVisible}
         onClose={gameOverDialog.close}
         winner={winner}
-        onRetry={resetGame}
+        onRetry={reset}
         onLeave={leave}
       />
 
@@ -177,7 +184,7 @@ const GamePage: NextPage<GamePageProps> = ({
       <GamePageLayout.GameRetryDialog
         visible={gameRetryDialog.isVisible}
         onClose={gameRetryDialog.close}
-        onRetry={resetGame}
+        onRetry={reset}
       />
     </Container>
   );
