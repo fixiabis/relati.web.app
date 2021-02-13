@@ -18,10 +18,7 @@ const ChooseTutorialStagePage: NextPage<{ boardParams: string }> = ({
   boardParams,
 }) => (
   <Container>
-    <FadeInDescription>
-      <Icon url={GrayHelpIconUrl} />
-      選擇教學階段
-    </FadeInDescription>
+    <FadeInDescription iconUrl={GrayHelpIconUrl} text="選擇教學階段" />
     {ChooseTutorialStagePageLayout.renderButtons(boardParams)}
     <BottomLeftFixedButtonDenceGroup>
       <FadeInButton

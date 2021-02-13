@@ -11,7 +11,8 @@ import {
 } from '../../../icons';
 
 import { NoPlayer, NoWinner, NO_WINNER } from '../../../relati';
-import { Button, Description, Dialog, PopupProps, Icon } from '../../core';
+import { Button, Dialog, PopupProps, Icon } from '../../core';
+import { Description } from '../../shared';
 
 const iconUrlByWinner: Record<number, string> = {
   [-1]: PlayerNIconUrl,
@@ -47,10 +48,7 @@ const GameOverDialog: React.FC<GameOverDialogProps> = ({
 
   return (
     <Dialog visible={isVisible && winner !== NO_WINNER} {...props}>
-      <Description>
-        <Icon url={iconUrl} />
-        {message}
-      </Description>
+      <Description iconUrl={iconUrl} text={message} />
       <Button.Group>
         <Button backgroundColor="crimson" onClick={emitRetry}>
           <Icon url={LightRetryIconUrl} />

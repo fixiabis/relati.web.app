@@ -1,11 +1,7 @@
 import Link from 'next/link';
-import {
-  BottomLeftFixed,
-  BottomRightFixed,
-  Button,
-  Description,
-} from '../core';
+import { BottomLeftFixed, BottomRightFixed, Button } from '../core';
 import { FadeIn, SlideLeftFadeIn } from './styled';
+import Description from './Description';
 
 export const BottomLeftFixedButtonDenceGroup = BottomLeftFixed.withComponent(
   Button.DenceGroup

@@ -15,10 +15,7 @@ import { LightBackIconUrl, GrayOnePlayerIconUrl } from '../../../icons';
 
 const ChooseGameBoardSize: NextPage = () => (
   <Container>
-    <FadeInDescription>
-      <Icon url={GrayOnePlayerIconUrl} />
-      選擇玩家數量
-    </FadeInDescription>
+    <FadeInDescription iconUrl={GrayOnePlayerIconUrl} text="選擇玩家數量" />
     <Button.Group>
       <SlideLeftFadeInLinkButton
         animationDelay="0.5s"

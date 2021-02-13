@@ -1,10 +1,7 @@
 import React from 'react';
 import { LightAcceptIconUrl, LightRejectIconUrl } from '../../icons';
-import Button from '../core/Button';
-import Dialog from '../core/Dialog';
-import Description from '../core/Description';
-import { PopupProps } from '../core/Popup';
-import Icon from '../core/Icon';
+import { Button, Dialog, Icon, PopupProps } from '../core';
+import Description from './Description';
 
 export type ConfirmDialogProps = {
   iconUrl: string;
@@ -21,10 +18,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   ...props
 }) => (
   <Dialog {...props}>
-    <Description>
-      <Icon url={iconUrl} />
-      {message}
-    </Description>
+    <Description iconUrl={iconUrl} text={message} />
     <Button.Group>
       <Button backgroundColor="crimson" onClick={emitAccept}>
         <Icon url={LightAcceptIconUrl} />

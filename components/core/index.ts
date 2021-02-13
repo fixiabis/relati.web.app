@@ -2,7 +2,6 @@ export { default as Button } from './Button';
 export type { ButtonProps } from './Button';
 
 export { default as Container } from './Container';
-export { default as Description } from './Description';
 export { default as Dialog } from './Dialog';
 
 export { default as Icon } from './Icon';
