@@ -1,21 +1,25 @@
 import styled from '@emotion/styled';
 import * as animations from './animations';
-import Popup from './Popup';
 
-const BottomNotice = styled(Popup)({
-  userSelect: 'none',
-  borderWidth: '0px',
-  borderTopWidth: '2px',
-  borderRadius: '0px',
+const BottomNotice = styled.div({
+  boxSizing: 'border-box',
   width: '100%',
-  maxHeight: '70px',
+  height: '70px',
   overflow: 'hidden',
+  padding: '10px',
+  borderTopWidth: '2px',
+  borderTopColor: '#888',
+  borderTopStyle: 'solid',
   position: 'fixed',
-  top: 'calc(100% - 70px)',
+  top: '0px',
   left: '0px',
-  animation: `${animations.slideTopFadeIn} 0.25s`,
+  display: 'flex',
   flexDirection: 'row',
+  alignItems: 'center',
   justifyContent: 'space-between',
+  backgroundColor: '#f2f2f2',
+  userSelect: 'none',
+  animation: `${animations.slideTopFadeIn} 0.25s`,
 });
 
 export default BottomNotice;
