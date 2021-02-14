@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 import {
   Container,
@@ -43,6 +44,8 @@ type GamePageProps = {
 };
 
 const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
+  const router = useRouter();
+
   const [records, setRecords] = useState(() => [
     { pieceIndex: -1, game: Game(GameRule(definition)) },
   ]);
@@ -92,7 +95,7 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
     retryDialog.close();
   };
 
-  const leave = () => history.back();
+  const leave = () => router.push('/');
   const handleRetry = canControlDirectly ? reset : retryDialog.open;
   const handleLeave = canControlDirectly ? leave : leaveDialog.open;
 
