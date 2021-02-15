@@ -31,12 +31,5 @@ export const renderButtons = (boardParams: string) => (
       backgroundColor="seagreen"
       children="4"
     />
-    <SlideLeftFadeInLinkButton
-      animationDelay="1.25s"
-      href={`/tutorial?board=${boardParams}&stage=5`}
-      title="5"
-      backgroundColor="purple"
-      children="5"
-    />
   </Button.Group>
 );
