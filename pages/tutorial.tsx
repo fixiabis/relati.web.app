@@ -219,7 +219,6 @@ const TutorialPage: NextPage<TutorialPageProps> = ({
 };
 
 export default PagePropsInitialized(TutorialPage)((query) => {
-  const boardParams = QueryUtil.getItem(query.board);
   const [boardWidth, boardHeight] = QueryUtil.getBoardSize(query);
   const playersCount = 2;
   const stage = +QueryUtil.getItem(query.stage);
