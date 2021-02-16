@@ -150,14 +150,6 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
         />
       </BottomLeftFixedButtonDenceGroup>
 
-      <BottomRightFixedButtonDenceGroup>
-        <FadeInButton
-          title="help"
-          backgroundColor="#888"
-          children={<Icon url={LightHelpIconUrl} />}
-        />
-      </BottomRightFixedButtonDenceGroup>
-
       <GamePageLayout.GameOverDialog
         visible={overDialog.isVisible}
         onClose={overDialog.close}
