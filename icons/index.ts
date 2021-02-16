@@ -32,3 +32,4 @@ export { default as LightAcceptIconUrl } from './light/accept.svg';
 export { default as LightRejectIconUrl } from './light/reject.svg';
 export { default as LightDownloadIconUrl } from './light/download.svg';
 export { default as LightVerifyIconUrl } from './light/verify.svg';
+export { default as LightDownIconUrl } from './light/down.svg';
