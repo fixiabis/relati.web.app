@@ -23,12 +23,12 @@ const Home: NextPage = () => (
         backgroundColor="crimson"
         children={<Icon url={LightPlayIconUrl} />}
       />
-      {/* <LinkButton
+      <LinkButton
         href="/choose/tutorial/board"
         title="how to play"
         backgroundColor="royalblue"
         children={<Icon url={LightHelpIconUrl} />}
-      /> */}
+      />
     </HomePageLayout.SlideDownFadeInWhenLogoDrawn>
   </Container>
 );
