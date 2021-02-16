@@ -5,7 +5,7 @@ import { ConfirmDialog, ConfirmDialogProps } from '../../shared';
 export type GameRetryDialogProps = Omit<
   ConfirmDialogProps,
   'iconUrl' | 'message' | 'onAccept' | 'onReject'
-> & { onRetry: () => void };
+> & { onRetry?: () => void };
 
 const GameRetryDialog: React.FC<GameRetryDialogProps> = ({
   onRetry: emitRetry,

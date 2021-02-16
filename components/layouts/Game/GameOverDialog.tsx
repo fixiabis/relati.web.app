@@ -31,8 +31,8 @@ const messageByWinner: Record<number, string> = {
 
 export type GameOverDialogProps = PopupProps & {
   winner: number | NoPlayer | NoWinner;
-  onRetry: () => void;
-  onLeave: () => void;
+  onRetry?: () => void;
+  onLeave?: () => void;
 };
 
 const GameOverDialog: React.FC<GameOverDialogProps> = ({

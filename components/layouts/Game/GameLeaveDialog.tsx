@@ -5,7 +5,7 @@ import { ConfirmDialog, ConfirmDialogProps } from '../../shared';
 export type GameLeaveDialogProps = Omit<
   ConfirmDialogProps,
   'iconUrl' | 'message' | 'onAccept' | 'onReject'
-> & { onLeave: () => void };
+> & { onLeave?: () => void };
 
 const GameLeaveDialog: React.FC<GameLeaveDialogProps> = ({
   onLeave: emitLeave,
