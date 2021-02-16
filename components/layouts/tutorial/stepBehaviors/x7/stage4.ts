@@ -574,10 +574,7 @@ const behaviors: StepBehavior[] = [
     getNoticeProps: (next, game) => {
       const winner = game.rule.getWinner(game);
       const result = ['平手！', '對方贏了！', '我方贏了！'][winner + 1];
-      const hint =
-        winner === 0
-          ? '多截斷，產生缺口，就不會被對方圍起來了！'
-          : '';
+      const hint = winner === 0 ? '多截斷，產生缺口，對方就圍不起來了！' : '';
 
       return {
         message: '無法繼續下棋就輸了，' + result + hint,

@@ -2,6 +2,7 @@ import { LightEnterIconUrl, LightDownIconUrl } from '../../../../../icons';
 
 import {
   Coordinate,
+  EMPTY_PIECE,
   GameDefinition,
   NO_WINNER,
   Thinker,
@@ -302,10 +303,13 @@ const behaviors: StepBehavior[] = [
     execute: (next, game, place) =>
       setTimeout(() => {
         const pieceIndex = game.definition.toPieceIndex([2, 5]);
+        const topPieceIndex = game.definition.toPieceIndex([3, 5]);
+        const bottomPieceIndex = game.definition.toPieceIndex([3, 6]);
 
-        if (game.place(pieceIndex, 1) === game) {
-          const pieceIndex = game.definition.toPieceIndex([3, 6]);
-          place(pieceIndex);
+        if (game.pieces[bottomPieceIndex] !== EMPTY_PIECE) {
+          place(topPieceIndex);
+        } else if (game.pieces[topPieceIndex] !== EMPTY_PIECE) {
+          place(bottomPieceIndex);
         } else {
           place(pieceIndex);
         }
@@ -556,9 +560,10 @@ const behaviors: StepBehavior[] = [
     getNoticeProps: (next, game) => {
       const winner = game.rule.getWinner(game);
       const result = ['平手！', '我方贏了！', '對方贏了！'][winner + 1];
+      const hint = winner !== 0 ? '多靠近對方的缺口，壓制對方！' : '';
 
       return {
-        message: '無法繼續下棋就輸了，' + result,
+        message: '無法繼續下棋就輸了，' + result + hint,
         onButtonClick: () => next(),
       };
     },
