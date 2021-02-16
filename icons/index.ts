@@ -25,6 +25,7 @@ export { default as GrayPlayerOIconUrl } from './gray/player-o.svg';
 export { default as GrayPlayerXIconUrl } from './gray/player-x.svg';
 export { default as GrayPlayerDIconUrl } from './gray/player-d.svg';
 export { default as GrayPlayerUIconUrl } from './gray/player-u.svg';
+export { default as GrayVerifyIconUrl } from './gray/verify.svg';
 export { default as LightRetryIconUrl } from './light/retry.svg';
 export { default as LightLeaveIconUrl } from './light/leave.svg';
 export { default as LightEnterIconUrl } from './light/enter.svg';
