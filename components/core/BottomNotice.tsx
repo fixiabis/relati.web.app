@@ -11,7 +11,7 @@ const BottomNotice = styled.div({
   borderTopColor: '#888',
   borderTopStyle: 'solid',
   position: 'fixed',
-  top: 'calc(100vh - 70px)',
+  bottom: '0px',
   left: '0px',
   display: 'flex',
   flexDirection: 'row',
