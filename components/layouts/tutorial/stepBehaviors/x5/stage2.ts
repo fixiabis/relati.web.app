@@ -126,11 +126,9 @@ const behaviors: StepBehavior[] = [
     }),
   },
   {
-    getNoticeProps: () => ({
-      buttonIconUrl: LightEnterIconUrl,
-      buttonColor: 'royalblue',
-      buttonHref: '/tutorial?board=x5&stage=3',
-      message: '讓我們繼續吧！',
+    getOverDialogProps: (router) => ({
+      message: '你已經完成第二階段的教學！',
+      onEnter: () => router.push('/tutorial?board=x5&stage=3'),
     }),
   },
 ];

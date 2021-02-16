@@ -16,7 +16,6 @@ import {
   Piece,
   Route,
   RouteProps,
-  BottomRightFixedButtonDenceGroup,
 } from '../components';
 
 import {
@@ -39,15 +38,11 @@ import { StepBehavior } from '../components/layouts/tutorial/stepBehaviors/types
 type TutorialPageProps = {
   definition: GameDefinition<number, number>;
   behaviors: StepBehavior[];
-  prevPath?: string;
-  nextPath?: string;
 };
 
 const TutorialPage: NextPage<TutorialPageProps> = ({
   definition,
   behaviors,
-  prevPath,
-  nextPath,
 }) => {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -121,8 +116,6 @@ const TutorialPage: NextPage<TutorialPageProps> = ({
   }, [behavior]);
 
   const leaveDialog = useDialogState();
-  const leaveToPrevDialog = useDialogState();
-  const leaveToNextDialog = useDialogState();
   const bottomNotice = useDialogState();
 
   const canControlDirectly = behaviors.length === step;
@@ -130,19 +123,7 @@ const TutorialPage: NextPage<TutorialPageProps> = ({
   const leave = () => router.push('/');
   const handleLeave = canControlDirectly ? leave : leaveDialog.open;
 
-  const leaveToPrev = () => router.push(prevPath);
-  const handleLeaveToPrev = canControlDirectly
-    ? leaveToPrev
-    : leaveToPrevDialog.open;
-
-  const leaveToNext = () => router.push(nextPath);
-  const handleLeaveToNext = canControlDirectly
-    ? leaveToNext
-    : leaveToNextDialog.open;
-
   useEffect(leaveDialog.close, [behaviors]);
-  useEffect(leaveToPrevDialog.close, [behaviors]);
-  useEffect(leaveToNextDialog.close, [behaviors]);
   useEffect(bottomNotice.open, [step, behaviors]);
 
   const boardProps = behavior.getBoardProps?.(
@@ -188,6 +169,8 @@ const TutorialPage: NextPage<TutorialPageProps> = ({
     undoRecord
   );
 
+  const overDialogProps = behavior.getOverDialogProps?.(router);
+
   return (
     <Container>
       <BoardForGame
@@ -207,45 +190,20 @@ const TutorialPage: NextPage<TutorialPageProps> = ({
         />
       </BottomLeftFixedButtonDenceGroup>
 
-      <BottomRightFixedButtonDenceGroup>
-        {[
-          prevPath && (
-            <FadeInButton
-              key="prev"
-              title="prev"
-              backgroundColor="#888"
-              onClick={handleLeaveToPrev}
-              children={<Icon url={LightBackIconUrl} />}
-            />
-          ),
-          nextPath && (
-            <FadeInButton
-              key="next"
-              title="next"
-              backgroundColor="#888"
-              onClick={handleLeaveToNext}
-              children={<Icon url={LightNextIconUrl} />}
-            />
-          ),
-        ].filter(Boolean)}
-      </BottomRightFixedButtonDenceGroup>
-
       <TutorialPageLayout.TutorialLeaveDialog
         visible={leaveDialog.isVisible}
         onClose={leaveDialog.close}
         onLeave={leave}
       />
 
-      <TutorialPageLayout.TutorialLeaveDialog
-        visible={leaveToPrevDialog.isVisible}
-        onClose={leaveToPrevDialog.close}
-        onLeave={leaveToPrev}
-      />
-
-      <TutorialPageLayout.TutorialLeaveDialog
-        visible={leaveToNextDialog.isVisible}
-        onClose={leaveToNextDialog.close}
-        onLeave={leaveToNext}
+      <TutorialPageLayout.TutorialOverDialog
+        visible={Boolean(overDialogProps)}
+        message=""
+        {...overDialogProps}
+        onRetry={() => {
+          setStep(0);
+          resetRecords();
+        }}
       />
 
       <TutorialPageLayout.TutorialBottomNotice
@@ -265,8 +223,6 @@ export default PagePropsInitialized(TutorialPage)((query) => {
   const [boardWidth, boardHeight] = QueryUtil.getBoardSize(query);
   const playersCount = 2;
   const stage = +QueryUtil.getItem(query.stage);
-  const prevStage = stage - 1;
-  const nextStage = stage + 1;
 
   const behaviors =
     TutorialPageLayout.StepBehaviors['X' + boardWidth]?.['Stage' + stage] || [];
@@ -289,17 +245,5 @@ export default PagePropsInitialized(TutorialPage)((query) => {
     TurretBase['P' + turretPortsCount]
   );
 
-  const prevPath = TutorialPageLayout.StepBehaviors['X' + boardWidth]?.[
-    'Stage' + prevStage
-  ]
-    ? `/tutorial?board=${boardParams}&stage=${prevStage}`
-    : undefined;
-
-  const nextPath = TutorialPageLayout.StepBehaviors['X' + boardWidth]?.[
-    'Stage' + nextStage
-  ]
-    ? `/tutorial?board=${boardParams}&stage=${nextStage}`
-    : undefined;
-
-  return { definition, behaviors, nextPath, prevPath };
+  return { definition, behaviors };
 });

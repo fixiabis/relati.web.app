@@ -1,6 +1,8 @@
+import { NextRouter } from 'next/router';
 import { Game, PieceIndex } from '../../../../relati';
 import { BoardForGameProps, PieceProps, RouteProps } from '../../../game';
 import { TutorialBottomNoticeProps } from '../TutorialBottomNotice';
+import { TutorialOverDialogProps } from '../TutorialOverDialog';
 
 export type StepBehavior = {
   boardAdditions?: {
@@ -21,6 +23,8 @@ export type StepBehavior = {
     place: (pieceIndex: PieceIndex) => void,
     undoGame: (step?: number) => void
   ) => TutorialBottomNoticeProps;
+
+  getOverDialogProps?: (router: NextRouter) => Partial<TutorialOverDialogProps>;
 
   execute?: (
     next: (step?: number) => void,

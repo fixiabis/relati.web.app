@@ -249,9 +249,9 @@ const behaviors: StepBehavior[] = [
     },
   },
   {
-    getNoticeProps: () => ({
-      buttonHref: '/',
+    getOverDialogProps: (router) => ({
       message: '恭喜你完成全部的教學！',
+      onEnter: () => router.push('/'),
     }),
   },
 ];
