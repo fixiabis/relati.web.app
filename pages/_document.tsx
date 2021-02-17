@@ -34,8 +34,8 @@ class DocumentRoot extends Document {
           <meta name="application-name" content="relati" />
           <meta name="msapplication-navbutton-color" content="#f2f2f2" />
           <meta name="msapplication-TileColor" content="#f2f2f2" />
-          <meta name="msapplication-TileImage" content="ms-icon-144x144.png" />
-          <meta name="msapplication-config" content="browserconfig.xml" />
+          <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png" />
+          <meta name="msapplication-config" content="/browserconfig.xml" />
           <meta name="msapplication-tooltip" content="relati" />
           <meta name="msapplication-starturl" content="/" />
           <meta name="msapplication-tap-highlight" content="no" />
@@ -47,40 +47,40 @@ class DocumentRoot extends Document {
           <meta name="imagemode" content="force" />
 
           <link
-            href="/favicon-16x16.png"
+            href="/icons/favicon-16x16.png"
             rel="icon"
             type="image/png"
             sizes="16x16"
           />
           <link
-            href="/favicon-32x32.png"
+            href="/icons/favicon-32x32.png"
             rel="icon"
             type="image/png"
             sizes="32x32"
           />
           <link
-            href="/favicon-96x96.png"
+            href="/icons/favicon-96x96.png"
             rel="icon"
             type="image/png"
             sizes="96x96"
           />
 
           <link
-            href="/apple-icon-60x60.png"
+            href="/icons/apple-icon-60x60.png"
             rel="apple-touch-icon"
           />
           <link
-            href="/apple-icon-76x76.png"
+            href="/icons/apple-icon-76x76.png"
             rel="apple-touch-icon"
             sizes="76x76"
           />
           <link
-            href="/apple-icon-120x120.png"
+            href="/icons/apple-icon-120x120.png"
             rel="apple-touch-icon"
             sizes="120x120"
           />
           <link
-            href="/apple-icon-152x152.png"
+            href="/icons/apple-icon-152x152.png"
             rel="apple-touch-icon"
             sizes="152x152"
           />
@@ -88,12 +88,12 @@ class DocumentRoot extends Document {
           <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
           <link
-            href="/apple-icon-precomposed.png"
+            href="/icons/apple-icon-precomposed.png"
             rel="apple-touch-icon-precomposed"
             sizes="57x57"
           />
           <link
-            href="/apple-icon-72x72.png"
+            href="/icons/apple-icon-72x72.png"
             rel="apple-touch-icon"
             sizes="72x72"
           />
