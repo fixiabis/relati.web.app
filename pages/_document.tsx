@@ -47,22 +47,22 @@ class DocumentRoot extends Document {
           <meta name="imagemode" content="force" />
 
           <link
-            href="/favicon-16.png"
+            href="/favicon-16x16.png"
             rel="icon"
             type="image/png"
             sizes="16x16"
           />
           <link
-            href="/favicon-32.png"
+            href="/favicon-32x32.png"
             rel="icon"
             type="image/png"
             sizes="32x32"
           />
           <link
-            href="/favicon-48.png"
+            href="/favicon-96x96.png"
             rel="icon"
             type="image/png"
-            sizes="48x48"
+            sizes="96x96"
           />
 
           <link
