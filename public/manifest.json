@@ -2,6 +2,7 @@
   "name": "relati",
   "short_name": "relati",
   "description": "relati - 一款基於連線的棋盤遊戲，玩家將需要活用特定的連線路徑去下棋，在沒辦法下棋時，便會輸掉遊戲。",
+  "categories": ["games"],
   "icons": [
     {
       "src": "/android-icon-36x36.png",
@@ -51,6 +52,7 @@
   "permissions": ["gcm"],
   "scope": "/",
   "display": "fullscreen",
+  "orientation": "portrait-primary",
   "theme_color": "#888",
   "background_color": "#f2f2f2"
 }
