@@ -47,69 +47,53 @@ class DocumentRoot extends Document {
           <meta name="imagemode" content="force" />
 
           <link
-            href="/images/icons/favicon-16.png"
+            href="/favicon-16.png"
             rel="icon"
             type="image/png"
             sizes="16x16"
           />
           <link
-            href="/images/icons/favicon-32.png"
+            href="/favicon-32.png"
             rel="icon"
             type="image/png"
             sizes="32x32"
           />
           <link
-            href="/images/icons/favicon-48.png"
+            href="/favicon-48.png"
             rel="icon"
             type="image/png"
             sizes="48x48"
           />
 
           <link
-            href="/images/icons/touch-icon-iphone.png"
+            href="/apple-icon-60x60.png"
             rel="apple-touch-icon"
           />
           <link
-            href="/images/icons/touch-icon-ipad.png"
+            href="/apple-icon-76x76.png"
             rel="apple-touch-icon"
             sizes="76x76"
           />
           <link
-            href="/images/icons/touch-icon-iphone-retina.png"
+            href="/apple-icon-120x120.png"
             rel="apple-touch-icon"
             sizes="120x120"
           />
           <link
-            href="/images/icons/touch-icon-ipad-retina.png"
+            href="/apple-icon-152x152.png"
             rel="apple-touch-icon"
             sizes="152x152"
-          />
-
-          <link
-            href="/images/icons/touch-icon-start-up-320x480.png"
-            rel="apple-touch-startup-image"
-          />
-
-          <link
-            href="/images/icons/icon-192x192.png"
-            rel="icon"
-            sizes="192x192"
-          />
-          <link
-            href="/images/icons/icon-128x128.png"
-            rel="icon"
-            sizes="128x128"
           />
 
           <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
           <link
-            href="/images/icons/icon-52x52.png"
+            href="/apple-icon-precomposed.png"
             rel="apple-touch-icon-precomposed"
             sizes="57x57"
           />
           <link
-            href="/images/icons/icon-72x72.png"
+            href="/apple-icon-72x72.png"
             rel="apple-touch-icon"
             sizes="72x72"
           />
