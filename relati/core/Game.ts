@@ -48,7 +48,7 @@ const Game = <Player extends number, Piece extends number>(
     isPieceIndexHasProvidableRoute,
     mutatePiecesToConsumed,
     mutatePiecesToProvided,
-    mutatePiecesToDeceased,
+    mutatePiecesByTurretRule,
   } = rule;
 
   const {
@@ -73,7 +73,7 @@ const Game = <Player extends number, Piece extends number>(
         const piecesAfterPlaced = [...pieces];
 
         piecesAfterPlaced[pieceIndex] = providerPiece;
-        mutatePiecesToDeceased(piecesAfterPlaced, pieceIndex);
+        mutatePiecesByTurretRule(piecesAfterPlaced, pieceIndex);
         mutatePiecesToConsumed(piecesAfterPlaced);
         mutatePiecesToProvided(piecesAfterPlaced, [...producerIndexes]);
 

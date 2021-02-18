@@ -36,7 +36,7 @@ type GameRule<Player extends number, Piece extends number> = {
    * @param pieces 棋子
    * @param trigger 板機索引
    */
-  readonly mutatePiecesToDeceased: (
+  readonly mutatePiecesByTurretRule: (
     pieces: Piece[],
     triggerIndex: PieceIndex
   ) => void;
@@ -58,7 +58,8 @@ type GameRule<Player extends number, Piece extends number> = {
    */
   readonly isTurretBaseFulfilled: (
     pieces: readonly Piece[],
-    turretBase: Route<PieceIndex>
+    turretBase: Route<PieceIndex>,
+    player: Player
   ) => boolean;
 
   /**
@@ -140,7 +141,7 @@ const GameRule = <Player extends number, Piece extends number>(
     }
   };
 
-  const mutatePiecesToDeceased = (
+  const mutatePiecesByTurretRule = (
     pieces: Piece[],
     triggerIndex: PieceIndex
   ) => {
@@ -156,7 +157,8 @@ const GameRule = <Player extends number, Piece extends number>(
       const bullet = pieces[bulletIndex];
 
       const isTurretFulfilled =
-        bullet === provider && isTurretBaseFulfilled(pieces, turretBase);
+        bullet === provider &&
+        isTurretBaseFulfilled(pieces, turretBase, player);
 
       if (isTurretFulfilled) {
         let [targetIndex] = turretBase.slice(TURRET_BASE_END_INDEX);
@@ -186,8 +188,11 @@ const GameRule = <Player extends number, Piece extends number>(
 
   const isTurretBaseFulfilled = (
     pieces: readonly Piece[],
-    turretBase: Route<PieceIndex>
+    turretBase: Route<PieceIndex>,
+    player: Player
   ): boolean => {
+    const isProvidableByPiece = isProvidableByPieceByPlayer[player];
+
     const availableTurretBase = turretBase.slice(
       TURRET_BASE_START_INDEX,
       TURRET_BASE_END_INDEX
@@ -196,7 +201,7 @@ const GameRule = <Player extends number, Piece extends number>(
     for (const pieceIndex of availableTurretBase) {
       const piece = pieces[pieceIndex];
 
-      if (isAvailableForRouteByPiece[piece]) {
+      if (!isProvidableByPiece[piece]) {
         return false;
       }
     }
@@ -290,7 +295,7 @@ const GameRule = <Player extends number, Piece extends number>(
     definition,
     mutatePiecesToConsumed,
     mutatePiecesToProvided,
-    mutatePiecesToDeceased,
+    mutatePiecesByTurretRule,
     isRouteAvailable,
     isTurretBaseFulfilled,
     isPieceIndexHasProvidableRoute,
