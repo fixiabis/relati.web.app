@@ -15,7 +15,11 @@ import {
   useDialogState,
 } from '../components';
 
-import { LightRetryIconUrl, LightLeaveIconUrl } from '../icons';
+import {
+  LightRetryIconUrl,
+  LightLeaveIconUrl,
+  LightUndoIconUrl,
+} from '../icons';
 
 import {
   Game,
@@ -69,6 +73,25 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
     }
   };
 
+  const setRecordsByUndoUntilPlayerTurn = () =>
+    setRecords((records) => {
+      const [...nextRecords] = records;
+
+      const isLastRecordPlayerTurn = () => {
+        const [{ game }] = nextRecords.slice(-1);
+        const playerOfTurn = (game.turn - 1) % game.definition.playersCount;
+        return players.includes(playerOfTurn);
+      };
+
+      while (!isLastRecordPlayerTurn()) {
+        nextRecords.pop();
+      }
+
+      nextRecords.pop();
+
+      return nextRecords;
+    });
+
   const resetRecords = () => setRecords(([record]) => [record]);
 
   const setRecordsByDefinition = () => {
@@ -82,6 +105,7 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
   const overDialog = useDialogState();
   const leaveDialog = useDialogState();
   const retryDialog = useDialogState();
+  const undoDialog = useDialogState();
 
   const winner = game.rule.getWinner(game);
   const canControlDirectly = winner !== NO_WINNER || game.turn === 0;
@@ -91,9 +115,15 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
     retryDialog.close();
   };
 
+  const undo = () => {
+    setRecordsByUndoUntilPlayerTurn();
+    undoDialog.close();
+  };
+
   const leave = () => router.push('/');
   const handleRetry = canControlDirectly ? reset : retryDialog.open;
   const handleLeave = canControlDirectly ? leave : leaveDialog.open;
+  const handleUndo = records.length > 1 ? undoDialog.open : undefined;
 
   const thinker = useMemo(
     () => Thinker(DeepThinking(MultiInfluencesBasedThinking(definition))),
@@ -147,6 +177,12 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
           onClick={handleRetry}
           children={<Icon url={LightRetryIconUrl} />}
         />
+        <FadeInButton
+          title="undo"
+          backgroundColor="#888"
+          onClick={handleUndo}
+          children={<Icon url={LightUndoIconUrl} />}
+        />
       </BottomRightFixedButtonDenceGroup>
 
       <GamePageLayout.GameOverDialog
@@ -167,6 +203,12 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
         visible={retryDialog.isVisible}
         onClose={retryDialog.close}
         onRetry={reset}
+      />
+
+      <GamePageLayout.GameUndoDialog
+        visible={undoDialog.isVisible}
+        onClose={undoDialog.close}
+        onUndo={undo}
       />
     </Container>
   );
