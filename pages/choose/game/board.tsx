@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import React from 'react';
 
 import {
-  BottomLeftFixedButtonDenceGroup,
+  TopLeftFixedButtonDenceGroup,
   ChooseGameBoardPageLayout,
   QueryUtil,
   Container,
@@ -24,14 +24,14 @@ const ChooseGameBoardPage: NextPage<{ playersCount: number }> = ({
       <Description.Text children="選擇棋盤大小" />
     </FadeInDescription>
     {ChooseGameBoardPageLayout.renderButtons(playersCount)}
-    <BottomLeftFixedButtonDenceGroup>
+    <TopLeftFixedButtonDenceGroup>
       <FadeInButton
         title="back"
         backgroundColor="#888"
         onClick={() => history.back()}
         children={<Icon url={LightBackIconUrl} />}
       />
-    </BottomLeftFixedButtonDenceGroup>
+    </TopLeftFixedButtonDenceGroup>
   </Container>
 );
 

@@ -2,7 +2,8 @@ import { NextPage } from 'next';
 import React, { useState } from 'react';
 
 import {
-  BottomLeftFixedButtonDenceGroup,
+  TopLeftFixedButtonDenceGroup,
+  BottomRightFixedButtonDenceGroup,
   ChooseGamePiecesPageLayout,
   Container,
   Description,
@@ -81,13 +82,17 @@ const ChooseGamePiecesPage: NextPage<{
         pieces,
         togglePiece
       )}
-      <BottomLeftFixedButtonDenceGroup>
+
+      <TopLeftFixedButtonDenceGroup>
         <FadeInButton
           title="back"
           backgroundColor="#888"
           onClick={() => history.back()}
           children={<Icon url={LightBackIconUrl} />}
         />
+      </TopLeftFixedButtonDenceGroup>
+
+      <BottomRightFixedButtonDenceGroup>
         <FadeInLinkButton
           href={gameLink}
           title="done"
@@ -96,7 +101,7 @@ const ChooseGamePiecesPage: NextPage<{
           children={<Icon url={LightVerifyIconUrl} />}
           style={gameLinkButtonStyle}
         />
-      </BottomLeftFixedButtonDenceGroup>
+      </BottomRightFixedButtonDenceGroup>
     </Container>
   );
 };

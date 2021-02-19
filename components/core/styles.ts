@@ -15,6 +15,12 @@ export const overlay: CSSObject = {
   right: 0,
 };
 
+export const topLeftFixed: CSSObject = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+};
+
 export const bottomLeftFixed: CSSObject = {
   position: 'fixed',
   bottom: 0,

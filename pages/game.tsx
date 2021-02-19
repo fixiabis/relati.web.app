@@ -7,7 +7,7 @@ import {
   BoardForGame,
   GamePageLayout,
   Icon,
-  BottomLeftFixedButtonDenceGroup,
+  TopLeftFixedButtonDenceGroup,
   BottomRightFixedButtonDenceGroup,
   FadeInButton,
   QueryUtil,
@@ -15,11 +15,7 @@ import {
   useDialogState,
 } from '../components';
 
-import {
-  LightRetryIconUrl,
-  LightLeaveIconUrl,
-  LightHelpIconUrl,
-} from '../icons';
+import { LightRetryIconUrl, LightLeaveIconUrl } from '../icons';
 
 import {
   Game,
@@ -135,20 +131,23 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
         onGridClick={handleGridClick}
       />
 
-      <BottomLeftFixedButtonDenceGroup>
+      <TopLeftFixedButtonDenceGroup>
         <FadeInButton
           title="leave"
           backgroundColor="#888"
           onClick={handleLeave}
           children={<Icon url={LightLeaveIconUrl} />}
         />
+      </TopLeftFixedButtonDenceGroup>
+
+      <BottomRightFixedButtonDenceGroup>
         <FadeInButton
           title="retry"
           backgroundColor="#888"
           onClick={handleRetry}
           children={<Icon url={LightRetryIconUrl} />}
         />
-      </BottomLeftFixedButtonDenceGroup>
+      </BottomRightFixedButtonDenceGroup>
 
       <GamePageLayout.GameOverDialog
         visible={overDialog.isVisible}

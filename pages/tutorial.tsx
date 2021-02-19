@@ -7,7 +7,7 @@ import {
   BoardForGame,
   TutorialPageLayout,
   Icon,
-  BottomLeftFixedButtonDenceGroup,
+  TopLeftFixedButtonDenceGroup,
   FadeInButton,
   QueryUtil,
   PagePropsInitialized,
@@ -181,14 +181,14 @@ const TutorialPage: NextPage<TutorialPageProps> = ({
         children={boardChildren}
       />
 
-      <BottomLeftFixedButtonDenceGroup>
+      <TopLeftFixedButtonDenceGroup>
         <FadeInButton
           title="leave"
           backgroundColor="#888"
           onClick={handleLeave}
           children={<Icon url={LightLeaveIconUrl} />}
         />
-      </BottomLeftFixedButtonDenceGroup>
+      </TopLeftFixedButtonDenceGroup>
 
       <TutorialPageLayout.TutorialLeaveDialog
         visible={leaveDialog.isVisible}

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import React from 'react';
 
 import {
-  BottomLeftFixedButtonDenceGroup,
+  TopLeftFixedButtonDenceGroup,
   ChooseTutorialBoardPageLayout,
   Container,
   Description,
@@ -20,14 +20,14 @@ const ChooseTutorialBoardPage: NextPage = () => (
       <Description.Text children="選擇棋盤大小" />
     </FadeInDescription>
     {ChooseTutorialBoardPageLayout.renderButtons()}
-    <BottomLeftFixedButtonDenceGroup>
+    <TopLeftFixedButtonDenceGroup>
       <FadeInButton
         title="back"
         backgroundColor="#888"
         onClick={() => history.back()}
         children={<Icon url={LightBackIconUrl} />}
       />
-    </BottomLeftFixedButtonDenceGroup>
+    </TopLeftFixedButtonDenceGroup>
   </Container>
 );
 

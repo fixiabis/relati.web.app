@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import React from 'react';
 
 import {
-  BottomLeftFixedButtonDenceGroup,
+  TopLeftFixedButtonDenceGroup,
   ChooseTutorialStagePageLayout,
   Container,
   Description,
@@ -24,14 +24,14 @@ const ChooseTutorialStagePage: NextPage<{ boardParams: string }> = ({
       <Description.Text children="選擇教學階段" />
     </FadeInDescription>
     {ChooseTutorialStagePageLayout.renderButtons(boardParams)}
-    <BottomLeftFixedButtonDenceGroup>
+    <TopLeftFixedButtonDenceGroup>
       <FadeInButton
         title="back"
         backgroundColor="#888"
         onClick={() => history.back()}
         children={<Icon url={LightBackIconUrl} />}
       />
-    </BottomLeftFixedButtonDenceGroup>
+    </TopLeftFixedButtonDenceGroup>
   </Container>
 );
 
