@@ -32,7 +32,7 @@ const gameLinkButtonInactiveStyle = {
   transitionProperty: 'opacity, transform',
   transitionDuration: '500ms, 0ms',
   transitionDelay: '0ms, 500ms',
-  transform: 'translateX(100vw)',
+  transform: 'translateX(-100vw)',
   opacity: 0,
 };
 
