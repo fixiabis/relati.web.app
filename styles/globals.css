@@ -11,6 +11,7 @@ body,
   max-width: -webkit-fill-available;
   max-height: -webkit-fill-available;
   background-color: #f2f2f2;
+  overflow: hidden;
 }
 
 a {
