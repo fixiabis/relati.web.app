@@ -87,7 +87,7 @@ export const getPieceIndexToEffectMap = <
         const bullet = pieces[bulletIndex];
 
         const isTurretFulfilled =
-          bullet === provider && isTurretBaseFulfilled(pieces, turretBase);
+          bullet === provider && isTurretBaseFulfilled(pieces, turretBase, player);
 
         if (isTurretFulfilled) {
           let [targetIndex] = turretBase.slice(-1);
