@@ -100,7 +100,7 @@
   "permissions": ["gcm"],
   "scope": "/",
   "display": "fullscreen",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "theme_color": "#888",
   "background_color": "#f2f2f2"
 }
