@@ -18,6 +18,7 @@ export type PieceProps = {
   shape?: '' | '.' | '^' | '+' | '#' | 'O' | 'X' | 'D' | 'E' | 'N' | 'K';
   color?: string;
   style?: 'double' | 'default' | 'gray' | 'light';
+  opacity?: number;
   dropped?: boolean;
   bouncing?: boolean;
   flickering?: boolean;
@@ -31,6 +32,7 @@ const Piece: React.FC<PieceProps> = ({
   shape = '',
   color = '#888',
   style: pieceStyle = 'default',
+  opacity = 1,
   dropped: isDropped = false,
   bouncing: isBouncing = false,
   flickering: isFlickering = false,
@@ -65,7 +67,7 @@ const Piece: React.FC<PieceProps> = ({
     pieceStyle === 'gray' ? '#888' : pieceStyle === 'light' ? '#ddd' : color;
 
   if (shape === '.' || shape === '^') {
-    return <PieceBase d={path} fill={color} style={style} />;
+    return <PieceBase d={path} fill={color} style={style} opacity={opacity} />;
   }
 
   if (shape === '#') {
@@ -76,6 +78,7 @@ const Piece: React.FC<PieceProps> = ({
         stroke={color}
         strokeWidth="0.4"
         style={style}
+        opacity={opacity}
       />
     );
   }
@@ -98,6 +101,7 @@ const Piece: React.FC<PieceProps> = ({
             stroke={color}
             strokeWidth="0.6"
             style={style}
+            opacity={opacity}
           />
         </>
       );
@@ -109,6 +113,7 @@ const Piece: React.FC<PieceProps> = ({
           stroke={color}
           strokeWidth="0.6"
           style={style}
+          opacity={opacity}
         />
       );
     }
@@ -121,6 +126,7 @@ const Piece: React.FC<PieceProps> = ({
           stroke={color}
           strokeWidth="1"
           style={style}
+          opacity={opacity}
         />
         <PieceBase
           d={path}
@@ -128,6 +134,7 @@ const Piece: React.FC<PieceProps> = ({
           stroke="#f2f2f2"
           strokeWidth="0.5"
           style={style}
+          opacity={opacity}
         />
       </>
     );
