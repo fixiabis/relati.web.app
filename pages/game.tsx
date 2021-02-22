@@ -36,7 +36,7 @@ import Thinker, {
 
 import { DirectionRoute, TurretBase } from '../relati/values';
 
-const shapeByPlayer = ['O', 'X', 'D', 'U'];
+const shapeByPlayer = ['O', 'X', 'D', 'E'];
 
 type GamePageProps = {
   definition: GameDefinition<number, number>;

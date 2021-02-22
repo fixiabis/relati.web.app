@@ -35,7 +35,7 @@ export const shapeByPlayer: Record<Player, keyof typeof ShapeColor> = [
   'O',
   'X',
   'D',
-  'U',
+  'E',
 ];
 
 export const styleByPieceStatus: Record<PieceStatus, PieceProps['style']> = {

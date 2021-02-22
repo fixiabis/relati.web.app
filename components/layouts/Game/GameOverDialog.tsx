@@ -6,7 +6,7 @@ import {
   PlayerDIconUrl,
   PlayerNIconUrl,
   PlayerOIconUrl,
-  PlayerUIconUrl,
+  PlayerEIconUrl,
   PlayerXIconUrl,
 } from '../../../icons';
 
@@ -18,7 +18,7 @@ const iconUrlByWinner: Record<number, string> = {
   0: PlayerOIconUrl,
   1: PlayerXIconUrl,
   2: PlayerDIconUrl,
-  3: PlayerUIconUrl,
+  3: PlayerEIconUrl,
 };
 
 const messageByWinner: Record<number, string> = {

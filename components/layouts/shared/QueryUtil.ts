@@ -19,7 +19,7 @@ export const getPieceShapes = (
   query: ParsedUrlQuery,
   playersCount: number = getPlayersCount(query)
 ) => {
-  const shapes = ['O', 'X', 'D', 'U'].slice(0, playersCount);
+  const shapes = ['O', 'X', 'D', 'E'].slice(0, playersCount);
 
   return (getItem(query.pieces) || '')
     .split(',')

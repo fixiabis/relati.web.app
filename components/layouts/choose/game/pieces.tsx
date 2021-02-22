@@ -2,11 +2,11 @@ import {
   PlayerOIconUrl,
   PlayerXIconUrl,
   PlayerDIconUrl,
-  PlayerUIconUrl,
+  PlayerEIconUrl,
   GrayPlayerOIconUrl,
   GrayPlayerXIconUrl,
   GrayPlayerDIconUrl,
-  GrayPlayerUIconUrl,
+  GrayPlayerEIconUrl,
 } from '../../../../icons';
 
 import { Button, Icon } from '../../../core';
@@ -16,7 +16,7 @@ const toggledPieceUrls = {
   O: [GrayPlayerOIconUrl, PlayerOIconUrl],
   X: [GrayPlayerXIconUrl, PlayerXIconUrl],
   D: [GrayPlayerDIconUrl, PlayerDIconUrl],
-  U: [GrayPlayerUIconUrl, PlayerUIconUrl],
+  E: [GrayPlayerEIconUrl, PlayerEIconUrl],
 };
 
 const getPieceUrl = (piece: string, pieces: string[]) =>
@@ -96,8 +96,8 @@ export const renderButtonsFor4Player = (
     <SlideLeftFadeInButton
       animationDelay="1s"
       title="player4"
-      onClick={togglePiece('U')}
-      children={<Icon url={getPieceUrl('U', pieces)} />}
+      onClick={togglePiece('E')}
+      children={<Icon url={getPieceUrl('E', pieces)} />}
     />
   </Button.Group>
 );

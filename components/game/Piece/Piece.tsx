@@ -15,7 +15,7 @@ import { ShapePath } from './utils';
 export type PieceProps = {
   x: number;
   y: number;
-  shape?: '' | '.' | '^' | '+' | '#' | 'O' | 'X' | 'D' | 'U' | 'N' | 'K';
+  shape?: '' | '.' | '^' | '+' | '#' | 'O' | 'X' | 'D' | 'E' | 'N' | 'K';
   color?: string;
   style?: 'double' | 'default' | 'gray' | 'light';
   dropped?: boolean;
