@@ -137,9 +137,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'royalblue',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -152,9 +152,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'royalblue',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -197,12 +197,30 @@ const behaviors: StepBehavior[] = [
       message: '對方放下的位置就在這個區塊旁邊，再來是自由發揮了，小心應對吧。',
       onButtonClick: () => next(3),
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'royalblue',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next) => ({
       message: '很好，把這個方向都擋住了，對方無法靠近了！再來是自由發揮了。',
       onButtonClick: () => next(),
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'royalblue',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>

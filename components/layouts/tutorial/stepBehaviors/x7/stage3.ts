@@ -14,6 +14,7 @@ import {
 } from '../../../../../relati/Thinker';
 
 import { DirectionRoute } from '../../../../../relati/values';
+import { PieceProps } from '../../../../game';
 import { StepBehavior } from '../types';
 
 const protectCoordinates: Coordinate[] = [
@@ -68,16 +69,16 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next) => ({
-      message: '看到菱形的地方了吧？要保護這個區塊，不讓對方碰到。',
+      message: '看到框住的地方了吧？要保護這個區塊，不讓對方碰到。',
       onButtonClick: () => next(),
     }),
     boardAdditions: {
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -100,6 +101,16 @@ const behaviors: StepBehavior[] = [
           bouncing: true,
           color: 'crimson',
         },
+        ...protectCoordinates.map(
+          ([x, y]) =>
+            ({
+              x,
+              y,
+              shape: '#',
+              color: 'crimson',
+              opacity: 0.4,
+            } as Partial<PieceProps>)
+        ),
       ],
     },
     getBoardProps: (next, game, place) => ({
@@ -112,7 +123,18 @@ const behaviors: StepBehavior[] = [
       },
     }),
   },
-  { execute: (next) => setTimeout(next, 500) },
+  {
+    execute: (next) => setTimeout(next, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
+  },
   {
     execute: (next, game, place) => {
       const pieceIndex = game.definition.toPieceIndex([2, 3]);
@@ -138,6 +160,15 @@ const behaviors: StepBehavior[] = [
         }
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>
@@ -146,6 +177,15 @@ const behaviors: StepBehavior[] = [
         place(pieceIndex);
         next();
       }, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
@@ -155,6 +195,15 @@ const behaviors: StepBehavior[] = [
         undoGame(2);
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next) => ({
@@ -165,9 +214,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -191,6 +240,16 @@ const behaviors: StepBehavior[] = [
           bouncing: true,
           color: 'crimson',
         },
+        ...protectCoordinates.map(
+          ([x, y]) =>
+            ({
+              x,
+              y,
+              shape: '#',
+              color: 'crimson',
+              opacity: 0.4,
+            } as Partial<PieceProps>)
+        ),
       ],
     },
     getBoardProps: (next, game, place) => ({
@@ -212,9 +271,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -227,6 +286,15 @@ const behaviors: StepBehavior[] = [
       message: '不過，被截斷的棋子是可以重新接上的！',
       onButtonClick: () => next(),
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: () => ({
@@ -244,6 +312,17 @@ const behaviors: StepBehavior[] = [
           bouncing: true,
           color: 'crimson',
         },
+
+        ...protectCoordinates.map(
+          ([x, y]) =>
+            ({
+              x,
+              y,
+              shape: '#',
+              color: 'crimson',
+              opacity: 0.4,
+            } as Partial<PieceProps>)
+        ),
       ],
     },
     getBoardProps: (next, game, place) => ({
@@ -256,7 +335,18 @@ const behaviors: StepBehavior[] = [
       },
     }),
   },
-  { execute: (next) => setTimeout(next, 500) },
+  {
+    execute: (next) => setTimeout(next, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
+  },
   {
     execute: (next, game, place) => {
       const pieceIndex = game.definition.toPieceIndex([5, 4]);
@@ -270,9 +360,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -298,6 +388,15 @@ const behaviors: StepBehavior[] = [
         }
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>
@@ -316,6 +415,15 @@ const behaviors: StepBehavior[] = [
 
         next();
       }, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
@@ -325,6 +433,15 @@ const behaviors: StepBehavior[] = [
         undoGame(2);
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next) => ({
@@ -335,9 +452,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -366,6 +483,15 @@ const behaviors: StepBehavior[] = [
         }
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>
@@ -374,6 +500,15 @@ const behaviors: StepBehavior[] = [
         place(pieceIndex);
         next();
       }, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
@@ -383,6 +518,15 @@ const behaviors: StepBehavior[] = [
         undoGame(2);
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next) => ({
@@ -393,9 +537,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -426,6 +570,15 @@ const behaviors: StepBehavior[] = [
         }
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>
@@ -434,6 +587,15 @@ const behaviors: StepBehavior[] = [
         place(pieceIndex);
         next();
       }, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
@@ -443,6 +605,15 @@ const behaviors: StepBehavior[] = [
         undoGame(2);
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) => {
@@ -469,6 +640,15 @@ const behaviors: StepBehavior[] = [
         }
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>
@@ -477,6 +657,15 @@ const behaviors: StepBehavior[] = [
         place(pieceIndex);
         next();
       }, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
@@ -486,6 +675,15 @@ const behaviors: StepBehavior[] = [
         undoGame(2);
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'crimson',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next) => ({
@@ -497,9 +695,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: protectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'crimson',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
@@ -517,9 +715,9 @@ const behaviors: StepBehavior[] = [
       propsOfPieces: opponentProtectCoordinates.map(([x, y]) => ({
         x,
         y,
-        shape: '^',
+        shape: '#',
         color: 'royalblue',
-        flickering: true,
+        opacity: 0.4,
       })),
     },
   },
