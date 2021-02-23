@@ -83,7 +83,7 @@ const behaviors: StepBehavior[] = [
           place(pieceIndex);
 
           if (x === 3 && y === 1) {
-            setTimeout(() => next(5), 500);
+            setTimeout(() => next(4), 500);
           } else {
             next();
           }
@@ -183,6 +183,15 @@ const behaviors: StepBehavior[] = [
         }
       },
     }),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'royalblue',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     execute: (next, game, place) =>
@@ -191,6 +200,15 @@ const behaviors: StepBehavior[] = [
         place(pieceIndex);
         next();
       }, 500),
+    boardAdditions: {
+      propsOfPieces: protectCoordinates.map(([x, y]) => ({
+        x,
+        y,
+        shape: '#',
+        color: 'royalblue',
+        opacity: 0.4,
+      })),
+    },
   },
   {
     getNoticeProps: (next) => ({

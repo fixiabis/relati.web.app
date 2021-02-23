@@ -266,7 +266,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
-      message: '對方放下的位置就在要保護的區塊旁邊，看來不能放這裡。',
+      message: '對方放下的位置就在要包圍的區塊旁邊，看來不能放這裡。',
       onButtonClick: () => {
         next(-2);
         undoGame(2);
@@ -284,7 +284,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next) => ({
-      message: '很好，築起一道保護位置的牆壁，讓對方無法靠近吧！',
+      message: '很好，築起一道包圍位置的牆壁，讓對方無法靠近吧！',
       onButtonClick: () => next(),
     }),
     boardAdditions: {
@@ -304,7 +304,7 @@ const behaviors: StepBehavior[] = [
       place(pieceIndex);
     },
     getNoticeProps: () => ({
-      message: '對方繼續靠近要保護的區塊，再來要怎麼做呢？',
+      message: '對方繼續靠近要包圍的區塊，再來要怎麼做呢？',
       buttonIconUrl: LightDownIconUrl,
       buttonColor: '#888',
     }),
@@ -354,7 +354,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
-      message: '對方放下的位置就在要保護的區塊旁邊，看來不能放這裡。',
+      message: '對方放下的位置就在要包圍的區塊旁邊，看來不能放這裡。',
       onButtonClick: () => {
         next(-2);
         undoGame(2);
@@ -424,7 +424,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
-      message: '對方放下的位置就在要保護的區塊旁邊，看來不能放這裡。',
+      message: '對方放下的位置就在要包圍的區塊旁邊，看來不能放這裡。',
       onButtonClick: () => {
         next(-2);
         undoGame(2);
@@ -462,7 +462,7 @@ const behaviors: StepBehavior[] = [
       place(pieceIndex);
     },
     getNoticeProps: () => ({
-      message: '對方換個方向靠近要保護的區塊，再來要怎麼做呢？',
+      message: '對方換個方向靠近要包圍的區塊，再來要怎麼做呢？',
       buttonIconUrl: LightDownIconUrl,
       buttonColor: '#888',
     }),
@@ -510,7 +510,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
-      message: '對方放下的位置就在要保護的區塊旁邊，看來不能放這裡。',
+      message: '對方放下的位置就在要包圍的區塊旁邊，看來不能放這裡。',
       onButtonClick: () => {
         next(-2);
         undoGame(2);
@@ -528,7 +528,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next) => ({
-      message: '很好，再築起一道保護位置的牆壁，讓對方無法靠近吧！',
+      message: '很好，再築起一道包圍位置的牆壁，讓對方無法靠近吧！',
       onButtonClick: () => next(),
     }),
     boardAdditions: {
@@ -548,7 +548,7 @@ const behaviors: StepBehavior[] = [
       place(pieceIndex);
     },
     getNoticeProps: () => ({
-      message: '對方繼續靠近要保護的區塊，再來要怎麼做呢？',
+      message: '對方繼續靠近要包圍的區塊，再來要怎麼做呢？',
       buttonIconUrl: LightDownIconUrl,
       buttonColor: '#888',
     }),
@@ -598,7 +598,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
-      message: '對方放下的位置就在要保護的區塊旁邊，看來不能放這裡。',
+      message: '對方放下的位置就在要包圍的區塊旁邊，看來不能放這裡。',
       onButtonClick: () => {
         next(-2);
         undoGame(2);
@@ -668,7 +668,7 @@ const behaviors: StepBehavior[] = [
   },
   {
     getNoticeProps: (next, game, place, undoGame) => ({
-      message: '對方放下的位置就在要保護的區塊旁邊，看來不能放這裡。',
+      message: '對方放下的位置就在要包圍的區塊旁邊，看來不能放這裡。',
       onButtonClick: () => {
         next(-2);
         undoGame(2);
