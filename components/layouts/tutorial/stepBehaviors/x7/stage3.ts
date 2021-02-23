@@ -707,8 +707,48 @@ const behaviors: StepBehavior[] = [
       place(pieceIndex);
     },
     getNoticeProps: (next) => ({
+      message: '對方看起來好像要圍住一個很大的區塊，照著框框放下棋子靠近他！',
+      onButtonClick: () => next(2),
+    }),
+    getBoardProps: (next, game, place) => ({
+      onGridClick: ({ x, y }) => {
+        if (x === 5 && y === 3) {
+          const pieceIndex = game.definition.toPieceIndex([x, y]);
+          place(pieceIndex);
+          next();
+        }
+      },
+    }),
+    boardAdditions: {
+      propsOfPieces: [
+        {
+          x: 5,
+          y: 3,
+          shape: '#',
+          bouncing: true,
+          color: 'crimson',
+        },
+        ...opponentProtectCoordinates.map(
+          ([x, y]) =>
+            ({
+              x,
+              y,
+              shape: '#',
+              color: 'royalblue',
+              opacity: 0.4,
+            } as Partial<PieceProps>)
+        ),
+      ],
+    },
+  },
+  {
+    execute: (next, game, place) => {
+      const pieceIndex = game.definition.toPieceIndex([5, 2]);
+      place(pieceIndex);
+    },
+    getNoticeProps: (next) => ({
       message:
-        '對方看起來好像要圍住一個很大的區塊，再來是自由發揮了，小心應對吧。',
+        '對方打算擋住你，再來是自由發揮了，小心應對吧。',
       onButtonClick: () => next(2),
     }),
     boardAdditions: {
