@@ -17,13 +17,13 @@ export const renderButtons = () => (
       backgroundColor="darkorange"
       children="7"
     />
-    {/* <SlideLeftFadeInLinkButton
+    <SlideLeftFadeInLinkButton
       animationDelay="0.75s"
       href="/choose/tutorial/stage?board=x9"
       title="9x9"
       backgroundColor="crimson"
       children="9"
-    /> */}
+    />
     {/* <SlideLeftFadeInLinkButton
       animationDelay="1s"
       href="/choose/tutorial/stage?board=x11"
