@@ -1,4 +1,4 @@
-import { LightEnterIconUrl, LightDownIconUrl } from '../../../../../icons';
+import { LightDownIconUrl } from '../../../../../icons';
 import { EMPTY_PIECE } from '../../../../../relati';
 import { StepBehavior } from '../types';
 
@@ -27,7 +27,7 @@ const behaviors: StepBehavior[] = [
     execute: (next, game, place) => {
       const pieceIndexesForPlacementRandomly = game.definition.pieceIndexes
         .map((pieceIndex) => game.definition.toCoordinate(pieceIndex))
-        .filter(([x, y]) => x > 2 && x < 6 && y > 2 && y < 6)
+        .filter(([x, y]) => x > 2 && x < 5 && y > 2 && y < 5)
         .map((coordinate) => game.definition.toPieceIndex(coordinate))
         .filter((pieceIndex) => game.pieces[pieceIndex] === EMPTY_PIECE);
 

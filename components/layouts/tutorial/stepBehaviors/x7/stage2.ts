@@ -1,54 +1,22 @@
-import { LightEnterIconUrl, LightDownIconUrl } from '../../../../../icons';
-import { Coordinate } from '../../../../../relati';
+import { LightDownIconUrl } from '../../../../../icons';
+import { Coordinate, GameDefinition } from '../../../../../relati';
+import { DirectionRoute } from '../../../../../relati/values';
 import { StepBehavior } from '../types';
+
+const definition = GameDefinition(2, 7, 7, DirectionRoute.P16);
 
 const centralCoordinate: Coordinate = [3, 3];
 
-const port8CoordinateRoutes: Coordinate[][] = ([
-  [3, 2],
-  [3, 4],
-  [2, 3],
-  [4, 3],
-  [2, 2],
-  [4, 2],
-  [2, 4],
-  [4, 4],
-] as Coordinate[]).map((coordinate) => [centralCoordinate, coordinate]);
+const port8CoordinateRoutes: Coordinate[][] = DirectionRoute.P8.map(
+  (directions) =>
+    directions.map(definition.toMovedCoordinate(centralCoordinate)).reverse()
+);
 
-const port16CoordinateRoutes: Coordinate[][] = ([
-  [
-    [3, 2],
-    [3, 1],
-  ],
-  [
-    [3, 4],
-    [3, 5],
-  ],
-  [
-    [2, 3],
-    [1, 3],
-  ],
-  [
-    [4, 3],
-    [5, 3],
-  ],
-  [
-    [2, 2],
-    [1, 1],
-  ],
-  [
-    [4, 2],
-    [5, 1],
-  ],
-  [
-    [2, 4],
-    [1, 5],
-  ],
-  [
-    [4, 4],
-    [5, 5],
-  ],
-] as Coordinate[][]).map((coordinates) => [centralCoordinate, ...coordinates]);
+const port16CoordinateRoutes: Coordinate[][] = DirectionRoute.P16.slice(
+  8
+).map((directions) =>
+  directions.map(definition.toMovedCoordinate(centralCoordinate)).reverse()
+);
 
 const behaviors: StepBehavior[] = [
   {

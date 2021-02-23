@@ -1,4 +1,4 @@
-import { LightEnterIconUrl, LightDownIconUrl } from '../../../../../icons';
+import { LightDownIconUrl } from '../../../../../icons';
 
 import {
   Coordinate,
