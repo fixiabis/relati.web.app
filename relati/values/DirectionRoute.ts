@@ -63,30 +63,30 @@ namespace DirectionRoute {
     [PlacementDirection.BBL, PlacementDirection.BB, PlacementDirection.B, PlacementDirection.C],
     [PlacementDirection.BBR, PlacementDirection.BB, PlacementDirection.B, PlacementDirection.C],
 
+    [PlacementDirection.FLL, PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.FRR, PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
+    [PlacementDirection.BLL, PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.BRR, PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
+
     [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.F, PlacementDirection.C],
     [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.F, PlacementDirection.C],
     [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.B, PlacementDirection.C],
     [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.B, PlacementDirection.C],
-
-    [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.L, PlacementDirection.C],
-    [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.R, PlacementDirection.C],
-    [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.L, PlacementDirection.C],
-    [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.R, PlacementDirection.C],
-
-    [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.F, PlacementDirection.C],
-    [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.F, PlacementDirection.C],
-    [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.B, PlacementDirection.C],
-    [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.B, PlacementDirection.C],
 
     [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.L, PlacementDirection.C],
     [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.R, PlacementDirection.C],
     [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.L, PlacementDirection.C],
     [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.R, PlacementDirection.C],
 
-    [PlacementDirection.FLL, PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
-    [PlacementDirection.FRR, PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
-    [PlacementDirection.BLL, PlacementDirection.LL, PlacementDirection.L, PlacementDirection.C],
-    [PlacementDirection.BRR, PlacementDirection.RR, PlacementDirection.R, PlacementDirection.C],
+    [PlacementDirection.FLL, PlacementDirection.FL, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.FRR, PlacementDirection.FR, PlacementDirection.F, PlacementDirection.C],
+    [PlacementDirection.BLL, PlacementDirection.BL, PlacementDirection.B, PlacementDirection.C],
+    [PlacementDirection.BRR, PlacementDirection.BR, PlacementDirection.B, PlacementDirection.C],
+
+    [PlacementDirection.FFL, PlacementDirection.FL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.FFR, PlacementDirection.FR, PlacementDirection.R, PlacementDirection.C],
+    [PlacementDirection.BBL, PlacementDirection.BL, PlacementDirection.L, PlacementDirection.C],
+    [PlacementDirection.BBR, PlacementDirection.BR, PlacementDirection.R, PlacementDirection.C],
   ];
 }
 
