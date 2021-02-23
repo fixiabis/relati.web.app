@@ -708,7 +708,8 @@ const behaviors: StepBehavior[] = [
     },
     getNoticeProps: (next) => ({
       message: '對方看起來好像要圍住一個很大的區塊，照著框框放下棋子靠近他！',
-      onButtonClick: () => next(2),
+      buttonIconUrl: LightDownIconUrl,
+      buttonColor: '#888',
     }),
     getBoardProps: (next, game, place) => ({
       onGridClick: ({ x, y }) => {
@@ -747,8 +748,7 @@ const behaviors: StepBehavior[] = [
       place(pieceIndex);
     },
     getNoticeProps: (next) => ({
-      message:
-        '對方打算擋住你，再來是自由發揮了，小心應對吧。',
+      message: '對方打算擋住你，再來是自由發揮了，小心應對吧。',
       onButtonClick: () => next(2),
     }),
     boardAdditions: {
