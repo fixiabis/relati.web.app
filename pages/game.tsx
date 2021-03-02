@@ -126,7 +126,7 @@ const GamePage: NextPage<GamePageProps> = ({ definition, players }) => {
   const handleUndo = records.length > 1 ? undoDialog.open : undefined;
 
   const thinker = useMemo(
-    () => Thinker(DeepThinking(MultiInfluencesBasedThinking(definition))),
+    () => Thinker(DeepThinking(MultiInfluencesBasedThinking(definition), 1)),
     [definition]
   );
 
