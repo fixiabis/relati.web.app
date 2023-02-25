@@ -153,13 +153,33 @@ const Board: React.FC<BoardProps> = ({ game, prevGame, lastPlacedPieceIndex, chi
     return (
       <BoardBase width={boardWidth} height={boardHeight} {...props}>
         {children}
-        <g className="effect-lines" style={{ opacity: 0.2 }}>
-          {(keyframe.routesByPieceIndex as PieceIndex[][][]).map(toUnchangedRoutes)}
-        </g>
-        <g className="effect-lines" style={{ opacity: 0.4 }}>
-          {(keyframe.addedRoutesByPieceIndex as PieceIndex[][][]).map(toAddedRoutes)}
-          {(keyframe.removedRoutesByPieceIndex as PieceIndex[][][]).map(toRemovedRoutes)}
-        </g>
+        {game.definition.players.map((player) => {
+          return (
+            <React.Fragment key={player}>
+              <g className="effect-lines" style={{ opacity: 0.2 }}>
+                {(keyframe.routesByPieceIndex as PieceIndex[][][])
+                  .map((routes) =>
+                    routes.filter((route) => game.definition.getPlayer(game.pieces[route[0]]) === player)
+                  )
+                  .map(toUnchangedRoutes)}
+              </g>
+              <g className="effect-lines" style={{ opacity: 0.4 }}>
+                {(keyframe.addedRoutesByPieceIndex as PieceIndex[][][])
+                  .filter((routes) =>
+                    routes.filter((route) => game.definition.getPlayer(game.pieces[route[0]]) === player)
+                  )
+                  .map(toAddedRoutes)}
+              </g>
+              <g className="effect-lines" style={{ opacity: 0.4 }}>
+                {(keyframe.removedRoutesByPieceIndex as PieceIndex[][][])
+                  .filter((routes) =>
+                    routes.filter((route) => game.definition.getPlayer(game.pieces[route[0]]) === player)
+                  )
+                  .map(toRemovedRoutes)}
+              </g>
+            </React.Fragment>
+          );
+        })}
         <g className="pieces">{keyframe.pieces.map(toPieceElement)}</g>
       </BoardBase>
     );

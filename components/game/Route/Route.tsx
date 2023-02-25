@@ -86,6 +86,7 @@ const Route: React.FC<RouteProps> = ({
         stroke={color}
         strokeWidth="0.6"
         strokeLinecap="round"
+        strokeLinejoin="round"
         pathLength={pathLength}
         reversed={isReversed}
         {...props}
@@ -95,11 +96,29 @@ const Route: React.FC<RouteProps> = ({
 
   if (isErased) {
     return (
-      <ErasedRoute d={pathDefinition} fill="none" stroke={color} strokeWidth="0.6" strokeLinecap="round" {...props} />
+      <ErasedRoute
+        d={pathDefinition}
+        fill="none"
+        stroke={color}
+        strokeWidth="0.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...props}
+      />
     );
   }
 
-  return <path d={pathDefinition} fill="none" stroke={color} strokeWidth="0.6" strokeLinecap="round" {...props} />;
+  return (
+    <path
+      d={pathDefinition}
+      fill="none"
+      stroke={color}
+      strokeWidth="0.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    />
+  );
 };
 
 export default Route;
